@@ -4,6 +4,20 @@
 <pydev_project>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/TalesofEriu/src</path>
+<path>/TalesofEriu/modules</path>
+<path>/TalesofEriu/modules/delvelib</path>
+<path>/TalesofEriu/modules/delvelib/lib</path>
+<path>/TalesofEriu/modules/delvelib/lib/pygcurse</path>
+<path>/TalesofEriu/modules/delvelib/src</path>
+<path>/TalesofEriu/modules/delvelib/src/const</path>
+<path>/TalesofEriu/modules/delvelib/src/creatures</path>
+<path>/TalesofEriu/modules/delvelib/src/damage</path>
+<path>/TalesofEriu/modules/delvelib/src/database</path>
+<path>/TalesofEriu/modules/delvelib/src/dungeon</path>
+<path>/TalesofEriu/modules/delvelib/src/items</path>
+<path>/TalesofEriu/modules/delvelib/src/random</path>
+<path>/TalesofEriu/modules/delvelib/src/ui</path>
+<path>/TalesofEriu/modules/delvelib/src/util</path>
 </pydev_pathproperty>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
