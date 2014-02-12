@@ -1,3 +1,4 @@
 [submodule "modules/delvelib"]
 	path = modules/delvelib
 	url = https://github.com/drestuart/delvelib.git
+	branch = master
