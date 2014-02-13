@@ -17,6 +17,7 @@ import UIClass as ui
 import database as db
 import DungeonClass as D
 import mname
+import sys
 
 game = 0
 myUI = 0
@@ -41,7 +42,16 @@ class Game(object):
         if pygame.init() != (6,0):
             print "Error starting pygame"
             
-        defaultNames = mname.MName("default")
+        print "Loading name files"
+        maleNames = mname.MName("male")
+        for i in range(10):
+            print maleNames.New()       
+        
+        femaleNames = mname.MName("female")
+        for i in range(10):
+            print femaleNames.New()
+            
+        sys.exit()
         
         db.saveDB.start(True)
         
