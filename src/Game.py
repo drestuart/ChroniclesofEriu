@@ -16,9 +16,12 @@ import PlayerClass as P
 import UIClass as ui
 import database as db
 import DungeonClass as D
+import mname
 
 game = 0
 myUI = 0
+
+defaultNames = 0
 
 def message(msg):
     game.message(msg)
@@ -37,6 +40,8 @@ class Game(object):
                 
         if pygame.init() != (6,0):
             print "Error starting pygame"
+            
+        defaultNames = mname.MName("default")
         
         db.saveDB.start(True)
         
