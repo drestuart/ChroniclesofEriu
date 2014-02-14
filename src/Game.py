@@ -18,6 +18,7 @@ import database as db
 import DungeonClass as D
 import mname
 import sys
+import TwoWordNames
 
 game = 0
 myUI = 0
@@ -45,11 +46,14 @@ class Game(object):
         print "Loading name files"
         maleNames = mname.MName("male")
         for i in range(10):
-            print maleNames.New()       
+            print maleNames.name()       
         
         femaleNames = mname.MName("female")
         for i in range(10):
-            print femaleNames.New()
+            print femaleNames.name()
+            
+        for i in range(10):
+            print TwoWordNames.name()
             
         sys.exit()
         
