@@ -29,17 +29,20 @@ for line in suffixfile.readlines():
 suffixfile.close()
 
 def name():
-    prefix = random.choice(prefixes)
-    suffix = random.choice(suffixes)
-    
-    if prefix.endswith('-') or suffix.startswith('-'):
-        prefix = prefix.capitalize().strip('-')
-        suffix = suffix.strip('-')
-        return prefix + suffix
-    else:
-        prefix = prefix.capitalize().strip('-')
-        suffix = suffix.strip('-').capitalize()
-        return prefix + " " + suffix
+    while True:
+        prefix = random.choice(prefixes)
+        suffix = random.choice(suffixes)
+        
+        if prefix.endswith('-') or suffix.startswith('-'):
+            prefix = prefix.capitalize().strip('-')
+            suffix = suffix.strip('-')
+            if prefix.lower() != suffix:
+                return prefix + suffix
+        else:
+            prefix = prefix.capitalize().strip('-')
+            suffix = suffix.strip('-').capitalize()
+            if prefix.lower() != suffix:
+                return prefix + " " + suffix
         
         
 def main():
