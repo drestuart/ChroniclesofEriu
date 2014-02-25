@@ -44,18 +44,18 @@ class Game(object):
             print "Error starting pygame"
             
         print "Loading name files"
-        maleNames = mname.MName("male")
-        for i in range(10):
-            print maleNames.name()       
-        
-        femaleNames = mname.MName("female")
-        for i in range(10):
-            print femaleNames.name()
-            
-        for i in range(10):
-            print TwoWordNames.name()
-            
-        sys.exit()
+#         maleNames = mname.MName("male")
+#         for i in range(10):
+#             print maleNames.name()       
+#         
+#         femaleNames = mname.MName("female")
+#         for i in range(10):
+#             print femaleNames.name()
+
+#         for i in range(10):
+#             print TwoWordNames.name()
+#              
+#         sys.exit()
         
         db.saveDB.start(True)
         
