@@ -19,6 +19,8 @@ import DungeonClass as D
 import mname
 import sys
 import TwoWordNames
+import MapTileClass
+import WorldMapClass
 
 game = 0
 myUI = 0
