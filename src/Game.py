@@ -20,7 +20,7 @@ import mname
 import sys
 import TwoWordNames
 import MapTileClass
-import WorldMapClass
+import WorldMapClass as W
 
 game = 0
 myUI = 0
@@ -67,31 +67,35 @@ class Game(object):
         print seed
         random.seed(seed)
         
-        d = D.Dungeon(name = "The Dungeons of Dread", startingDepth = 0, withTown = True)
-        d.generateLevels(4)
-         
-        d1 = d.getLevels()[1]
+        worldMap = W.WorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = 8)
+        worldMap.buildMap()
+        
+#         d = D.Dungeon(name = "The Dungeons of Dread", startingDepth = 0, withTown = True)
+#         d.generateLevels(4)
+#          
+#         d1 = d.getLevels()[1]
 
 #         d1 = L.TownLevel(name = "Danville", cellsWide = 2, cellsHigh = 2)
 #         d1.buildLevel()
 #         
         player = P.Player()
 #         d1.placeCreatureAtRandom(player)
-        d1.placeOnUpStair(player)
-
-#         
+#         d1.placeOnUpStair(player)
+        
+        worldMap.placePlayer(player)
+        
 #         orc1 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc1)
 #         
 #         orc2 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc2)
 #         
-        db.saveDB.save(d)
+#         db.saveDB.save(d)
         
         
         
         global myUI
-        myUI = ui.UI(level = d1, player = player, fontsize = self.fontsize)
+        myUI = ui.UI(level = worldMap, player = player, fontsize = self.fontsize)
         
     def debugListener(self,topic=pub.AUTO_TOPIC, **args):
         print 'Got an event of type: ' + topic.getName()
