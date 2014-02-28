@@ -21,6 +21,7 @@ import sys
 import TwoWordNames
 import MapTileClass
 import WorldMapClass as W
+import MapTileClass as M
 
 game = 0
 myUI = 0
@@ -60,6 +61,15 @@ class Game(object):
 #         sys.exit()
         
         db.saveDB.start(True)
+        f = M.Forest(1,1)
+        p = M.Plain(1,2)
+        print f.baseSymbol
+        print p.baseSymbol
+        db.saveDB.save(f)
+        db.saveDB.save(p)
+        print f.baseSymbol
+        print p.baseSymbol
+        sys.exit()
         
         self.fontsize = kwargs.get('fontsize')
         self.font = kwargs.get("font", None)
@@ -91,7 +101,7 @@ class Game(object):
 #         orc2 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc2)
 #         
-#         db.saveDB.save(d)
+        db.saveDB.save(worldMap)
         
         
         

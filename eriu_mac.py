@@ -10,7 +10,6 @@ import site
 import os
 
 site.addsitedir(os.getcwd())
-print os.getcwd()
 
 import Game as G
 

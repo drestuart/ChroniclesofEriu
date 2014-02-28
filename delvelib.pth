@@ -1,0 +1,17 @@
+
+modules/delvelib/lib
+modules/delvelib/lib/pygcurse
+modules/delvelib/src/const
+modules/delvelib/src/creatures
+modules/delvelib/src/damage
+modules/delvelib/src/database
+modules/delvelib/src/items
+modules/delvelib/src/random
+modules/delvelib/src/ui
+modules/delvelib/src/util
+modules/delvelib/src/world
+
+src
+src/const
+src/util
+
