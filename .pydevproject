@@ -7,7 +7,6 @@
 <path>/TalesofEriu/modules/delvelib/lib</path>
 <path>/TalesofEriu/modules/delvelib/lib/pygcurse</path>
 <path>/TalesofEriu/modules/delvelib/src</path>
-<path>/TalesofEriu/modules/delvelib/src/const</path>
 <path>/TalesofEriu/modules/delvelib/src/creatures</path>
 <path>/TalesofEriu/modules/delvelib/src/damage</path>
 <path>/TalesofEriu/modules/delvelib/src/database</path>
@@ -17,6 +16,7 @@
 <path>/TalesofEriu/modules/delvelib/src/util</path>
 <path>/${PROJECT_DIR_NAME}/src/util</path>
 <path>/${PROJECT_DIR_NAME}/modules/delvelib/src/world</path>
+<path>/${PROJECT_DIR_NAME}/src/const</path>
 </pydev_pathproperty>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
