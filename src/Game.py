@@ -62,6 +62,7 @@ class Game(object):
         db.saveDB.start(True)
         
         self.fontsize = kwargs.get('fontsize')
+        self.font = kwargs.get("font", None)
     
         seed = 1155272238
         print seed
@@ -95,7 +96,7 @@ class Game(object):
         
         
         global myUI
-        myUI = ui.UI(level = worldMap, player = player, fontsize = self.fontsize)
+        myUI = ui.UI(level = worldMap, player = player, font = self.font, fontsize = self.fontsize)
         
     def debugListener(self,topic=pub.AUTO_TOPIC, **args):
         print 'Got an event of type: ' + topic.getName()

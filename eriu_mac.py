@@ -15,6 +15,8 @@ print os.getcwd()
 import Game as G
 
 fontsize = 14
+# font = u'couriernew'
+font = None
 
 def main():
     x = 100
@@ -25,7 +27,7 @@ def main():
 
     print '-=delvelib=-'
     
-    game = G.Game(fontsize = fontsize, debug = False)
+    game = G.Game(fontsize = fontsize, font = font, debug = False)
     
     game.play()
 
