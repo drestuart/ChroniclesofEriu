@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '''
 Created on Mar 10, 2013
 
@@ -8,7 +10,7 @@ import colors
 
 # Global constants
 
-TITLE = "delveRL"
+TITLE = "Tales of Ériu"
 
 
 ########################
