@@ -47,29 +47,8 @@ class Game(object):
             print "Error starting pygame"
             
         print "Loading name files"
-#         maleNames = mname.MName("male")
-#         for i in range(10):
-#             print maleNames.name()       
-#         
-#         femaleNames = mname.MName("female")
-#         for i in range(10):
-#             print femaleNames.name()
-
-#         for i in range(10):
-#             print TwoWordNames.name()
-#              
-#         sys.exit()
         
         db.saveDB.start(True)
-#         f = M.Forest(1,1)
-#         p = M.Plain(1,2)
-#         print f.baseSymbol
-#         print p.baseSymbol
-#         db.saveDB.save(f)
-#         db.saveDB.save(p)
-#         print f.baseSymbol
-#         print p.baseSymbol
-#         sys.exit()
         
         self.fontsize = kwargs.get('fontsize')
         self.font = kwargs.get("font", None)
