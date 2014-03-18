@@ -24,7 +24,7 @@ def main():
     os.environ['SDL_VIDEODRIVER'] = 'x11'
 # x11, dga, fbcon, directfb, ggi, vgl, svgalib, aalib    
 
-    print '-=delvelib=-'
+    print '-=Tales of Eriu=-'
     
     game = G.Game(fontsize = fontsize, font = font, debug = False)
     
