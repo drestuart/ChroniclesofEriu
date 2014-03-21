@@ -11,7 +11,7 @@ import DungeonClass as D
 import LevelClass as L
 import PlayerClass as P
 import UIClass as ui
-import WorldMapClass as W
+import EriuWorldMap as W
 import database as db
 import pygame
 import random
@@ -50,7 +50,7 @@ class Game(object):
         print seed
         random.seed(seed)
         
-        worldMap = W.WorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = 8)
+        worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = 8)
         worldMap.buildMap()
         
 #         d = D.Dungeon(name = "The Dungeons of Dread", startingDepth = 0, withTown = True)
