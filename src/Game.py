@@ -4,24 +4,17 @@ Created on Mar 10, 2013
 @author: dstu
 '''
 
-import random
-
 from pubsub import pub
-import pygame
-
 import Const as C
 import CreatureClass as Cr
+import DungeonClass as D
 import LevelClass as L
 import PlayerClass as P
 import UIClass as ui
-import database as db
-import DungeonClass as D
-import mname
-import sys
-import TwoWordNames
-import MapTileClass
 import WorldMapClass as W
-import MapTileClass as M
+import database as db
+import pygame
+import random
 
 game = 0
 myUI = 0
