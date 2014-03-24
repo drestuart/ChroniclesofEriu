@@ -4,21 +4,79 @@ Created on Mar 21, 2014
 @author: dstuart
 '''
 
-from WorldMapClass import *
-import LevelClass as L
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.schema import Column, ForeignKey
+from sqlalchemy.types import String, Integer
+
+from WorldMapClass import Region, WorldMap
 from MapTileClass import Forest, Field, Plain, Mountain, Town
-import Util as U
 from VoronoiMap import VMap
 import database as db
 import random
 import Const as C
 
+Base = db.saveDB.getDeclarativeBase()
+
+######################################
+#
+#   Kingdoms
+#   
+#   Ulaid: NE, Red
+#   Connact: NW, Blue
+#   Leinster: W, Green
+#   Munster: SW, Yellow
+#   Mide: Center-east, Orange
+#   
+#
+######################################
+
+class EriuRegion(Region):
+    __tablename__ = "regions"
+    __table_args__ = {'extend_existing': True}
+    
+    def __init__(self, **kwargs):
+        super(EriuRegion, self).__init__(**kwargs)
+        
+    kingdomId = Column(Integer, ForeignKey("kingdoms.id"))
+    mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
+    
+    def setKingdom(self, k):
+        self.kingdom = k
+        
+class Kingdom(Base):
+    __tablename__ = "kingdoms"
+    __table_args__ = {'extend_existing': True}
+    
+    def __init__(self, **kwargs):
+        self.name = kwargs['name']
+        
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    regions = relationship("EriuRegion", backref=backref("kingdom", uselist=False), primaryjoin="Kingdom.id==EriuRegion.kingdomId")
+    
+    def getRegions(self):
+        return self.regions
+    
+    def addRegion(self, reg):
+        self.regions.append(reg)
+        reg.setKingdom(self)
+    
+    def containsRegion(self, reg):
+        return reg in self.regions
+
 class EriuWorldMap(WorldMap):
-    __mapper_args__ = {'polymorphic_identity':'eriu_world_map'}
 
     def __init__(self, **kwargs):
         super(EriuWorldMap, self).__init__(**kwargs)
         
+    mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
+    regions = relationship("Region", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==Region.worldMapId")
+        
+    __mapper_args__ = {'polymorphic_identity':'eriu_world_map',
+                       #'concrete':True
+                       }
+    
+    
     def buildMap(self):
         ''' Oh here we go. '''
         
@@ -36,10 +94,14 @@ class EriuWorldMap(WorldMap):
         # Add rivers and other features
         
         
-        
+        i = 0
         # Create regions and tile objects
         for region in regions:
-            newRegion = Region()
+            i += 1
+            
+            newRegion = EriuRegion()
+            newKingdom = Kingdom(name = str(i))
+            newKingdom.addRegion(newRegion)
             
             tiletype = newRegion.getTileType() 
             
