@@ -12,6 +12,7 @@ import os
 site.addsitedir(os.getcwd())
 
 import Game as G
+import Const as C
 
 fontsize = 14
 # font = u'couriernew'
@@ -24,7 +25,7 @@ def main():
     os.environ['SDL_VIDEODRIVER'] = 'x11'
 # x11, dga, fbcon, directfb, ggi, vgl, svgalib, aalib    
 
-    print '-=Tales of Eriu=-'
+    print '-=' + C.TITLE + '=-'
     
     game = G.Game(fontsize = fontsize, font = font, debug = False)
     

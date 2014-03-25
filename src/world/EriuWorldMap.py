@@ -9,11 +9,13 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer
 
 from WorldMapClass import Region, WorldMap
-from MapTileClass import Forest, Field, Plain, Mountain, Town
+from MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean
+import Util as U
 from VoronoiMap import VMap
 import database as db
 import random
 import Const as C
+import os.path
 
 Base = db.saveDB.getDeclarativeBase()
 
@@ -73,14 +75,30 @@ class EriuWorldMap(WorldMap):
     regions = relationship("Region", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==Region.worldMapId")
         
     __mapper_args__ = {'polymorphic_identity':'eriu_world_map',
-                       #'concrete':True
                        }
     
     
     def buildMap(self):
         ''' Oh here we go. '''
         
-        vmap = VMap(self.width, self.height, self.num_regions)
+        # Read in template
+        map_template = U.readTemplateFile(os.path.join("data", "templates", "world_map_test"))
+
+        ocean_mask = U.twoDArray(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT, True)
+
+        # Overlay template, add tiles
+        for x in range(C.WORLD_MAP_WIDTH):
+            for y in range(C.WORLD_MAP_HEIGHT):
+                if map_template[y][x] == '=':
+                    ocean_mask[x][y] = False
+                    
+                    # Ocean tile
+                    newTile = Ocean(x, y)
+                    self.addTile(newTile)
+                else:
+                    pass
+        
+        vmap = VMap(self.width, self.height, self.num_regions, mask = ocean_mask)
 
         vmap.generate_voronoi_map()
         
@@ -88,7 +106,8 @@ class EriuWorldMap(WorldMap):
         centerpoints = vmap.centerPoints
         adj = vmap.getAdjacency()
         
-        # Overlay template, add tiles
+        
+
         
         
         # Add rivers and other features
@@ -118,9 +137,16 @@ class EriuWorldMap(WorldMap):
             
             # Add some towns to this region
             numTowns = random.randint(C.MIN_TOWNS_PER_REGION, C.MAX_TOWNS_PER_REGION)
-            townTiles = random.sample(newRegion.mapTiles, numTowns)
             
-            for tile in townTiles:
+            for i in range(numTowns):
+                # Find a non-water tile
+                while True:
+                    tile = random.sample(newRegion.mapTiles, 1)[0]
+                    print tile.getXY(), tile.isWaterTile()
+                    if tile.isWaterTile():
+                        continue
+                    break
+            
                 # More probably needs to happen here
                 townx, towny = tile.getXY()
                 newTownTile = Town(townx, towny)

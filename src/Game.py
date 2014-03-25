@@ -56,7 +56,7 @@ class Game(object):
         
     def worldMapTest(self):
         
-        worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = 8)
+        worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = 18)
         worldMap.buildMap()
         
         player = P.Player()
