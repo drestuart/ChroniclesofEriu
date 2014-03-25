@@ -142,7 +142,6 @@ class EriuWorldMap(WorldMap):
                 # Find a non-water tile
                 while True:
                     tile = random.sample(newRegion.mapTiles, 1)[0]
-                    print tile.getXY(), tile.isWaterTile()
                     if tile.isWaterTile():
                         continue
                     break
