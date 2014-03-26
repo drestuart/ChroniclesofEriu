@@ -165,30 +165,49 @@ class EriuWorldMap(WorldMap):
             self.replaceTile(newRiverTile)
             currentTile = newRiverTile
             
+            riverCoords = [currentTile.getXY()]
+            
             while True:
                 # Sorta-random walk to the destination tile
                 
-                if currentTile.getX() < destTile.getX(): dx = 1
-                elif currentTile.getX() > destTile.getX(): dx = -1
+                x = currentTile.getX()
+                y = currentTile.getY()
+                
+                if x < destTile.getX(): dx = 1
+                elif x > destTile.getX(): dx = -1
                 else: dx = 0
                 
-                if currentTile.getY() < destTile.getY(): dy = 1
-                elif currentTile.getY() > destTile.getY(): dy = -1
+                if y < destTile.getY(): dy = 1
+                elif y > destTile.getY(): dy = -1
                 else: dy = 0
                 
                 r = random.random()
                 
-                if r < 1/3. and dx != 0:
+                # Set one of dx or dy to 0 so that the river doesn't move diagonally
+                
+                if dx == 0 or dy == 0:
+                    pass
+                elif r < 1/2.:
                     # Only move in the x direction
                     dy = 0
-                elif r < 2/3. and dy != 0:
+                else:
                     # Only move in the y direction
                     dx = 0
-                else:
-                    # Move in both
-                    pass
             
-                nextx, nexty = currentTile.getX() + dx, currentTile.getY() + dy
+                # Stop if we're adjacent to water
+                nextToWater = False
+                for j in (-1, 0, 1):
+                    for k in (-1, 0, 1):
+                        if j == 0 and k == 0: continue
+                        if j != 0 and k != 0: continue
+                        adjTile = self.getTile(x + j, y + k)
+                        if adjTile.isWaterTile() and \
+                           adjTile.getXY() not in riverCoords: 
+                                nextToWater = True
+                        
+                if nextToWater: break;
+                
+                nextx, nexty = x + dx, y + dy
                 nextTile = self.getTile(nextx, nexty)
                 
                 if not nextTile:
@@ -203,6 +222,7 @@ class EriuWorldMap(WorldMap):
                     reg.replaceTile(newRiverTile)
                     self.replaceTile(newRiverTile)
                     currentTile = newRiverTile
+                    riverCoords.append((nextx, nexty))
         
         
         for region in self.regions:
