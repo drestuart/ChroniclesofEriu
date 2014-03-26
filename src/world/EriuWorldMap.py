@@ -9,7 +9,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer
 
 from WorldMapClass import Region, WorldMap
-from MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean
+from MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River
 import Util as U
 from VoronoiMap import VMap
 import database as db
@@ -72,11 +72,28 @@ class EriuWorldMap(WorldMap):
         super(EriuWorldMap, self).__init__(**kwargs)
         
     mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
-    regions = relationship("Region", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==Region.worldMapId")
+    regions = relationship("EriuRegion", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuRegion.worldMapId")
         
-    __mapper_args__ = {'polymorphic_identity':'eriu_world_map',
-                       }
+    __mapper_args__ = {'polymorphic_identity':'eriu_world_map'}
     
+    def getRandomTile(self, isWater = False):
+        while True:
+            retTile = random.choice(self.mapTiles)
+            
+            if retTile.isWaterTile() == isWater:
+                return retTile
+            
+    def getRandomOceanTile(self):
+        while True:
+            retTile = self.getRandomTile(isWater = True)
+            if isinstance(retTile, Ocean):
+                return retTile
+            
+    def getRegions(self):
+        return self.regions
+    
+    def addRegion(self, reg):
+        self.regions.append(reg)
     
     def buildMap(self):
         ''' Oh here we go. '''
@@ -97,7 +114,8 @@ class EriuWorldMap(WorldMap):
                     self.addTile(newTile)
                 else:
                     pass
-        
+                
+        # Generate Voronoi map
         vmap = VMap(self.width, self.height, self.num_regions, mask = ocean_mask)
 
         vmap.generate_voronoi_map()
@@ -105,13 +123,7 @@ class EriuWorldMap(WorldMap):
         regions = vmap.regions
         centerpoints = vmap.centerPoints
         adj = vmap.getAdjacency()
-        
-        
 
-        
-        
-        # Add rivers and other features
-        
         
         i = 0
         # Create regions and tile objects
@@ -119,6 +131,7 @@ class EriuWorldMap(WorldMap):
             i += 1
             
             newRegion = EriuRegion()
+            self.addRegion(newRegion)
             newKingdom = Kingdom(name = str(i))
             newKingdom.addRegion(newRegion)
             
@@ -134,15 +147,73 @@ class EriuWorldMap(WorldMap):
                     newTile = tiletype(x, y)
                     newRegion.addTile(newTile)
                     self.addTile(newTile)
+        
+        self.buildTileArray()
+        
+        
+        # Add rivers and other features
+        for i in range(C.NUM_RIVERS):
+            sourceTile = self.getRandomTile()
+            destTile = self.getRandomOceanTile()
             
+            sourcex, sourcey = sourceTile.getXY()
+            reg = sourceTile.getRegion()
+            
+            # Add first river tile
+            newRiverTile = River(sourcex, sourcey)
+            reg.replaceTile(newRiverTile)
+            self.replaceTile(newRiverTile)
+            currentTile = newRiverTile
+            
+            while True:
+                # Sorta-random walk to the destination tile
+                
+                if currentTile.getX() < destTile.getX(): dx = 1
+                elif currentTile.getX() > destTile.getX(): dx = -1
+                else: dx = 0
+                
+                if currentTile.getY() < destTile.getY(): dy = 1
+                elif currentTile.getY() > destTile.getY(): dy = -1
+                else: dy = 0
+                
+                r = random.random()
+                
+                if r < 1/3. and dx != 0:
+                    # Only move in the x direction
+                    dy = 0
+                elif r < 2/3. and dy != 0:
+                    # Only move in the y direction
+                    dx = 0
+                else:
+                    # Move in both
+                    pass
+            
+                nextx, nexty = currentTile.getX() + dx, currentTile.getY() + dy
+                nextTile = self.getTile(nextx, nexty)
+                
+                if not nextTile:
+                    break
+                
+                reg = nextTile.getRegion()
+                
+                if nextTile.isWaterTile():
+                    break
+                else:
+                    newRiverTile = River(nextx, nexty)
+                    reg.replaceTile(newRiverTile)
+                    self.replaceTile(newRiverTile)
+                    currentTile = newRiverTile
+        
+        
+        for region in self.regions:
             # Add some towns to this region
             numTowns = random.randint(C.MIN_TOWNS_PER_REGION, C.MAX_TOWNS_PER_REGION)
             
             for i in range(numTowns):
                 # Find a non-water tile
                 while True:
-                    tile = random.sample(newRegion.mapTiles, 1)[0]
-                    if tile.isWaterTile():
+                    tile = random.choice(region.mapTiles)
+                    if tile.isWaterTile() or isinstance(tile, Town):
                         continue
                     break
             
@@ -153,7 +224,3 @@ class EriuWorldMap(WorldMap):
                 self.replaceTile(newTownTile)
                 
 
-
-        # Finish up
-        self.buildTileArray()
-#         db.saveDB.save(self)
