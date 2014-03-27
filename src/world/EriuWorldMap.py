@@ -149,7 +149,10 @@ class EriuWorldMap(WorldMap):
                     self.addTile(newTile)
         
         self.buildTileArray()
-        
+        self.addRivers()
+        self.addTowns()
+    
+    def addRivers(self):
         
         # Add rivers and other features
         for i in range(C.NUM_RIVERS):
@@ -224,23 +227,59 @@ class EriuWorldMap(WorldMap):
                     currentTile = newRiverTile
                     riverCoords.append((nextx, nexty))
         
-        
+    def addTowns(self):
+        # Add some towns to each region
+
         for region in self.regions:
-            # Add some towns to this region
-            numTowns = random.randint(C.MIN_TOWNS_PER_REGION, C.MAX_TOWNS_PER_REGION)
             
-            for i in range(numTowns):
-                # Find a non-water tile
-                while True:
-                    tile = random.choice(region.mapTiles)
+            numTiles = len(region.mapTiles)
+            numTowns = numTiles/C.REGION_TILES_PER_CITY
+            
+            # Enforce max and min
+            numTowns = max(numTowns, C.MIN_TOWNS_PER_REGION)
+            numTowns = min(numTowns, C.MAX_TOWNS_PER_REGION)
+            
+            townsPlaced = 0
+            spacing = C.STARTING_TOWN_SPACING
+            
+            while townsPlaced < numTowns:
+                # Find a non-water tile at the right distance from any other towns
+                
+                placedTown = False
+                # Start by shuffling self.mapTiles and picking tiles off the top
+                random.shuffle(region.mapTiles)
+                for tile in region.mapTiles:
+                    # Skip water tiles and tiles that already have towns
                     if tile.isWaterTile() or isinstance(tile, Town):
                         continue
+                    
+                    x, y = tile.getXY()
+                    goodTile = True
+                    
+                    # Look for nearby towns
+                    nearbyTiles = self.getTilesInRadius(spacing, x, y)
+                    for nt in nearbyTiles:
+                        if isinstance(nt, Town):
+                            goodTile = False
+                            break
+                    
+                    if not goodTile: continue
+                    
+                    
+                    newTownTile = Town(x, y)
+                    region.replaceTile(newTownTile)
+                    self.replaceTile(newTownTile)
+                    placedTown = True
+                    townsPlaced += 1
+                    
                     break
-            
-                # More probably needs to happen here
-                townx, towny = tile.getXY()
-                newTownTile = Town(townx, towny)
-                newRegion.replaceTile(newTownTile)
-                self.replaceTile(newTownTile)
                 
-
+                if not placedTown:
+                    spacing -= 1
+                    
+                    if spacing < C.MIN_TOWN_SPACING:
+                        break
+                    else:
+                        continue
+                
+                
