@@ -15,6 +15,7 @@ import EriuWorldMap as W
 import database as db
 import pygame
 import random
+import mname
 
 game = 0
 myUI = 0
@@ -40,6 +41,9 @@ class Game(object):
             print "Error starting pygame"
             
         print "Loading name files"
+        self.maleNames = mname.MName("male")
+        self.femaleNames = mname.MName("female")
+        self.placeNames = mname.MName("places")
         
         db.saveDB.start(True)
         
