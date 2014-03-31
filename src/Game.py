@@ -24,6 +24,15 @@ defaultNames = 0
 
 def message(msg):
     game.message(msg)
+    
+def getPlaceName():
+    return game.placeNames.name()
+
+def getMaleName():
+    return game.maleNames.name()
+
+def getFemaleName():
+    return game.femaleNames.name()
 
 class Game(object):
     
