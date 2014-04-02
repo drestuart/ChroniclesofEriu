@@ -9,7 +9,7 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer
 
 from WorldMapClass import Region, WorldMap
-from MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River
+from MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
 import Util as U
 from VoronoiMap import VMap
 import database as db
@@ -89,6 +89,15 @@ class EriuWorldMap(WorldMap):
             if isinstance(retTile, Ocean):
                 return retTile
             
+    def isTileTypeInRadius(self, radius, x, y, tiletype):
+        tileFound = False
+        nearbyTiles = self.getTilesInRadius(radius, x, y)
+        for nt in nearbyTiles:
+            if isinstance(nt, tiletype):
+                tileFound = True
+                break
+        return tileFound
+            
     def getRegions(self):
         return self.regions
     
@@ -160,11 +169,9 @@ class EriuWorldMap(WorldMap):
             destTile = self.getRandomOceanTile()
             
             sourcex, sourcey = sourceTile.getXY()
-            reg = sourceTile.getRegion()
             
             # Add first river tile
             newRiverTile = River(sourcex, sourcey)
-            reg.replaceTile(newRiverTile)
             self.replaceTile(newRiverTile)
             currentTile = newRiverTile
             
@@ -216,16 +223,36 @@ class EriuWorldMap(WorldMap):
                 if not nextTile:
                     break
                 
-                reg = nextTile.getRegion()
-                
                 if nextTile.isWaterTile():
                     break
                 else:
                     newRiverTile = River(nextx, nexty)
-                    reg.replaceTile(newRiverTile)
                     self.replaceTile(newRiverTile)
                     currentTile = newRiverTile
                     riverCoords.append((nextx, nexty))
+            
+            # Add a bridge to a random spot on the river
+            rlen = len(riverCoords)
+            numBridges = int(rlen/C.RIVER_TILES_PER_BRIDGE)
+            bridgeCoords = []
+            for dummyi in range(numBridges):
+                while True:
+                    (bridgex, bridgey) = random.choice(riverCoords[1:-1]) # Not the first or last tile, because really.
+                    
+                    badTile = False
+                    for (x,y) in bridgeCoords:
+                        dist = self.coordinateDistance(x, bridgex, y, bridgey)
+                        if dist <= C.BRIDGE_SPACING:
+                            badTile = True
+                            break
+
+                    if badTile: continue
+                    
+                    newBridgeTile = Bridge(bridgex, bridgey)
+                    self.replaceTile(newBridgeTile)
+                    bridgeCoords.append((bridgex, bridgey))
+                    break
+            
         
     def addTowns(self):
         # Add some towns to each region
@@ -250,24 +277,14 @@ class EriuWorldMap(WorldMap):
                 random.shuffle(region.mapTiles)
                 for tile in region.mapTiles:
                     # Skip water tiles and tiles that already have towns
-                    if tile.isWaterTile() or isinstance(tile, Town):
+                    if tile.isWaterTile() or isinstance(tile, Town) or isinstance(tile, Bridge):
+#                         print tile.__class__
                         continue
                     
                     x, y = tile.getXY()
-                    goodTile = True
-                    
-                    # Look for nearby towns
-                    nearbyTiles = self.getTilesInRadius(spacing, x, y)
-                    for nt in nearbyTiles:
-                        if isinstance(nt, Town):
-                            goodTile = False
-                            break
-                    
-                    if not goodTile: continue
-                    
+                    if self.isTileTypeInRadius(spacing, x, y, Town): continue
                     
                     newTownTile = Town(x, y)
-                    region.replaceTile(newTownTile)
                     self.replaceTile(newTownTile)
                     placedTown = True
                     townsPlaced += 1
