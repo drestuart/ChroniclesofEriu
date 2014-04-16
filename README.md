@@ -1,2 +1,2 @@
-talesoferiu
+Chronicles of Ériu
 ===========

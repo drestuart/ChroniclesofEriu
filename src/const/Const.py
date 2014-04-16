@@ -10,7 +10,7 @@ import colors
 
 # Global constants
 
-TITLE = "Tales of Ériu"
+TITLE = "Chronicles of Ériu"
 
 
 ########################
