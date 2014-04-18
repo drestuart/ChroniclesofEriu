@@ -8,13 +8,13 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer
 
-from WorldMapClass import Region, WorldMap
-from MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
+from delvelib.src.world.WorldMapClass import Region, WorldMap
+from delvelib.src.world.MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
 import Util as U
 from VoronoiMap import VMap
-import database as db
+import delvelib.src.database.database as db
 import random
-import Const as C
+import const.Const as C
 import os.path
 
 Base = db.saveDB.getDeclarativeBase()

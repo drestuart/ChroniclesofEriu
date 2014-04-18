@@ -6,13 +6,13 @@ Created on Mar 10, 2013
 
 from pubsub import pub
 import Const as C
-import CreatureClass as Cr
-import DungeonClass as D
-import LevelClass as L
-import PlayerClass as P
-import UIClass as ui
+import delvelib.src.creatures.CreatureClass as Cr
+import delvelib.src.world.DungeonClass as D
+import delvelib.src.world.LevelClass as L
+import delvelib.src.creatures.PlayerClass as P
+import delvelib.src.ui.UIClass as ui
 import EriuWorldMap as W
-import database as db
+import delvelib.src.database.database as db
 import pygame
 import random
 import mname
