@@ -108,7 +108,11 @@ class EriuWorldMap(WorldMap):
         ''' Oh here we go. '''
         
         # Read in template
-        map_template = U.readTemplateFile(os.path.join("data", "templates", "world_map_test"))
+#         map_template = U.readTemplateFile(os.path.join("data", "templates", "world_map_test"))
+        map_template = U.readTemplateImage(os.path.join("data", "templates", "eriu_map.bmp"))
+         
+#         for row in map_template:
+#             print ' '.join(row)
 
         ocean_mask = U.twoDArray(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT, True)
 
@@ -210,6 +214,7 @@ class EriuWorldMap(WorldMap):
                     for k in (-1, 0, 1):
                         if j == 0 and k == 0: continue
                         if j != 0 and k != 0: continue
+                        if x + j < 0 or y + k < 0: continue
                         adjTile = self.getTile(x + j, y + k)
                         if adjTile.isWaterTile() and \
                            adjTile.getXY() not in riverCoords: 
