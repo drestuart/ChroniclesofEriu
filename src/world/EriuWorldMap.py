@@ -109,7 +109,10 @@ class EriuWorldMap(WorldMap):
         
         # Read in template
 #         map_template = U.readTemplateFile(os.path.join("data", "templates", "world_map_test"))
-        map_template = U.readTemplateImage(os.path.join("data", "templates", "eriu_map.bmp"))
+        map_template = U.readTemplateImage(os.path.join("data", "templates", "eriu_map.bmp"),
+                                           {(63, 72, 204) : '=', # Blue
+                                            (34, 177, 76) : '.', # Green
+                                            })
          
 #         for row in map_template:
 #             print ' '.join(row)
