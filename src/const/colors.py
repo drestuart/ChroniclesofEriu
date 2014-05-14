@@ -74,6 +74,10 @@ brown = (165,42,42)
 darkBrown = (139,69,19)
 sienna = (160,82,45)
 
+orange = (255, 165, 0)
+
+yellow = (255, 255, 0)
+
 # UI Colors
 blankBackground = black
 

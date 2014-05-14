@@ -16,21 +16,9 @@ import delvelib.src.database.database as db
 import random
 import const.Const as C
 import os.path
+import world.KingdomClass as K
 
 Base = db.saveDB.getDeclarativeBase()
-
-######################################
-#
-#   Kingdoms
-#   
-#   Ulaid: NE, Red
-#   Connact: NW, Blue
-#   Leinster: W, Green
-#   Munster: SW, Yellow
-#   Mide: Center-east, Orange
-#   
-#
-######################################
 
 class EriuRegion(Region):
     __tablename__ = "regions"
@@ -38,33 +26,44 @@ class EriuRegion(Region):
     
     def __init__(self, **kwargs):
         super(EriuRegion, self).__init__(**kwargs)
-        
-    kingdomId = Column(Integer, ForeignKey("kingdoms.id"))
+        self.kingdomName = kwargs.get('kingdomName', None)
+        self.kingdom = K.getKingdomByName(self.kingdomName)
+    
+    
+    kingdomName = Column(String)
     mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
     
     def setKingdom(self, k):
         self.kingdom = k
         
-class Kingdom(Base):
-    __tablename__ = "kingdoms"
-    __table_args__ = {'extend_existing': True}
-    
-    def __init__(self, **kwargs):
-        self.name = kwargs['name']
+    def getKingdom(self):
+        if self.kingdom:
+            return self.kingdom
+        self.kingdom = K.getKingdomByName(self.kingdomName)
+        return self.kingdom
         
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    regions = relationship("EriuRegion", backref=backref("kingdom", uselist=False), primaryjoin="Kingdom.id==EriuRegion.kingdomId")
     
-    def getRegions(self):
-        return self.regions
-    
-    def addRegion(self, reg):
-        self.regions.append(reg)
-        reg.setKingdom(self)
-    
-    def containsRegion(self, reg):
-        return reg in self.regions
+        
+# class Kingdom(Base):
+#     __tablename__ = "kingdoms"
+#     __table_args__ = {'extend_existing': True}
+#     
+#     def __init__(self, **kwargs):
+#         self.name = kwargs['name']
+#         
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     regions = relationship("EriuRegion", backref=backref("kingdom", uselist=False), primaryjoin="Kingdom.id==EriuRegion.kingdomId")
+#     
+#     def getRegions(self):
+#         return self.regions
+#     
+#     def addRegion(self, reg):
+#         self.regions.append(reg)
+#         reg.setKingdom(self)
+#     
+#     def containsRegion(self, reg):
+#         return reg in self.regions
 
 class EriuWorldMap(WorldMap):
 
@@ -148,8 +147,8 @@ class EriuWorldMap(WorldMap):
             
             newRegion = EriuRegion()
             self.addRegion(newRegion)
-            newKingdom = Kingdom(name = str(i))
-            newKingdom.addRegion(newRegion)
+#             newKingdom = K.Kingdom(name = str(i))
+#             newKingdom.addRegion(newRegion)
             
             tiletype = newRegion.getTileType() 
             
@@ -166,6 +165,7 @@ class EriuWorldMap(WorldMap):
         
         self.buildTileArray()
         self.addRivers()
+        self.addKingdoms()
         self.addTowns()
     
     def addRivers(self):
@@ -261,6 +261,9 @@ class EriuWorldMap(WorldMap):
                     bridgeCoords.append((bridgex, bridgey))
                     break
             
+    def addKingdoms(self):
+        pass
+    
         
     def addTowns(self):
         # Add some towns to each region
