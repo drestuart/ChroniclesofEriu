@@ -4,18 +4,18 @@ Created on Mar 21, 2014
 @author: dstuart
 '''
 
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.types import String, Integer
+import os.path
+import random
 
-from delvelib.src.world.WorldMapClass import Region, WorldMap
-from delvelib.src.world.MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
+from sqlalchemy.orm import relationship, backref
+
 import Util as U
 from VoronoiMap import VMap
-import delvelib.src.database.database as db
-import random
 import const.Const as C
-import os.path
+import delvelib.src.database.database as db
+from world.EriuMapTileClass import Forest, Field, Plain, Mountain, Town, \
+    Ocean, River, Bridge
+from delvelib.src.world.WorldMapClass import Region, WorldMap
 import world.KingdomClass as K
 
 Base = db.saveDB.getDeclarativeBase()
@@ -26,38 +26,26 @@ class EriuRegion(Region, K.hasKingdom):
     
     def __init__(self, **kwargs):
         super(EriuRegion, self).__init__(**kwargs)
+        self.tileType = random.choice([Forest, Field, Plain, Mountain])
         self.kingdomName = kwargs.get('kingdomName', None)
-        self.kingdom = K.getKingdomByName(self.kingdomName)
     
     mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
     
-# class Kingdom(Base):
-#     __tablename__ = "kingdoms"
-#     __table_args__ = {'extend_existing': True}
-#     
-#     def __init__(self, **kwargs):
-#         self.name = kwargs['name']
-#         
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     regions = relationship("EriuRegion", backref=backref("kingdom", uselist=False), primaryjoin="Kingdom.id==EriuRegion.kingdomId")
-#     
-#     def getRegions(self):
-#         return self.regions
-#     
-#     def addRegion(self, reg):
-#         self.regions.append(reg)
-#         reg.setKingdom(self)
-#     
-#     def containsRegion(self, reg):
-#         return reg in self.regions
+    def getTileType(self):
+        return self.tileType
+    
+    def setKingdom(self, k):
+        super(EriuRegion, self).setKingdom(k)
+        
+        for tile in self.mapTiles:
+            tile.setKingdom(k)
 
 class EriuWorldMap(WorldMap):
 
     def __init__(self, **kwargs):
         super(EriuWorldMap, self).__init__(**kwargs)
         
-    mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
+    mapTiles = relationship("EriuMapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuMapTile.worldMapId")
     regions = relationship("EriuRegion", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuRegion.worldMapId")
         
     __mapper_args__ = {'polymorphic_identity':'eriu_world_map'}
@@ -132,10 +120,9 @@ class EriuWorldMap(WorldMap):
         for region in regions:
             i += 1
             
-            newRegion = EriuRegion()
+            centerX, centerY = region.centerPoint
+            newRegion = EriuRegion(centerX=centerX, centerY=centerY)
             self.addRegion(newRegion)
-#             newKingdom = K.Kingdom(name = str(i))
-#             newKingdom.addRegion(newRegion)
             
             tiletype = newRegion.getTileType() 
             
@@ -249,11 +236,27 @@ class EriuWorldMap(WorldMap):
                     break
             
     def addKingdoms(self):
-        pass
+        for k in K.allKingdoms:
+            mindist = None
+            chosenRegion = None
+            for r in self.getRegions():
+                rx, ry = r.getCenter()
+                kx, ky = k.getStartingCoords()
+                dist = self.coordinateDistance(rx, kx, ry, ky)
+                
+                if mindist is None or dist < mindist:
+                    mindist = dist
+                    chosenRegion = r
+            
+            # Set kingdom for this region
+            r.setKingdom(k)
+                
     
         
     def addTowns(self):
         # Add some towns to each region
+        
+        # TODO Add a capital town to the center point
 
         for region in self.regions:
             
