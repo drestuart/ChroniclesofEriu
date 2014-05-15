@@ -4,7 +4,11 @@ Created on May 14, 2014
 @author: dstuart
 '''
 
+from sqlalchemy.schema import Column
+from sqlalchemy.types import String
+
 import colors
+
 
 ######################################
 #
@@ -18,7 +22,6 @@ import colors
 #   
 #
 ######################################
-
 kingdoms = dict()
 
 def getKingdomByName(name):
@@ -39,6 +42,19 @@ class Kingdom(object):
     
     def getColor(self):
         return self.color
+    
+class hasKingdom(object):
+    
+    kingdomName = Column(String)
+    
+    def getKingdom(self):
+        if self.kingdom:
+            return self.kingdom
+        self.kingdom = getKingdomByName(self.kingdomName)
+        return self.kingdom
+    
+    def setKingdom(self, k):
+        self.kingdom = k
     
     
 # Define the five kingdoms of Eriu

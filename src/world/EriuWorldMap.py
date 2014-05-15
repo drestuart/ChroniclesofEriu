@@ -20,7 +20,7 @@ import world.KingdomClass as K
 
 Base = db.saveDB.getDeclarativeBase()
 
-class EriuRegion(Region):
+class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"
     __table_args__ = {'extend_existing': True}
     
@@ -29,21 +29,8 @@ class EriuRegion(Region):
         self.kingdomName = kwargs.get('kingdomName', None)
         self.kingdom = K.getKingdomByName(self.kingdomName)
     
-    
-    kingdomName = Column(String)
     mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
     
-    def setKingdom(self, k):
-        self.kingdom = k
-        
-    def getKingdom(self):
-        if self.kingdom:
-            return self.kingdom
-        self.kingdom = K.getKingdomByName(self.kingdomName)
-        return self.kingdom
-        
-    
-        
 # class Kingdom(Base):
 #     __tablename__ = "kingdoms"
 #     __table_args__ = {'extend_existing': True}
