@@ -23,7 +23,7 @@ class withColor(object):
     
     def setColor(self, value):
         self.color = value
-
+        self.colorR, self.colorG, self.colorB = self.color
 
 # Helper class for objects with a background color
 class withBackgroundColor(withColor):
@@ -45,6 +45,7 @@ class withBackgroundColor(withColor):
     
     def setBackgroundColor(self, value):
         self.backgroundColor = value
+        self.backgroundColorR, self.backgroundColorG, self.backgroundColorB = self.backgroundColor
 
 # Common colors
 black = (0,0,0)
