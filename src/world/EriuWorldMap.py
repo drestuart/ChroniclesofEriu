@@ -29,7 +29,7 @@ class EriuRegion(Region, K.hasKingdom):
         self.tileType = random.choice([Forest, Field, Plain, Mountain])
         self.kingdomName = kwargs.get('kingdomName', None)
     
-    mapTiles = relationship("EriuMapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==EriuMapTile.regionId")
+    mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
     
     def getTileType(self):
         return self.tileType
