@@ -9,19 +9,6 @@ from sqlalchemy.types import String
 
 import colors
 
-
-######################################
-#
-#   Kingdoms
-#   
-#   Ulaid: NE, Red
-#   Connact: NW, Blue
-#   Leinster: W, Green
-#   Munster: SW, Yellow
-#   Mide: Center-east, Orange
-#   
-#
-######################################
 kingdoms = dict()
 
 def getKingdomByName(name):
@@ -56,7 +43,18 @@ class hasKingdom(object):
     def setKingdom(self, k):
         self.kingdom = k
     
-    
+######################################
+#
+#   Kingdoms
+#   
+#   Ulaid: NE, Red, Emain Macha
+#   Connact: NW, Blue, Cruachan
+#   Leinster: W, Green, 
+#   Munster: SW, Yellow, 
+#   Mide: Center-east, Orange, 
+#
+######################################
+
 # Define the five kingdoms of Eriu
 ulaid = Kingdom(name="Ulaid", color=colors.red, capital="Emain Macha")
 connacht = Kingdom(name="Connacht", color=colors.blue, capital="Cruachan")
