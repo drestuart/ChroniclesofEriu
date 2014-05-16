@@ -5,15 +5,15 @@ Created on May 14, 2014
 '''
 
 import random
-
 import Game
+from LevelClass import WildernessLevel, ForestLevel, TownLevel
 import MapTileClass as M
+
 from colors import *
 import delvelib.src.database.database as db
-from delvelib.src.world.LevelClass import WildernessLevel, ForestLevel, \
-    TownLevel
 import symbols
 import world.KingdomClass as K
+
 
 Base = db.saveDB.getDeclarativeBase()
 
