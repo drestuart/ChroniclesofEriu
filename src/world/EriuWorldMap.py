@@ -9,16 +9,15 @@ from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer
 
 from delvelib.src.world.WorldMapClass import Region, WorldMap
-from delvelib.src.world.MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
+from world.EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
+# import world.EriuMapTileClass
+# from delvelib.src.world.MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
 import Util as U
 from VoronoiMap import VMap
-import delvelib.src.database.database as db
 import random
 import const.Const as C
 import os.path
 import world.KingdomClass as K
-
-Base = db.saveDB.getDeclarativeBase()
 
 class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"
@@ -29,7 +28,7 @@ class EriuRegion(Region, K.hasKingdom):
         self.kingdomName = kwargs.get('kingdomName', None)
         self.kingdom = K.getKingdomByName(self.kingdomName)
         self.centerX, self.centerY = kwargs['coords']
-        self.tileType = random.choice([Forest, Field, Plain, Mountain])
+        self.tileType = kwargs.get('tileType', None)
         
     kingdomName = Column(String)
     centerX = Column(Integer)
@@ -49,7 +48,7 @@ class EriuRegion(Region, K.hasKingdom):
     __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
     
 class EriuWorldMap(WorldMap):
-
+    
     def __init__(self, **kwargs):
         super(EriuWorldMap, self).__init__(**kwargs)
         
@@ -88,7 +87,7 @@ class EriuWorldMap(WorldMap):
     
     def buildMap(self):
         ''' Oh here we go. '''
-        
+
         # Read in template
 #         map_template = U.readTemplateFile(os.path.join("data", "templates", "world_map_test"))
         map_template = U.readTemplateImage(os.path.join("data", "templates", "eriu_map.bmp"),
@@ -128,7 +127,8 @@ class EriuWorldMap(WorldMap):
         for region in regions:
             i += 1
             
-            newRegion = EriuRegion(coords = region.centerPoint)
+            regionTiletype = random.choice([Forest, Field, Plain, Mountain])
+            newRegion = EriuRegion(coords = region.centerPoint, tileType = regionTiletype)
             self.addRegion(newRegion)
             
             tiletype = newRegion.getTileType() 
