@@ -10,8 +10,6 @@ from sqlalchemy.types import String, Integer
 
 from delvelib.src.world.WorldMapClass import Region, WorldMap
 from world.EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
-# import world.EriuMapTileClass
-# from delvelib.src.world.MapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
 import Util as U
 from VoronoiMap import VMap
 import random
@@ -39,7 +37,6 @@ class EriuRegion(Region, K.hasKingdom):
         self.kingdomName = k.getName()
          
         for tile in self.mapTiles:
-            tile.classnames()
             tile.setKingdom(k)
             
     def getCoords(self):
@@ -243,21 +240,21 @@ class EriuWorldMap(WorldMap):
                     break
             
     def addKingdoms(self):
-#         for k in K.allKingdoms:
-#             # Set starting regions
-#             kx, ky = k.getCoords()
-#             smallestdist = None
-#             chosenRegion = None
-#             
-#             for region in self.regions:
-#                 rx, ry = region.getCoords()
-#                 dist = self.coordinateDistance(rx, kx, ry, ky)
-#                 
-#                 if chosenRegion is None or dist < smallestdist:
-#                     chosenRegion = region
-#                     
-#             chosenRegion.setKingdom(k)
-        pass
+        return True
+        for k in K.allKingdoms:
+            # Set starting regions
+            kx, ky = k.getCoords()
+            smallestdist = None
+            chosenRegion = None
+             
+            for region in self.regions:
+                rx, ry = region.getCoords()
+                dist = self.coordinateDistance(rx, kx, ry, ky)
+                 
+                if chosenRegion is None or dist < smallestdist:
+                    chosenRegion = region
+                     
+            chosenRegion.setKingdom(k)
     
         
     def addTowns(self):

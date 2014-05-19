@@ -21,9 +21,6 @@ import Game
 
 class EriuMapTile(M.MapTile, K.hasKingdom):
     
-    __tablename__ = "tiles"
-    __table_args__ = {'extend_existing': True}
-    
     def __init__(self, x, y, **kwargs):
         super(EriuMapTile, self).__init__(x, y, **kwargs)
         self.kingdomName = kwargs.get('kingdomName', None)

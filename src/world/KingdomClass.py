@@ -36,6 +36,9 @@ class Kingdom(object):
     def getColor(self):
         return self.color
     
+    def getCoords(self):
+        return self.startingCoords
+    
 class hasKingdom(object):
     
     def getKingdom(self):
@@ -46,6 +49,8 @@ class hasKingdom(object):
     
     def setKingdom(self, k):
         self.kingdom = k
+        self.kingdomName = k.getName()
+
     
 ######################################
 #
