@@ -5,15 +5,16 @@ Created on May 14, 2014
 '''
 
 import random
+
+from sqlalchemy.types import String
+
 import Game
 from LevelClass import WildernessLevel, ForestLevel, TownLevel
 import MapTileClass as M
-
 from colors import *
 import delvelib.src.database.database as db
 import symbols
 import world.KingdomClass as K
-
 
 Base = db.saveDB.getDeclarativeBase()
 
@@ -24,6 +25,8 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
         self.kingdomName = kwargs.get('kingdomName', None)
     
     connectedLevelType = WildernessLevel
+    kingdomName = Column(String)
+
     
     __mapper_args__ = {'polymorphic_identity': 'eriumaptile'}
     

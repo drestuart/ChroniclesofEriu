@@ -28,8 +28,10 @@ class EriuRegion(Region, K.hasKingdom):
         super(EriuRegion, self).__init__(**kwargs)
         self.kingdomName = kwargs.get('kingdomName', None)
         self.kingdom = K.getKingdomByName(self.kingdomName)
-    
-    mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
+        
+    kingdomName = Column(String)
+        
+    __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
     
 class EriuWorldMap(WorldMap):
 

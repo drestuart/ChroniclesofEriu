@@ -38,8 +38,6 @@ class Kingdom(object):
     
 class hasKingdom(object):
     
-    kingdomName = Column(String)
-    
     def getKingdom(self):
         if self.kingdom:
             return self.kingdom
