@@ -37,7 +37,8 @@ class EriuRegion(Region, K.hasKingdom):
         self.kingdomName = k.getName()
          
         for tile in self.mapTiles:
-            tile.setKingdom(k)
+            if not isinstance(tile, Ocean):
+                tile.setKingdom(k)
             
     def getCoords(self):
         return self.centerX, self.centerY
@@ -240,7 +241,6 @@ class EriuWorldMap(WorldMap):
                     break
             
     def addKingdoms(self):
-        return True
         for k in K.allKingdoms:
             # Set starting regions
             kx, ky = k.getCoords()
@@ -253,6 +253,7 @@ class EriuWorldMap(WorldMap):
                  
                 if chosenRegion is None or dist < smallestdist:
                     chosenRegion = region
+                    smallestdist = dist
                      
             chosenRegion.setKingdom(k)
     
