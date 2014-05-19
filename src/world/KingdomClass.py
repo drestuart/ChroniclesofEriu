@@ -8,8 +8,10 @@ from sqlalchemy.schema import Column
 from sqlalchemy.types import String
 
 import colors
+import Const as C
 
 kingdoms = dict()
+allKingdoms = []
 
 def getKingdomByName(name):
     if not name: return None
@@ -20,9 +22,13 @@ class Kingdom(object):
         self.name = kwargs['name']
         self.color = kwargs['color']
         self.capital = kwargs['capital']
+        self.startingCoords = kwargs['coords']
         
         global kingdoms
+        global allKingdoms
+        
         kingdoms[self.name] = self
+        allKingdoms.append(self)
         
     def getName(self):
         return self.name
@@ -56,10 +62,10 @@ class hasKingdom(object):
 ######################################
 
 # Define the five kingdoms of Eriu
-ulaid = Kingdom(name="Ulaid", color=colors.red, capital="Emain Macha")
-connacht = Kingdom(name="Connacht", color=colors.blue, capital="Cruachan")
-leinster = Kingdom(name="Leinster", color=colors.green, capital="Leinster")
-munster = Kingdom(name="Munster", color=colors.yellow, capital="Munster")
-mide = Kingdom(name="Mide", color=colors.orange, capital="Mide")
+ulaid = Kingdom(name="Ulaid", color=colors.red, capital="Emain Macha", coords=(C.WORLD_MAP_WIDTH, 0))
+connacht = Kingdom(name="Connacht", color=colors.blue, capital="Cruachan", coords=(0, 0))
+leinster = Kingdom(name="Leinster", color=colors.green, capital="Leinster", coords=(0, C.WORLD_MAP_HEIGHT/2))
+munster = Kingdom(name="Munster", color=colors.yellow, capital="Munster", coords=(0, C.WORLD_MAP_HEIGHT))
+mide = Kingdom(name="Mide", color=colors.orange, capital="Mide", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT/2))
 
 

@@ -31,27 +31,6 @@ class EriuRegion(Region, K.hasKingdom):
     
     mapTiles = relationship("MapTile", backref=backref("region", uselist=False), primaryjoin="EriuRegion.id==MapTile.regionId")
     
-# class Kingdom(Base):
-#     __tablename__ = "kingdoms"
-#     __table_args__ = {'extend_existing': True}
-#     
-#     def __init__(self, **kwargs):
-#         self.name = kwargs['name']
-#         
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     regions = relationship("EriuRegion", backref=backref("kingdom", uselist=False), primaryjoin="Kingdom.id==EriuRegion.kingdomId")
-#     
-#     def getRegions(self):
-#         return self.regions
-#     
-#     def addRegion(self, reg):
-#         self.regions.append(reg)
-#         reg.setKingdom(self)
-#     
-#     def containsRegion(self, reg):
-#         return reg in self.regions
-
 class EriuWorldMap(WorldMap):
 
     def __init__(self, **kwargs):
