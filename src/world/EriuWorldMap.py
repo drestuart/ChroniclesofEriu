@@ -28,8 +28,23 @@ class EriuRegion(Region, K.hasKingdom):
         super(EriuRegion, self).__init__(**kwargs)
         self.kingdomName = kwargs.get('kingdomName', None)
         self.kingdom = K.getKingdomByName(self.kingdomName)
+        self.centerX, self.centerY = kwargs['coords']
+        self.tileType = random.choice([Forest, Field, Plain, Mountain])
         
     kingdomName = Column(String)
+    centerX = Column(Integer)
+    centerY = Column(Integer)
+    
+    def setKingdom(self, k):
+        self.kingdom = k
+        self.kingdomName = k.getName()
+         
+        for tile in self.mapTiles:
+            tile.classnames()
+            tile.setKingdom(k)
+            
+    def getCoords(self):
+        return self.centerX, self.centerY
         
     __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
     
@@ -113,10 +128,8 @@ class EriuWorldMap(WorldMap):
         for region in regions:
             i += 1
             
-            newRegion = EriuRegion()
+            newRegion = EriuRegion(coords = region.centerPoint)
             self.addRegion(newRegion)
-#             newKingdom = K.Kingdom(name = str(i))
-#             newKingdom.addRegion(newRegion)
             
             tiletype = newRegion.getTileType() 
             
@@ -230,11 +243,31 @@ class EriuWorldMap(WorldMap):
                     break
             
     def addKingdoms(self):
+#         for k in K.allKingdoms:
+#             # Set starting regions
+#             kx, ky = k.getCoords()
+#             smallestdist = None
+#             chosenRegion = None
+#             
+#             for region in self.regions:
+#                 rx, ry = region.getCoords()
+#                 dist = self.coordinateDistance(rx, kx, ry, ky)
+#                 
+#                 if chosenRegion is None or dist < smallestdist:
+#                     chosenRegion = region
+#                     
+#             chosenRegion.setKingdom(k)
         pass
     
         
     def addTowns(self):
         # Add some towns to each region
+        
+        ############
+        #
+        # TODO: Place town at region center
+        #
+        ############
 
         for region in self.regions:
             
