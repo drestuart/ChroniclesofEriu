@@ -11,7 +11,7 @@ import delvelib.src.world.DungeonClass as D
 import delvelib.src.world.LevelClass as L
 import delvelib.src.creatures.PlayerClass as P
 import delvelib.src.ui.UIClass as ui
-import EriuWorldMap as W
+import world.EriuWorldMap as W
 import delvelib.src.database.database as db
 import pygame
 import random
