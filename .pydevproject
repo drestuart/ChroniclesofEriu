@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?eclipse-pydev version="1.0"?><pydev_project>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
-<path>/${PROJECT_DIR_NAME}/src</path>
-<path>/${PROJECT_DIR_NAME}/modules</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/lib</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/lib/pygcurse</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/creatures</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/damage</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/database</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/items</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/ui</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/util</path>
+<path>/ChroniclesofEriu/src</path>
+<path>/ChroniclesofEriu/modules</path>
+<path>/ChroniclesofEriu/modules/delvelib</path>
+<path>/ChroniclesofEriu/modules/delvelib/lib</path>
+<path>/ChroniclesofEriu/modules/delvelib/lib/pygcurse</path>
+<path>/ChroniclesofEriu/modules/delvelib/src</path>
+<path>/ChroniclesofEriu/modules/delvelib/src/creatures</path>
+<path>/ChroniclesofEriu/modules/delvelib/src/damage</path>
+<path>/ChroniclesofEriu/modules/delvelib/src/database</path>
+<path>/ChroniclesofEriu/modules/delvelib/src/items</path>
+<path>/ChroniclesofEriu/modules/delvelib/src/ui</path>
+<path>/ChroniclesofEriu/modules/delvelib/src/util</path>
 <path>/${PROJECT_DIR_NAME}/src/util</path>
 <path>/${PROJECT_DIR_NAME}/modules/delvelib/src/world</path>
 <path>/${PROJECT_DIR_NAME}/src/const</path>
