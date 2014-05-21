@@ -9,12 +9,12 @@ import random
 from sqlalchemy.types import String
 from sqlalchemy.schema import Column
 
-from delvelib.src.world.LevelClass import WildernessLevel, ForestLevel, TownLevel
-import delvelib.src.world.MapTileClass as M
+from LevelClass import WildernessLevel, ForestLevel, TownLevel
+import MapTileClass as M
 from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorRiver, colorWood
-# import delvelib.src.database.database as db
+# import database as db
 import symbols
-import world.KingdomClass as K
+import KingdomClass as K
 import Game
 
 # Base = db.saveDB.getDeclarativeBase()

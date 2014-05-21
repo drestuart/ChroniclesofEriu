@@ -8,14 +8,14 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer
 
-from delvelib.src.world.WorldMapClass import Region, WorldMap
-from world.EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
+from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
 import Util as U
 from VoronoiMap import VMap
+from WorldMapClass import Region, WorldMap
 import random
-import const.Const as C
+import Const as C
 import os.path
-import world.KingdomClass as K
+import KingdomClass as K
 
 class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"
