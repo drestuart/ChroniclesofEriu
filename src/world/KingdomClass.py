@@ -45,14 +45,15 @@ class Kingdom(object):
 class hasKingdom(object):
     
     def getKingdom(self):
-        if self.kingdom:
+        if self.__dict__.get('kingdom'):
             return self.kingdom
         self.kingdom = getKingdomByName(self.kingdomName)
         return self.kingdom
     
     def setKingdom(self, k):
         self.kingdom = k
-        self.kingdomName = k.getName()
+        if k:
+            self.kingdomName = k.getName()
 
     
 ######################################

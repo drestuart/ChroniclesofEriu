@@ -5,7 +5,7 @@ Created on Mar 21, 2014
 '''
 
 from sqlalchemy.orm import relationship, backref
-from sqlalchemy.schema import Column, ForeignKey
+from sqlalchemy.schema import Column
 from sqlalchemy.types import String, Integer
 
 from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
@@ -16,6 +16,7 @@ import random
 import Const as C
 import os.path
 import KingdomClass as K
+import database as db
 
 class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"
@@ -34,14 +35,24 @@ class EriuRegion(Region, K.hasKingdom):
     
     def setKingdom(self, k):
         self.kingdom = k
-        self.kingdomName = k.getName()
-         
+        if k:
+            self.kingdomName = k.getName()
+                     
         for tile in self.mapTiles:
             if not isinstance(tile, Ocean):
                 tile.setKingdom(k)
             
     def getCoords(self):
         return self.centerX, self.centerY
+    
+    def addTile(self, tile):
+        super(EriuRegion, self).addTile(tile)
+        tile.setKingdom(self.getKingdom())
+        
+    def replaceTile(self, oldtile, newtile):
+        super(EriuRegion, self).replaceTile(oldtile, newtile)
+        newtile.setKingdom(self.getKingdom())
+        print self.getKingdom(), oldtile.getKingdom(), newtile.getKingdom()
         
     __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
     
@@ -143,8 +154,9 @@ class EriuWorldMap(WorldMap):
                     self.addTile(newTile)
         
         self.buildTileArray()
-        self.addRivers()
+
         self.addKingdoms()
+        self.addRivers()
         self.addTowns()
     
     def addRivers(self):
@@ -256,6 +268,8 @@ class EriuWorldMap(WorldMap):
                     smallestdist = dist
                      
             chosenRegion.setKingdom(k)
+#             db.saveDB.save(chosenRegion)
+            print "Placing", k, chosenRegion.kingdom
     
         
     def addTowns(self):
@@ -295,6 +309,7 @@ class EriuWorldMap(WorldMap):
                     if self.isTileTypeInRadius(spacing, x, y, Town): continue
                     
                     newTownTile = Town(x, y)
+                    newTownTile.setKingdom(region.getKingdom())
                     self.replaceTile(newTownTile)
                     placedTown = True
                     townsPlaced += 1
