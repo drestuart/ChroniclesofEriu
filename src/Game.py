@@ -8,7 +8,6 @@ from pubsub import pub
 import Const as C
 import CreatureClass as Cr
 import DungeonClass as D
-import LevelClass as L
 import PlayerClass as P
 import UIClass as ui
 import EriuWorldMap as W
@@ -87,7 +86,6 @@ class Game(object):
         d1 = d.getLevels()[1]
          
         player = P.Player()
-#         d1.placeCreatureAtRandom(player)
         d1.placeOnUpStair(player)
         
         orc1 = Cr.Orc()
