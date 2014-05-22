@@ -52,7 +52,7 @@ class EriuRegion(Region, K.hasKingdom):
     def replaceTile(self, oldtile, newtile):
         super(EriuRegion, self).replaceTile(oldtile, newtile)
         newtile.setKingdom(self.getKingdom())
-        print self.getKingdom(), oldtile.getKingdom(), newtile.getKingdom()
+#         print self.getKingdom(), oldtile.getKingdom(), newtile.getKingdom()
         
     __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
     
@@ -127,9 +127,10 @@ class EriuWorldMap(WorldMap):
         vmap.generate_voronoi_map()
         
         regions = vmap.regions
-        centerpoints = vmap.centerPoints
+#         centerpoints = vmap.centerPoints
         adj = vmap.getAdjacency()
-
+        
+        vmapToEriuRegions = dict()
         
         i = 0
         # Create regions and tile objects
@@ -139,6 +140,10 @@ class EriuWorldMap(WorldMap):
             regionTiletype = random.choice([Forest, Field, Plain, Mountain])
             newRegion = EriuRegion(coords = region.centerPoint, tileType = regionTiletype)
             self.addRegion(newRegion)
+            
+            # Store correspondence between VMapRegions and EriuRegions so we can
+            # rebuild the adjacency graph later
+            vmapToEriuRegions[region] = newRegion
             
             tiletype = newRegion.getTileType() 
             
@@ -153,9 +158,20 @@ class EriuWorldMap(WorldMap):
                     newRegion.addTile(newTile)
                     self.addTile(newTile)
         
+        # rebuild the adjacency graph
+        # TODO: actually implement this as a many-to-many on the regions table
+        regionAdjacency = dict()
+        for reg, aregs in adj.items():
+            region = vmapToEriuRegions[reg]
+            adjRegions = []
+            for ar in aregs:
+                adjRegions.append(vmapToEriuRegions[ar])
+            
+            regionAdjacency[region] = adjRegions
+        
         self.buildTileArray()
 
-        self.addKingdoms()
+        self.addKingdoms(regionAdjacency)
         self.addRivers()
         self.addTowns()
     
@@ -252,7 +268,10 @@ class EriuWorldMap(WorldMap):
                     bridgeCoords.append((bridgex, bridgey))
                     break
             
-    def addKingdoms(self):
+    def addKingdoms(self, adjacency):
+        regionsByKingdom = dict()
+        
+        # Assign first region for each kingdom
         for k in K.allKingdoms:
             # Set starting regions
             kx, ky = k.getCoords()
@@ -268,8 +287,38 @@ class EriuWorldMap(WorldMap):
                     smallestdist = dist
                      
             chosenRegion.setKingdom(k)
-#             db.saveDB.save(chosenRegion)
-            print "Placing", k, chosenRegion.kingdom
+            regionsByKingdom[k] = [chosenRegion]
+#             print "Placing", k, chosenRegion.kingdom
+#         return
+
+        # Grow each kingdom by adding an adjacent region until it reaches max size
+        for k in K.allKingdoms:
+            while len(regionsByKingdom[k]) < C.REGIONS_PER_KINGDOM:
+                
+                for reg in regionsByKingdom[k]:
+                    # Look at all the regions adjacent to this one
+                    adjRegs = adjacency[reg]
+                    foundRegion = None
+                    for ar in adjRegs:
+                        if ar.getKingdom():
+                            continue
+                        ar.setKingdom(k)
+                        
+                        foundRegion = ar
+                        break
+                    
+                    if foundRegion:
+                        break
+                    
+                if foundRegion:
+                    regionsByKingdom[k].append(foundRegion)
+                else:
+                    break        
+                
+        # Sanitas check
+#         for k in K.allKingdoms:
+#             print k.name, len(regionsByKingdom[k])
+                
     
         
     def addTowns(self):
