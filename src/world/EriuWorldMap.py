@@ -352,7 +352,6 @@ class EriuWorldMap(WorldMap):
                 name = None
                 if region.isCapital():
                     name = region.getKingdom().getCapitalName()
-                    print name
                 
                 newTownTile = Capital(centerX, centerY, name = name)
                 self.replaceTile(newTownTile)
@@ -377,7 +376,6 @@ class EriuWorldMap(WorldMap):
                         name = None
                         if region.isCapital():
                             name = region.getKingdom().getCapitalName()
-                            print name
                         
                         newTownTile = Capital(centerX, centerY, name = name)
                     else:
