@@ -186,10 +186,18 @@ class EriuWorldMap(WorldMap):
         
         # Add rivers and other features
         for i in range(C.NUM_RIVERS):
-            sourceTile = self.getRandomTile()
+            sourceTile = None
+            while True:
+                sourceTile = self.getRandomTile()
+                sourcex, sourcey = sourceTile.getXY()
+                
+                if not self.isTileTypeInRadius(C.MIN_RIVER_LENGTH, sourcex, sourcey, Ocean):
+                    break
+                
+                
             destTile = self.getRandomOceanTile()
-            
             sourcex, sourcey = sourceTile.getXY()
+            
             
             # Add first river tile
             newRiverTile = River(sourcex, sourcey)
@@ -347,7 +355,7 @@ class EriuWorldMap(WorldMap):
             centerX, centerY = region.getCoords()
             centerTile = self.getTile(centerX, centerY)
             
-            if not centerTile.isWaterTile() or isinstance(centerTile, Bridge):
+            if not (centerTile.isWaterTile() or isinstance(centerTile, Bridge)):
                 # If this is the capital region of this kingdom, get the kingdom's capital name
                 name = None
                 if region.isCapital():
