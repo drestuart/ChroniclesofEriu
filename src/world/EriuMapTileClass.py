@@ -85,7 +85,7 @@ class Town(EriuMapTile):
      
     def __init__(self, *args, **kwargs):
         super(Town, self).__init__(*args, baseSymbol = self.symb, color = colorWood, **kwargs)
-        self.name = kwargs.get('name', Game.getPlaceName())
+        self.name = kwargs.get('name') or Game.getPlaceName()
          
     def generateConnectedLevel(self):
         self.connectedLevel = self.connectedLevelType(cellsWide = random.randint(2, 4), cellsHigh = random.randint(2, 4))

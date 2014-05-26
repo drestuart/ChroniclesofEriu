@@ -6,7 +6,7 @@ Created on Mar 21, 2014
 
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column
-from sqlalchemy.types import String, Integer
+from sqlalchemy.types import String, Integer, Boolean
 
 from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Bridge
 import Util as U
@@ -16,7 +16,6 @@ import random
 import Const as C
 import os.path
 import KingdomClass as K
-import database as db
 
 class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"
@@ -28,10 +27,12 @@ class EriuRegion(Region, K.hasKingdom):
         self.kingdom = K.getKingdomByName(self.kingdomName)
         self.centerX, self.centerY = kwargs['coords']
         self.tileType = kwargs.get('tileType', None)
+        self.capitalRegion = kwargs.get('capitalRegion', False)
         
     kingdomName = Column(String)
     centerX = Column(Integer)
     centerY = Column(Integer)
+    capitalRegion = Column(Boolean)
     
     def setKingdom(self, k):
         self.kingdom = k
@@ -53,6 +54,12 @@ class EriuRegion(Region, K.hasKingdom):
         super(EriuRegion, self).replaceTile(oldtile, newtile)
         newtile.setKingdom(self.getKingdom())
 #         print self.getKingdom(), oldtile.getKingdom(), newtile.getKingdom()
+
+    def setCapital(self, cap):
+        self.capitalRegion = cap
+        
+    def isCapital(self):
+        return self.capitalRegion
         
     __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
     
@@ -287,6 +294,7 @@ class EriuWorldMap(WorldMap):
                     smallestdist = dist
                      
             chosenRegion.setKingdom(k)
+            chosenRegion.setCapital(True)
             regionsByKingdom[k] = [chosenRegion]
 #             print "Placing", k, chosenRegion.kingdom
 
@@ -340,7 +348,13 @@ class EriuWorldMap(WorldMap):
             centerTile = self.getTile(centerX, centerY)
             
             if not centerTile.isWaterTile() or isinstance(centerTile, Bridge):
-                newTownTile = Capital(centerX, centerY)
+                # If this is the capital region of this kingdom, get the kingdom's capital name
+                name = None
+                if region.isCapital():
+                    name = region.getKingdom().getCapitalName()
+                    print name
+                
+                newTownTile = Capital(centerX, centerY, name = name)
                 self.replaceTile(newTownTile)
                 placedTown = True
                 townsPlaced += 1
@@ -360,7 +374,12 @@ class EriuWorldMap(WorldMap):
                     if self.isTileTypeInRadius(spacing, x, y, Town): continue
                     
                     if townsPlaced == 0:  # Place a regional capital if we haven't already
-                        newTownTile = Capital(x, y)
+                        name = None
+                        if region.isCapital():
+                            name = region.getKingdom().getCapitalName()
+                            print name
+                        
+                        newTownTile = Capital(centerX, centerY, name = name)
                     else:
                         newTownTile = Town(x, y)
                         
