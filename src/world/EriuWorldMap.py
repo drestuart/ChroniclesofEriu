@@ -322,12 +322,6 @@ class EriuWorldMap(WorldMap):
         
     def addTowns(self):
         # Add some towns to each region
-        
-        ############
-        #
-        # TODO: Place town at region center
-        #
-        ############
 
         for region in self.regions:
             
