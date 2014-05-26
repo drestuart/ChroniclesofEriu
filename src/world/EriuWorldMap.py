@@ -292,6 +292,8 @@ class EriuWorldMap(WorldMap):
 #         return
 
         # Grow each kingdom by adding an adjacent region until it reaches max size
+        
+        # TODO: Figure out how to do this one kingdom at a time
         for k in K.allKingdoms:
             while len(regionsByKingdom[k]) < C.REGIONS_PER_KINGDOM:
                 

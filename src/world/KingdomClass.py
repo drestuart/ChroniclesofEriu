@@ -70,7 +70,7 @@ class hasKingdom(object):
 
 # Define the five kingdoms of Eriu
 ulaid = Kingdom(name="Ulaid", color=colors.red, capital="Emain Macha", coords=(C.WORLD_MAP_WIDTH, 0))
-connacht = Kingdom(name="Connacht", color=colors.blue, capital="Cruachan", coords=(0, 0))
+connacht = Kingdom(name="Connacht", color=colors.blue, capital="Cruachan", coords=(0, C.WORLD_MAP_HEIGHT/3))
 leinster = Kingdom(name="Leinster", color=colors.green, capital="Leinster", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT))
 munster = Kingdom(name="Munster", color=colors.yellow, capital="Munster", coords=(0, C.WORLD_MAP_HEIGHT))
 mide = Kingdom(name="Mide", color=colors.orange, capital="Mide", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT/2))
