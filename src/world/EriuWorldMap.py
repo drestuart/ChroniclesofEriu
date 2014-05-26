@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column
 from sqlalchemy.types import String, Integer
 
-from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Ocean, River, Bridge
+from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Bridge
 import Util as U
 from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
@@ -341,6 +341,16 @@ class EriuWorldMap(WorldMap):
             townsPlaced = 0
             spacing = C.STARTING_TOWN_SPACING
             
+            # Try to place a capital town at the region center
+            centerX, centerY = region.getCoords()
+            centerTile = self.getTile(centerX, centerY)
+            
+            if not centerTile.isWaterTile() or isinstance(centerTile, Bridge):
+                newTownTile = Capital(centerX, centerY)
+                self.replaceTile(newTownTile)
+                placedTown = True
+                townsPlaced += 1
+            
             while townsPlaced < numTowns:
                 # Find a non-water tile at the right distance from any other towns
                 
@@ -350,13 +360,16 @@ class EriuWorldMap(WorldMap):
                 for tile in region.mapTiles:
                     # Skip water tiles and tiles that already have towns
                     if tile.isWaterTile() or isinstance(tile, Town) or isinstance(tile, Bridge):
-#                         print tile.__class__
                         continue
                     
                     x, y = tile.getXY()
                     if self.isTileTypeInRadius(spacing, x, y, Town): continue
                     
-                    newTownTile = Town(x, y)
+                    if townsPlaced == 0:  # Place a regional capital if we haven't already
+                        newTownTile = Capital(x, y)
+                    else:
+                        newTownTile = Town(x, y)
+                        
                     newTownTile.setKingdom(region.getKingdom())
                     self.replaceTile(newTownTile)
                     placedTown = True
