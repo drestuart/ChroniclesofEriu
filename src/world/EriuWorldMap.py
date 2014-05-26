@@ -289,14 +289,10 @@ class EriuWorldMap(WorldMap):
             chosenRegion.setKingdom(k)
             regionsByKingdom[k] = [chosenRegion]
 #             print "Placing", k, chosenRegion.kingdom
-#         return
 
-        # Grow each kingdom by adding an adjacent region until it reaches max size
-        
-        # TODO: Figure out how to do this one kingdom at a time
-        for k in K.allKingdoms:
-            while len(regionsByKingdom[k]) < C.REGIONS_PER_KINGDOM:
-                
+        # Grow each kingdom by adding an adjacent region
+        for dummy in range(C.REGIONS_PER_KINGDOM - 1): # Each kingdom already has one region!
+            for k in K.allKingdoms:
                 for reg in regionsByKingdom[k]:
                     # Look at all the regions adjacent to this one
                     adjRegs = adjacency[reg]
@@ -314,10 +310,11 @@ class EriuWorldMap(WorldMap):
                     
                 if foundRegion:
                     regionsByKingdom[k].append(foundRegion)
-                else:
-                    break        
+#                 else:
+#                     print "Couldn't add a region to", k
                 
         # Sanitas check
+#         print C.REGIONS_PER_KINGDOM
 #         for k in K.allKingdoms:
 #             print k.name, len(regionsByKingdom[k])
                 
