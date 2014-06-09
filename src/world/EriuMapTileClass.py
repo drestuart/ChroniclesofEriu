@@ -41,50 +41,58 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
 class Forest(EriuMapTile):
     symb = symbols.lowerTau
     connectedLevelType = ForestLevel
+    color = colorForest
     __mapper_args__ = {'polymorphic_identity': 'forest'}
     def __init__(self, *args, **kwargs):
-        super(Forest, self).__init__(*args, baseSymbol = self.symb, color = colorForest, **kwargs)
+        super(Forest, self).__init__(*args, baseSymbol = self.symb, **kwargs)
  
 class Plain(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'plain'}
+    color = colorPlain
     def __init__(self, *args, **kwargs):
-        super(Plain, self).__init__(*args, baseSymbol = '.', color = colorPlain, **kwargs)
+        super(Plain, self).__init__(*args, baseSymbol = '.', **kwargs)
          
 class Field(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'field'}
+    color = colorField
     def __init__(self, *args, **kwargs):
-        super(Field, self).__init__(*args, baseSymbol = '.', color = colorField, **kwargs)
+        super(Field, self).__init__(*args, baseSymbol = '.', **kwargs)
  
 class Mountain(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'mountain'}
+    color = colorMountain
     def __init__(self, *args, **kwargs):
-        super(Mountain, self).__init__(*args, baseSymbol = '^', color = colorMountain, **kwargs)
+        super(Mountain, self).__init__(*args, baseSymbol = '^', **kwargs)
  
 class Ocean(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'ocean'}
+    color = colorOcean
     waterTile = True
     def __init__(self, *args, **kwargs):
-        super(Ocean, self).__init__(*args, baseSymbol = symbols.doubleWavy, color = colorOcean, **kwargs)
+        super(Ocean, self).__init__(*args, baseSymbol = symbols.doubleWavy, **kwargs)
  
 class River(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'river'}
     waterTile = True
+    color = colorRiver
     def __init__(self, *args, **kwargs):
-        super(River, self).__init__(*args, baseSymbol = '~', color = colorRiver, **kwargs)
+        super(River, self).__init__(*args, baseSymbol = '~', **kwargs)
  
 class Bridge(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'bridge'}
+    color = colorWood
     def __init__(self, *args, **kwargs):
-        super(Bridge, self).__init__(*args, baseSymbol = '^', color = colorWood, **kwargs)
+        super(Bridge, self).__init__(*args, baseSymbol = '^', **kwargs)
  
 class Town(EriuMapTile):
     symb = symbols.townShape
     connectedLevelType = TownLevel
-     
+    color = colorWood
+    
     __mapper_args__ = {'polymorphic_identity': 'town'}
      
     def __init__(self, *args, **kwargs):
-        super(Town, self).__init__(*args, baseSymbol = self.symb, color = colorWood, **kwargs)
+        super(Town, self).__init__(*args, baseSymbol = self.symb, **kwargs)
         self.name = kwargs.get('name') or Game.getPlaceName()
          
     def generateConnectedLevel(self):
