@@ -94,6 +94,10 @@ class EriuWorldMap(WorldMap):
                 tileFound = True
                 break
         return tileFound
+    
+    def placePlayer(self, player):
+        tile = self.getTile(25, 7)
+        self.placeCreature(player, tile)
             
     def getRegions(self):
         return self.regions
