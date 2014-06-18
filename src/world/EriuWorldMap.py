@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column
 from sqlalchemy.types import String, Integer, Boolean
 
-from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Bridge
+from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Lake, Bridge
 import Util as U
 from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
@@ -183,13 +183,14 @@ class EriuWorldMap(WorldMap):
         self.buildTileArray()
 
         self.addKingdoms(regionAdjacency)
-        self.addRivers()
+        self.addRiversAndLakes()
         self.addTowns()
     
-    def addRivers(self):
+    def addRiversAndLakes(self):
         
         # Add rivers and other features
         for i in range(C.NUM_RIVERS):
+            
             sourceTile = None
             while True:
                 sourceTile = self.getRandomTile()
@@ -198,10 +199,13 @@ class EriuWorldMap(WorldMap):
                 if not self.isTileTypeInRadius(C.MIN_RIVER_LENGTH, sourcex, sourcey, Ocean):
                     break
                 
-                
             destTile = self.getRandomOceanTile()
             sourcex, sourcey = sourceTile.getXY()
             
+            # Does this river get a lake?
+            placeLake = False
+            if random.random() <= C.LAKE_CHANCE_PER_RIVER:
+                placeLake = True
             
             # Add first river tile
             newRiverTile = River(sourcex, sourcey)
@@ -209,9 +213,11 @@ class EriuWorldMap(WorldMap):
             currentTile = newRiverTile
             
             riverCoords = [currentTile.getXY()]
+            lakeCoords = []
             
             while True:
                 # Sorta-random walk to the destination tile
+                # Find the next tile to step to
                 
                 x = currentTile.getX()
                 y = currentTile.getY()
@@ -245,8 +251,9 @@ class EriuWorldMap(WorldMap):
                         if j != 0 and k != 0: continue
                         if x + j < 0 or y + k < 0: continue
                         adjTile = self.getTile(x + j, y + k)
-                        if adjTile.isWaterTile() and \
-                           adjTile.getXY() not in riverCoords: 
+                        if adjTile.getXY() not in riverCoords and \
+                            adjTile.getXY() not in lakeCoords and \
+                            adjTile.isWaterTile(): 
                                 nextToWater = True
                         
                 if nextToWater: break;
@@ -259,11 +266,51 @@ class EriuWorldMap(WorldMap):
                 
                 if nextTile.isWaterTile():
                     break
+                
                 else:
-                    newRiverTile = River(nextx, nexty)
-                    self.replaceTile(newRiverTile)
-                    currentTile = newRiverTile
-                    riverCoords.append((nextx, nexty))
+                    # Decide whether to place a lake
+                    if placeLake and (random.random() <= C.LAKE_CHANCE_PER_TILE) and not self.isTileTypeInRadius(C.LAKE_DIAMETER + 2, nextx, nexty, Ocean):
+                        # Determine the lake center
+                        if dx == 0:
+                            lakeCenterX, lakeCenterY = (nextx + random.choice([-1,0,1]), nexty + dy*C.LAKE_RADIUS)
+                        elif dy == 0:
+                            lakeCenterX, lakeCenterY = (nextx + dx*C.LAKE_RADIUS, nexty + random.choice([-1,0,1]))
+                        else:
+                            print "Lake placement weirdness!"
+                            assert False
+                            
+                        # Basic lake template, will randomize
+                        lakeFootprint = ['x' + '0'*(C.LAKE_DIAMETER - 2) + 'x']
+                        for dummy in range(C.LAKE_DIAMETER - 2):
+                            lakeFootprint.append('0'*(C.LAKE_DIAMETER))
+                        lakeFootprint.append('x' + '0'*(C.LAKE_DIAMETER - 2) + 'x')
+                        print lakeFootprint
+                        
+                        # Place lake tiles
+                        for lakei in range(len(lakeFootprint)):
+                            row = lakeFootprint[lakei]
+                            for lakej in range(len(row)):
+                                lakeChar = row[lakej]
+                                if lakeChar == 'x': continue
+                                lakex, lakey = lakeCenterX - C.LAKE_RADIUS + lakei, lakeCenterY - C.LAKE_RADIUS + lakej
+                                
+                                newLakeTile = Lake(lakex, lakey)
+                                self.replaceTile(newLakeTile)
+                                lakeCoords.append((lakex, lakey))
+                        
+                        # Make sure not to place more than one per river
+                        placeLake = False
+                        
+                        # Set currentTile
+                        nextx, nexty = nextx + dx*(C.LAKE_DIAMETER), nexty + dy*(C.LAKE_DIAMETER)
+                        currentTile = self.getTile(nextx, nexty)
+                    
+                    else:
+                        # Place the next river tile
+                        newRiverTile = River(nextx, nexty)
+                        self.replaceTile(newRiverTile)
+                        currentTile = newRiverTile
+                        riverCoords.append((nextx, nexty))
             
             # Add a bridge to a random spot on the river
             rlen = len(riverCoords)
@@ -273,6 +320,12 @@ class EriuWorldMap(WorldMap):
                 while True:
                     (bridgex, bridgey) = random.choice(riverCoords[1:-1]) # Not the first or last tile, because really.
                     
+                    # Check that we're on a river tile
+                    oldTile = self.getTile(bridgex, bridgey)
+                    if not isinstance(oldTile, River): 
+                        continue
+                    
+                    # Check that we're far enough from the other bridges
                     badTile = False
                     for (x,y) in bridgeCoords:
                         dist = self.coordinateDistance(x, bridgex, y, bridgey)

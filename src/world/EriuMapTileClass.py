@@ -11,13 +11,10 @@ from sqlalchemy.schema import Column
 
 from LevelClass import WildernessLevel, ForestLevel, TownLevel
 import MapTileClass as M
-from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorRiver, colorWood
-# import database as db
+from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorRiver, colorLake, colorWood
 import symbols
 import KingdomClass as K
 import Game
-
-# Base = db.saveDB.getDeclarativeBase()
 
 class EriuMapTile(M.MapTile, K.hasKingdom):
     
@@ -90,6 +87,15 @@ class River(EriuMapTile):
     
     def __init__(self, *args, **kwargs):
         super(River, self).__init__(*args, baseSymbol = '~', **kwargs)
+
+class Lake(EriuMapTile):
+    __mapper_args__ = {'polymorphic_identity': 'lake'}
+    waterTile = True
+    color = colorLake
+    description = "lake"
+    
+    def __init__(self, *args, **kwargs):
+        super(Lake, self).__init__(*args, baseSymbol = '~', **kwargs)
  
 class Bridge(EriuMapTile):
     __mapper_args__ = {'polymorphic_identity': 'bridge'}
