@@ -272,22 +272,44 @@ class EriuWorldMap(WorldMap):
                     # Decide whether to place a lake
                     if placeLake and (random.random() <= C.LAKE_CHANCE_PER_TILE) and (not self.isTileTypeInRadius(C.LAKE_RADIUS + 2, nextx, nexty, Ocean)):
                         
+                        lakeFootprint = self.getRandomLake()
+                        print lakeFootprint
+                        
+                        xoffset = 0
+                        yoffset = 0
                         # Determine the lake center
                         if dx == 0:
-                            lakeCenterX, lakeCenterY = (nextx + random.choice([-1,0,1]), nexty + dy*C.LAKE_RADIUS)
+                            # Check if the previous river tile will actually connect to a lake tile
+                            while True:
+                                xoffset = random.choice([-1,0,1])
+                                lakeCenterX, lakeCenterY = (nextx + xoffset, nexty + dy*C.LAKE_RADIUS)
+                                
+                                if dy == 1:
+                                    checkx, checky = (C.LAKE_RADIUS + xoffset, 0)
+                                elif dy == -1:
+                                    checkx, checky = (C.LAKE_RADIUS + xoffset, C.LAKE_DIAMETER - 1)
+                                
+#                                 print "checkx, checky:", checkx, checky
+                                
+                                if lakeFootprint[checky][checkx] == '0':
+                                    break
+                                
                         elif dy == 0:
-                            lakeCenterX, lakeCenterY = (nextx + dx*C.LAKE_RADIUS, nexty + random.choice([-1,0,1]))
-                        else:
-                            print "Lake placement weirdness!"
-                            assert False
+                            # Check if the previous river tile will actually connect to a lake tile
+                            while True:
+                                yoffset = random.choice([-1,0,1])
+                                lakeCenterX, lakeCenterY = (nextx + dx*C.LAKE_RADIUS, nexty + yoffset)
+                                
+                                if dx == 1:
+                                    checkx, checky = (0, C.LAKE_RADIUS + yoffset)
+                                elif dx == -1:
+                                    checkx, checky = (C.LAKE_DIAMETER - 1, C.LAKE_RADIUS + yoffset)
+                                    
+#                                 print "checkx, checky:", checkx, checky
+                                
+                                if lakeFootprint[checky][checkx] == '0':
+                                    break
                             
-                        # Basic lake template, will randomize
-                        lakeFootprint = ['x' + '0'*(C.LAKE_DIAMETER - 2) + 'x']
-                        for dummy in range(C.LAKE_DIAMETER - 2):
-                            lakeFootprint.append('0'*(C.LAKE_DIAMETER))
-                        lakeFootprint.append('x' + '0'*(C.LAKE_DIAMETER - 2) + 'x')
-#                         print lakeFootprint
-                        
                         # Place lake tiles
                         for lakei in range(len(lakeFootprint)):
                             row = lakeFootprint[lakei]
@@ -341,6 +363,44 @@ class EriuWorldMap(WorldMap):
                     self.replaceTile(newBridgeTile)
                     bridgeCoords.append((bridgex, bridgey))
                     break
+    
+    def getRandomLake(self):
+        lakes = [
+                 ['x000x',
+                  '00000',
+                  '00000',
+                  '00000',
+                  'x000x'],
+                 ['xx0xx',
+                  'x000x',
+                  '00000',
+                  'x000x',
+                  'xx0xx'],
+                 ['xx0xx',
+                  'x000x',
+                  '0000x',
+                  '00000',
+                  'xx0xx'],
+                 ['xx00x',
+                  '0000x',
+                  '00000',
+                  'x0000',
+                  'x00xx'],
+                 ['x00xx',
+                  'x0000',
+                  '00000',
+                  '0000x',
+                  'xx00x'],
+                 ['xx0xx',
+                  'x0000',
+                  '00000',
+                  'x0000',
+                  'xx00x'],
+                 ]
+        
+        return random.choice(lakes)
+        
+        
             
     def addKingdoms(self, adjacency):
         regionsByKingdom = dict()
