@@ -15,8 +15,7 @@ import Game as G
 import Const as C
 
 fontsize = 14
-# font = u'couriernew'
-font = None
+font = u'FreeMono.otf'
 
 def main():
     x = 100
