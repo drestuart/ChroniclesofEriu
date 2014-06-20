@@ -85,7 +85,6 @@ colorTree = forestGreen
 # World map colors
 colorOcean = darkBlue
 colorRiver = deepSkyBlue
-colorLake = deepSkyBlue
 colorMountain = colorStone
 colorField = colorGrass
 colorForest = colorTree
