@@ -182,7 +182,7 @@ class EriuWorldMap(WorldMap):
         
         self.buildTileArray()
 
-        self.addKingdoms(regionAdjacency)
+#         self.addKingdoms(regionAdjacency)
         self.addRivers()
         self.addTowns()
     
@@ -273,7 +273,6 @@ class EriuWorldMap(WorldMap):
                     if placeLake and (random.random() <= C.LAKE_CHANCE_PER_TILE) and (not self.isTileTypeInRadius(C.LAKE_RADIUS + 2, nextx, nexty, Ocean)):
                         
                         lakeFootprint = self.getRandomLake()
-                        print lakeFootprint
                         
                         xoffset = 0
                         yoffset = 0
@@ -285,13 +284,25 @@ class EriuWorldMap(WorldMap):
                                 lakeCenterX, lakeCenterY = (nextx + xoffset, nexty + dy*C.LAKE_RADIUS)
                                 
                                 if dy == 1:
-                                    checkx, checky = (C.LAKE_RADIUS + xoffset, 0)
+                                    inletx, inlety = (C.LAKE_RADIUS + xoffset, 0)
                                 elif dy == -1:
-                                    checkx, checky = (C.LAKE_RADIUS + xoffset, C.LAKE_DIAMETER - 1)
+                                    inletx, inlety = (C.LAKE_RADIUS + xoffset, C.LAKE_DIAMETER - 1)
                                 
 #                                 print "checkx, checky:", checkx, checky
                                 
-                                if lakeFootprint[checky][checkx] == '0':
+                                if lakeFootprint[inlety][inletx] == '0':
+                                    break
+                                
+                            # Find a water tile for the lake outlet
+                            # Logic is opposite of the above since we're on the opposite side of the lake
+                            while True:
+                                xoffset = random.choice([-1,0,1])
+                                if dy == 1:
+                                    outletx, outlety = (C.LAKE_RADIUS + xoffset, C.LAKE_DIAMETER - 1)
+                                elif dy == -1:
+                                    outletx, outlety = (C.LAKE_RADIUS + xoffset, 0)
+                                     
+                                if lakeFootprint[outlety][outletx] == '0':
                                     break
                                 
                         elif dy == 0:
@@ -301,15 +312,27 @@ class EriuWorldMap(WorldMap):
                                 lakeCenterX, lakeCenterY = (nextx + dx*C.LAKE_RADIUS, nexty + yoffset)
                                 
                                 if dx == 1:
-                                    checkx, checky = (0, C.LAKE_RADIUS + yoffset)
+                                    inletx, inlety = (0, C.LAKE_RADIUS + yoffset)
                                 elif dx == -1:
-                                    checkx, checky = (C.LAKE_DIAMETER - 1, C.LAKE_RADIUS + yoffset)
+                                    inletx, inlety = (C.LAKE_DIAMETER - 1, C.LAKE_RADIUS + yoffset)
                                     
 #                                 print "checkx, checky:", checkx, checky
                                 
-                                if lakeFootprint[checky][checkx] == '0':
+                                if lakeFootprint[inlety][inletx] == '0':
                                     break
                             
+                            # Find a water tile for the lake outlet
+                            # Logic is opposite of the above since we're on the opposite side of the lake
+                            while True:
+                                yoffset = random.choice([-1,0,1])
+                                if dx == 1:
+                                    outletx, outlety = (C.LAKE_DIAMETER - 1, C.LAKE_RADIUS + yoffset)
+                                elif dx == -1:
+                                    outletx, outlety = (0, C.LAKE_RADIUS + yoffset)
+                                     
+                                if lakeFootprint[outlety][outletx] == '0':
+                                    break
+                        
                         # Place lake tiles
                         for lakei in range(len(lakeFootprint)):
                             row = lakeFootprint[lakei]
@@ -325,9 +348,14 @@ class EriuWorldMap(WorldMap):
                         # Make sure not to place more than one per river
                         placeLake = False
                         
-                        # Set currentTile
-                        nextx, nexty = nextx + dx*(C.LAKE_DIAMETER), nexty + dy*(C.LAKE_DIAMETER)
-                        currentTile = self.getTile(nextx, nexty)
+                        # Place a new river tile on the other side of the lake to generate from on the next loop
+                        nextx, nexty = lakeCenterX - C.LAKE_RADIUS + outletx + dx, lakeCenterY - C.LAKE_RADIUS +  outlety + dy
+#                         
+                        newRiverTile = River(nextx, nexty)
+                        self.replaceTile(newRiverTile)
+                        currentTile = newRiverTile
+                        riverCoords.append((nextx, nexty))
+
                     
                     else:
                         # Place the next river tile
