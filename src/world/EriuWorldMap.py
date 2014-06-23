@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column
 from sqlalchemy.types import String, Integer, Boolean
 
-from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Lake, Bridge
+from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Lake, Bridge, Water
 import Util as U
 from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
@@ -94,6 +94,9 @@ class EriuWorldMap(WorldMap):
                 tileFound = True
                 break
         return tileFound
+    
+    def isWaterInRadius(self, radius, x, y):
+        return self.isTileTypeInRadius(radius, x, y, Water)
     
     def placePlayer(self, player):
         tile = self.getTile(25, 7)
@@ -182,7 +185,7 @@ class EriuWorldMap(WorldMap):
         
         self.buildTileArray()
 
-#         self.addKingdoms(regionAdjacency)
+        self.addKingdoms(regionAdjacency)
         self.addRivers()
         self.addTowns()
     
@@ -197,7 +200,8 @@ class EriuWorldMap(WorldMap):
                 sourceTile = self.getRandomTile()
                 sourcex, sourcey = sourceTile.getXY()
                 
-                if not self.isTileTypeInRadius(C.MIN_RIVER_LENGTH, sourcex, sourcey, Ocean):
+                # Make sure we're not starting too close to another body of water
+                if not self.isWaterInRadius(C.MIN_RIVER_LENGTH, sourcex, sourcey):
                     break
             
             # Does this river get a lake?

@@ -69,28 +69,32 @@ class Mountain(EriuMapTile):
     
     def __init__(self, *args, **kwargs):
         super(Mountain, self).__init__(*args, baseSymbol = '^', **kwargs)
+        
+class Water(EriuMapTile):
+    __mapper_args__ = {'polymorphic_identity': 'water'}
+    waterTile = True
+    
+    def __init__(self, *args, **kwargs):
+        super(Water, self).__init__(*args, **kwargs)
  
-class Ocean(EriuMapTile):
+class Ocean(Water):
     __mapper_args__ = {'polymorphic_identity': 'ocean'}
     color = colorOcean
-    waterTile = True
     description = "ocean"
     
     def __init__(self, *args, **kwargs):
         super(Ocean, self).__init__(*args, baseSymbol = symbols.doubleWavy, **kwargs)
  
-class River(EriuMapTile):
+class River(Water):
     __mapper_args__ = {'polymorphic_identity': 'river'}
-    waterTile = True
     color = colorRiver
     description = "river"
     
     def __init__(self, *args, **kwargs):
         super(River, self).__init__(*args, baseSymbol = '~', **kwargs)
 
-class Lake(EriuMapTile):
+class Lake(Water):
     __mapper_args__ = {'polymorphic_identity': 'lake'}
-    waterTile = True
     color = colorLake
     description = "lake"
     
