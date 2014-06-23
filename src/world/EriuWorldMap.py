@@ -185,7 +185,7 @@ class EriuWorldMap(WorldMap):
         
         self.buildTileArray()
 
-        self.addKingdoms(regionAdjacency)
+#         self.addKingdoms(regionAdjacency)
         self.addRivers()
         self.addTowns()
     
@@ -535,12 +535,12 @@ class EriuWorldMap(WorldMap):
                         name = None
                         if region.isCapital():
                             name = region.getKingdom().getCapitalName()
-                        
-                        newTownTile = Capital(centerX, centerY, name = name)
+                        newTownTile = Capital(x, y, name = name)
                     else:
                         newTownTile = Town(x, y)
                         
                     newTownTile.setKingdom(region.getKingdom())
+                    
                     self.replaceTile(newTownTile)
                     placedTown = True
                     townsPlaced += 1
