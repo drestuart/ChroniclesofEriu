@@ -7,7 +7,7 @@ Created on Mar 10, 2013
 from pubsub import pub
 import Const as C
 import CreatureClass as Cr
-import DungeonClass as D
+import AreaClass as D
 import PlayerClass as P
 import UIClass as ui
 import EriuWorldMap as W

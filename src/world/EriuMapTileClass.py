@@ -23,7 +23,7 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
         self.kingdomName = kwargs.get('kingdomName', None)
         self.kingdom = K.getKingdomByName(self.kingdomName)
     
-    connectedLevelType = WildernessLevel
+    terrainType = WildernessLevel
     kingdomName = Column(String)
     description = "eriutile"
     
@@ -37,7 +37,7 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
  
 class Forest(EriuMapTile):
     symb = symbols.lowerTau
-    connectedLevelType = ForestLevel
+    terrainType = ForestLevel
     color = colorForest
     description = "forest"
     
@@ -111,7 +111,7 @@ class Bridge(EriuMapTile):
  
 class Town(EriuMapTile):
     symb = symbols.townShape
-    connectedLevelType = TownLevel
+    terrainType = TownLevel
     color = colorWood
     description = "town"
     
@@ -122,8 +122,9 @@ class Town(EriuMapTile):
         self.name = kwargs.get('name') or Game.getPlaceName()
          
     def generateConnectedLevel(self):
-        self.connectedLevel = self.connectedLevelType(cellsWide = random.randint(2, 4), cellsHigh = random.randint(2, 4))
-        self.connectedLevel.buildLevel()
+        raise NotImplementedError("Deprecated generateConnectedLevel()")
+#         self.connectedLevel = self.terrainType(cellsWide = random.randint(2, 4), cellsHigh = random.randint(2, 4))
+#         self.connectedLevel.buildLevel()
 
 class Capital(Town):
     
