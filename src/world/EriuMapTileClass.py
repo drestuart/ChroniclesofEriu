@@ -15,6 +15,7 @@ from colors import colorForest, colorPlain, colorMountain, colorField, colorOcea
 import symbols
 import KingdomClass as K
 import Game
+from EriuAreas import SingleLevelArea, TownArea
 
 class EriuMapTile(M.MapTile, K.hasKingdom):
     
@@ -24,13 +25,14 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
         self.kingdom = K.getKingdomByName(self.kingdomName)
     
     terrainType = WildernessLevel
+    areaType = SingleLevelArea
     kingdomName = Column(String)
     description = "eriutile"
     
     __mapper_args__ = {'polymorphic_identity': 'eriu_maptile'}
     
     def getBackgroundColor(self):
-        if self.kingdom:
+        if self.__dict__.get('kingdom'):
             return self.kingdom.color
         return super(EriuMapTile, self).getBackgroundColor()
         
@@ -112,6 +114,7 @@ class Bridge(EriuMapTile):
 class Town(EriuMapTile):
     symb = symbols.townShape
     terrainType = TownLevel
+    areaType = TownArea
     color = colorWood
     description = "town"
     
