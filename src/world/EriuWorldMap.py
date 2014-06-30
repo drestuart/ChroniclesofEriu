@@ -185,7 +185,7 @@ class EriuWorldMap(WorldMap):
         
         self.buildTileArray()
 
-#         self.addKingdoms(regionAdjacency)
+        self.addKingdoms(regionAdjacency)
         self.addRivers()
         self.addTowns()
     

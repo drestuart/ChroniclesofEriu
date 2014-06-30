@@ -4,10 +4,7 @@ Created on May 14, 2014
 @author: dstuart
 '''
 
-from sqlalchemy.schema import Column
-from sqlalchemy.types import String
-
-import colors
+from colors import colorUlaid, colorConnacht, colorLeinster, colorMunster, colorMide
 import Const as C
 
 kingdoms = dict()
@@ -72,10 +69,10 @@ class hasKingdom(object):
 ######################################
 
 # Define the five kingdoms of Eriu
-ulaid = Kingdom(name="Ulaid", color=colors.red, capitalName="Emain Macha", coords=(C.WORLD_MAP_WIDTH, 0))
-connacht = Kingdom(name="Connacht", color=colors.blue, capitalName="Cruachan", coords=(0, C.WORLD_MAP_HEIGHT/3))
-leinster = Kingdom(name="Leinster", color=colors.green, capitalName="Leinster", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT))
-munster = Kingdom(name="Munster", color=colors.yellow, capitalName="Munster", coords=(0, C.WORLD_MAP_HEIGHT))
-mide = Kingdom(name="Mide", color=colors.orange, capitalName="Mide", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT/2))
+ulaid = Kingdom(name="Ulaid", color = colorUlaid, capitalName="Emain Macha", coords=(C.WORLD_MAP_WIDTH, 0))
+connacht = Kingdom(name="Connacht", color = colorConnacht, capitalName="Cruachan", coords=(0, C.WORLD_MAP_HEIGHT/3))
+leinster = Kingdom(name="Leinster", color = colorLeinster, capitalName="Leinster", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT))
+munster = Kingdom(name="Munster", color = colorMunster, capitalName="Munster", coords=(0, C.WORLD_MAP_HEIGHT))
+mide = Kingdom(name="Mide", color = colorMide, capitalName="Mide", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT/2))
 
 

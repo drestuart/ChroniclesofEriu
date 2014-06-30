@@ -29,3 +29,16 @@ colorSteel = lightSkyBlue
 colorGold = gold
 colorMeat = brown
 colorLeather = darkBrown
+
+# Kingdom colors
+# colorUlaid = (80, 0, 0)
+# colorConnacht = (0, 0, 80)
+# colorLeinster = (0, 80, 0)
+# colorMunster = (80, 80, 0)
+# colorMide = (80, 50, 0)
+
+colorUlaid = (50, 0, 0)
+colorConnacht = (0, 0, 50)
+colorLeinster = (0, 50, 0)
+colorMunster = (50, 50, 0)
+colorMide = (50, 30, 0)
