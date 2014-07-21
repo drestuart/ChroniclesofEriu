@@ -50,6 +50,8 @@ LAKE_DIAMETER = 2*LAKE_RADIUS + 1
 ########################
 
 # Some dungeon generation constants
+
+# These can all go when the new wang tile stuff gets working
 ROOM_MAX_SIZE = 10
 ROOM_MIN_SIZE = 6
 MAX_ROOMS = 30
