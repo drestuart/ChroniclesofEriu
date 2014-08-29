@@ -7,7 +7,7 @@ Created on Mar 10, 2013
 from pubsub import pub
 import Const as C
 import CreatureClass as Cr
-import AreaClass as D
+import EriuAreas as A
 import PlayerClass as P
 import UIClass as ui
 import EriuWorldMap as W
@@ -62,8 +62,8 @@ class Game(object):
         print seed
         random.seed(seed)
         
-        self.worldMapTest()
-#         self.dungeonTest()
+#         self.worldMapTest()
+        self.dungeonTest()
         
         
     def worldMapTest(self):
@@ -80,7 +80,7 @@ class Game(object):
     
     def dungeonTest(self):
         
-        d = D.Dungeon(name = "The Dungeons of Dread", startingDepth = 0, withTown = True)
+        d = A.DungeonArea(name = "The Dungeons of Dread", startingDepth = 0, withTown = True)
         d.generateLevels(4)
           
         d1 = d.getLevels()[1]
@@ -88,11 +88,11 @@ class Game(object):
         player = P.Player()
         d1.placeOnUpStair(player)
         
-        orc1 = Cr.Orc()
-        d1.placeCreatureAtRandom(orc1)
-         
-        orc2 = Cr.Orc()
-        d1.placeCreatureAtRandom(orc2)
+#         orc1 = Cr.Orc()
+#         d1.placeCreatureAtRandom(orc1)
+#          
+#         orc2 = Cr.Orc()
+#         d1.placeCreatureAtRandom(orc2)
         
         db.saveDB.save(d)
         

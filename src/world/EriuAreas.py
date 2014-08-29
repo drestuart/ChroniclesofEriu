@@ -13,6 +13,7 @@ import Game as G
 import LevelClass as L
 import database as db
 from randomChoice import weightedChoice
+from LevelClass import DungeonLevel
 
 
 class SingleLevelArea(Area):
@@ -56,7 +57,7 @@ class MultiLevelArea(Area):
             
             if self.withTown and newDepth == 0:
                 newName = G.getPlaceName()
-                newLevel = L.TownLevel(area = self, name = newName, depth = newDepth, cellsWide = 2, cellsHigh = 2)
+                newLevel = L.TownLevel(3, 3, area = self, name = newName, depth = newDepth)
                 self.startingLevel = newLevel
                 
             elif newDepth == 0:
@@ -65,9 +66,9 @@ class MultiLevelArea(Area):
                 self.startingLevel = newLevel
                 
             else:
-                newLevelType = weightedChoice(self.levelChances)
-                newLevel = newLevelType(area = self, name = newName, depth = newDepth, 
-                                        width = self.defaultWidth, height = self.defaultHeight) # Do something more interesting with the dimensions999 here
+#                 newLevelType = weightedChoice(self.levelChances)
+                newLevelType = DungeonLevel
+                newLevel = newLevelType(4, 4, area = self, name = newName, depth = newDepth)
             
             newLevel.buildLevel()
             
