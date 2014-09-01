@@ -67,6 +67,7 @@ class MultiLevelArea(Area):
                 
             else:
 #                 newLevelType = weightedChoice(self.levelChances)
+                # TODO get cave levels back in here!
                 newLevelType = DungeonLevel
                 newLevel = newLevelType(4, 4, area = self, name = newName, depth = newDepth)
             
@@ -77,7 +78,7 @@ class MultiLevelArea(Area):
             
             # Connect levels
             if i > 0:
-                plevel = self.levels[-1]
+                plevel = self.levels[i-1]
                 
                 # The depth values should be off by only 1. TODO better validation
                 
@@ -86,7 +87,7 @@ class MultiLevelArea(Area):
                 else:
                     L.connectLevels(newLevel, plevel)
             
-            self.levels.append(newLevel)
+#             self.levels.append(newLevel)
             db.saveDB.save(newLevel)
             
         db.saveDB.save(self)
