@@ -104,15 +104,6 @@ class DungeonArea(MultiLevelArea):
     
     __mapper_args__ = {'polymorphic_identity': 'dungeon_area'}
     
-    
-
-
-
-
-
-
-
-
 
 class CaveArea(MultiLevelArea):
     
@@ -121,11 +112,5 @@ class CaveArea(MultiLevelArea):
     defaultHeight = 80
     
     __mapper_args__ = {'polymorphic_identity': 'cave_area'}
-
-    
-
-
-
-
 
 
