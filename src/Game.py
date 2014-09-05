@@ -80,13 +80,18 @@ class Game(object):
     
     def dungeonTest(self):
         
-        d = A.DungeonArea(name = "The Dungeons of Dread", startingDepth = 0, withTown = True)
+        from EriuMapTileClass import Forest
+        mt = Forest(3, 5)
+        d = A.DungeonArea(name = "The Dungeons of Dread", startingDepth = 0, withTown = False)
+        
+        mt.setConnectedArea(d)
+        
         d.generateLevels(4)
           
-        d1 = d.getLevels()[1]
+        d1 = d.getLevels()[0]
          
         player = P.Player()
-        d1.placeOnUpStair(player)
+        d1.placeCreatureAtEntrance(player)
         
 #         orc1 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc1)

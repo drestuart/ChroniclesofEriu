@@ -13,7 +13,7 @@ import Game as G
 import LevelClass as L
 import database as db
 from randomChoice import weightedChoice
-from LevelClass import DungeonLevel
+import EriuLevel as EL
 
 
 class SingleLevelArea(Area):
@@ -34,8 +34,8 @@ class TownArea(Area):
 
     def generateLevels(self, numLevels = 1):
         newName = G.getPlaceName()
-        newLevel = L.TownLevel(area = self, name = newName, depth = 0, 
-                               cellsWide = random.randint(2, 4), cellsHigh = random.randint(2, 4))
+        newLevel = EL.EriuTownLevel(tilesWide = 3, tilesHigh = 3, area = self, name = newName, depth = 0)
+
         self.startingLevel = newLevel
         newLevel.buildLevel()
         db.saveDB.save(self)
@@ -57,21 +57,28 @@ class MultiLevelArea(Area):
             
             if self.withTown and newDepth == 0:
                 newName = G.getPlaceName()
-                newLevel = L.TownLevel(3, 3, area = self, name = newName, depth = newDepth)
+                newLevel = EL.EriuTownLevel(tilesWide = 3, tilesHigh = 3, area = self, name = newName, depth = newDepth)
                 self.startingLevel = newLevel
+                
+                newLevel.buildLevel()
                 
             elif newDepth == 0:
                 terrainType = self.getTerrainType()
                 newLevel = terrainType(area = self, depth = 0, width = self.defaultWidth, height = self.defaultHeight)
                 self.startingLevel = newLevel
                 
+                newLevel.buildLevel()
+                # TODO: Add a dungeon entrance
+                newLevel.placeDungeonEntrance()
+                
             else:
-#                 newLevelType = weightedChoice(self.levelChances)
-                # TODO get cave levels back in here!
-                newLevelType = DungeonLevel
-                newLevel = newLevelType(4, 4, area = self, name = newName, depth = newDepth)
+                newLevelType = weightedChoice(self.levelChances)
+                newLevel = newLevelType(width = self.defaultWidth, height = self.defaultHeight, tilesWide = 4, tilesHigh = 4, 
+                                        area = self, name = newName, depth = newDepth)
+                
+                newLevel.buildLevel()
             
-            newLevel.buildLevel()
+            
             
             
             # TODO chance to generate a branch or loop
@@ -80,7 +87,7 @@ class MultiLevelArea(Area):
             if i > 0:
                 plevel = self.levels[i-1]
                 
-                # The depth values should be off by only 1. TODO better validation
+                # The depth values should be different by only 1. TODO better validation
                 
                 if plevel.depth < newLevel.depth:
                     L.connectLevels(plevel, newLevel)
@@ -92,12 +99,12 @@ class MultiLevelArea(Area):
             
         db.saveDB.save(self)
 
-        # TODO Connect top level to world map
+        # TODO Connect top level to world map (Done?)
 
 
 class DungeonArea(MultiLevelArea):
     
-    levelChances = {L.DungeonLevel : 7,
+    levelChances = {EL.EriuDungeonLevel : 7,
                     L.CaveLevel : 3}
     defaultWidth = 100
     defaultHeight = 80
