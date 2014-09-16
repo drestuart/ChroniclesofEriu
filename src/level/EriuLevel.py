@@ -55,20 +55,11 @@ class EriuDungeonLevel(DungeonLevel):
 class EriuWildernessLevel(WildernessLevel):
     __mapper_args__ = {'polymorphic_identity': 'eriu wilderness level'}
     
+    templates = U.readTemplateFile(os.path.join("data", "templates", "dungeon_entrances.txt"));
+    
     def placeDungeonEntrance(self):
-        # TODO Read in templates from a file, choose a random one
         
-        template = ["...........",
-                    "...........",
-                    "..#######..",
-                    "..#,,,,,#..",
-                    "..#,,,,,#..",
-                    "..,,,,,,#..",
-                    "..#,,,,,#..",
-                    "..#,,,,,#..",
-                    "..#######..",
-                    "...........",
-                    "..........."]
+        template = random.choice(self.templates)
         
         tileDict = {'.' : self.defaultFloorType,
                     '#' : self.buildingWallType,
@@ -79,8 +70,6 @@ class EriuWildernessLevel(WildernessLevel):
         
         templateX = random.choice(range(1, self.width - entranceWidth - 1))
         templateY = random.choice(range(1, self.height - entranceHeight - 1))
-        
-        print (templateX, templateY)
         
         entranceRoom = Room()
         

@@ -9,7 +9,7 @@ import random
 from sqlalchemy.types import String
 from sqlalchemy.schema import Column
 
-from LevelClass import WildernessLevel, ForestLevel, TownLevel
+from EriuLevel import EriuWildernessLevel, ForestLevel, EriuTownLevel
 import MapTileClass as M
 from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorRiver, colorLake, colorWood
 import symbols
@@ -24,7 +24,7 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
         self.kingdomName = kwargs.get('kingdomName', None)
         self.kingdom = K.getKingdomByName(self.kingdomName)
     
-    terrainType = WildernessLevel
+    terrainType = EriuWildernessLevel
     areaType = SingleLevelArea
     kingdomName = Column(String)
     description = "eriutile"
@@ -113,7 +113,7 @@ class Bridge(EriuMapTile):
  
 class Town(EriuMapTile):
     symb = symbols.townShape
-    terrainType = TownLevel
+    terrainType = EriuTownLevel
     areaType = TownArea
     color = colorWood
     description = "town"
