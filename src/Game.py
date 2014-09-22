@@ -62,8 +62,8 @@ class Game(object):
         print seed
         random.seed(seed)
         
-#         self.worldMapTest()
-        self.dungeonTest()
+        self.worldMapTest()
+#         self.dungeonTest()
         
         
     def worldMapTest(self):
@@ -82,11 +82,12 @@ class Game(object):
         
         from EriuMapTileClass import Forest
         mt = Forest(3, 5)
-        d = A.DungeonArea(name = "The Dungeons of Dread", startingDepth = 0, withTown = False)
+        d = A.DungeonArea(name = "The Dungeons of Dread")
         
         mt.setConnectedArea(d)
         
-        d.generateLevels(4)
+        d.buildStartingLevel()
+        d.buildDungeon(4)
           
         d1 = d.getLevels()[0]
          

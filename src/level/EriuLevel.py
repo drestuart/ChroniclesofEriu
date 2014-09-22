@@ -71,6 +71,8 @@ class EriuWildernessLevel(WildernessLevel):
         templateX = random.choice(range(1, self.width - entranceWidth - 1))
         templateY = random.choice(range(1, self.height - entranceHeight - 1))
         
+        print "Placing dungeon entrance", (templateX, templateY)
+        
         entranceRoom = Room()
         
         for y in range(entranceHeight):

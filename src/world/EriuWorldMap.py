@@ -4,18 +4,23 @@ Created on Mar 21, 2014
 @author: dstuart
 '''
 
+import os.path
+import random
+
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column
 from sqlalchemy.types import String, Integer, Boolean
 
-from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, Ocean, River, Lake, Bridge, Water
+import Const as C
+from EriuAreas import DungeonArea
+from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, \
+    Ocean, River, Lake, Bridge, Water
+import KingdomClass as K
 import Util as U
 from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
-import random
-import Const as C
-import os.path
-import KingdomClass as K
+import database as db
+
 
 class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"
@@ -187,6 +192,7 @@ class EriuWorldMap(WorldMap):
         self.addKingdoms(regionAdjacency)
         self.addRivers()
         self.addTowns()
+        self.addDungeons()
     
     def addRivers(self):
         
@@ -478,17 +484,11 @@ class EriuWorldMap(WorldMap):
                     regionsByKingdom[k].append(foundRegion)
 #                 else:
 #                     print "Couldn't add a region to", k
-                
-        # Sanitas check
-#         print C.REGIONS_PER_KINGDOM
-#         for k in K.allKingdoms:
-#             print k.name, len(regionsByKingdom[k])
-                
     
         
     def addTowns(self):
+        
         # Add some towns to each region
-
         for region in self.regions:
             
             numTiles = len(region.mapTiles)
@@ -553,5 +553,37 @@ class EriuWorldMap(WorldMap):
                         break
                     else:
                         continue
+
+    def addDungeons(self):
+        
+        # Basic 10% chance for each unoccupied tile to gain a dungeon
+        # Unoccupied means no towns, no water
+        # Don't care about having a certain number per region, having them
+        # be a certain distance apart, etc
+        
+        print "Adding dungeons"
+        
+        for mt in self.mapTiles:
+            
+            # Check if it's a suitable tile
+            if mt.isWaterTile() or isinstance(mt, Town) or isinstance(mt, Bridge):
+                continue
+            
+            # Check dungeon chance
+            if random.random() > C.DUNGEON_CHANCE:
+                continue
+            
+#             print mt.getXY()
+            
+            # Make this tile's Area a MultiLevelArea
+#             mt.AreaType = DungeonArea
+            mt.addDungeon(DungeonArea)
+#             mt.generateArea()
+#             db.saveDB.save(mt)
+        
+        
+        
+        
+        
                 
                 

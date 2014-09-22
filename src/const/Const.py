@@ -43,6 +43,8 @@ LAKE_CHANCE_PER_TILE = 0.3
 LAKE_RADIUS = 2 # Actual size will be (2*rad + 1)^2
 LAKE_DIAMETER = 2*LAKE_RADIUS + 1
 
+DUNGEON_CHANCE = 0.1 # Chance for a map tile to get a dungeon
+
 ########################
 #
 # Dungeon Generation

@@ -23,6 +23,8 @@ colorMountain = colorStone
 colorField = colorGrass
 colorForest = colorTree
 colorPlain = goldenrod
+colorOpenDungeon = lighterGrey
+colorClosedDungeon = lightGrey
 
 # Material colors
 colorSteel = lightSkyBlue
@@ -31,12 +33,6 @@ colorMeat = brown
 colorLeather = darkBrown
 
 # Kingdom colors
-# colorUlaid = (80, 0, 0)
-# colorConnacht = (0, 0, 80)
-# colorLeinster = (0, 80, 0)
-# colorMunster = (80, 80, 0)
-# colorMide = (80, 50, 0)
-
 colorUlaid = (50, 0, 0)
 colorConnacht = (0, 0, 50)
 colorLeinster = (0, 50, 0)
