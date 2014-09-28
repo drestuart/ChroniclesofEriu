@@ -70,13 +70,13 @@ class MultiLevelArea(Area):
         newLevel.buildLevel()
         newLevel.placeDungeonEntrance()
     
-    def buildDungeon(self, numLevels):
+    def buildLowerLevels(self, numLevels, levelChances):
         # Build levels
         for i in range(numLevels):
             newDepth = i + 1
             newName = self.name + " " + str(i + 1)
             
-            newLevelType = weightedChoice(self.levelChances)
+            newLevelType = weightedChoice(levelChances)
             newLevel = newLevelType(width = self.defaultWidth, height = self.defaultHeight, tilesWide = 4, tilesHigh = 4, 
                                     area = self, name = newName, depth = newDepth)
             
@@ -102,22 +102,14 @@ class MultiLevelArea(Area):
         # TODO Connect top level to world map (Done?)
 
 
-class DungeonArea(MultiLevelArea):
+    def buildDungeon(self, numLevels):
+        levelChances = {EL.EriuDungeonLevel : 7,
+                        L.CaveLevel : 3}
+        return self.buildLowerLevels(numLevels, levelChances)
     
-    levelChances = {EL.EriuDungeonLevel : 7,
-                    L.CaveLevel : 3}
-    defaultWidth = 100
-    defaultHeight = 80
     
-    __mapper_args__ = {'polymorphic_identity': 'dungeon_area'}
-    
-
-class CaveArea(MultiLevelArea):
-    
-    levelChances = {L.CaveLevel : 10}
-    defaultWidth = 100
-    defaultHeight = 80
-    
-    __mapper_args__ = {'polymorphic_identity': 'cave_area'}
+    def buildCave(self, numLevels):
+        levelChances = {L.CaveLevel : 10}
+        return self.buildLowerLevels(numLevels, levelChances)
 
 

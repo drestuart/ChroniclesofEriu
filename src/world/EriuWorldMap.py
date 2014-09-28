@@ -12,7 +12,7 @@ from sqlalchemy.schema import Column
 from sqlalchemy.types import String, Integer, Boolean
 
 import Const as C
-from EriuAreas import DungeonArea
+from EriuAreas import MultiLevelArea
 from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, \
     Ocean, River, Lake, Bridge, Water
 import KingdomClass as K
@@ -573,13 +573,8 @@ class EriuWorldMap(WorldMap):
             if random.random() > C.DUNGEON_CHANCE:
                 continue
             
-#             print mt.getXY()
-            
             # Make this tile's Area a MultiLevelArea
-#             mt.AreaType = DungeonArea
-            mt.addDungeon(DungeonArea)
-#             mt.generateArea()
-#             db.saveDB.save(mt)
+            mt.addDungeon(MultiLevelArea)
         
         
         

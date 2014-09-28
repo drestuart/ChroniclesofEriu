@@ -82,7 +82,7 @@ class Game(object):
         
         from EriuMapTileClass import Forest
         mt = Forest(3, 5)
-        d = A.DungeonArea(name = "The Dungeons of Dread")
+        d = A.MultiLevelArea(name = "The Dungeons of Dread")
         
         mt.setConnectedArea(d)
         
