@@ -90,6 +90,7 @@ class EriuWildernessLevel(WildernessLevel):
                     entranceRoom.addTile(newTile)
                 
         self.addRoom(entranceRoom)
+        
     
 
 class ForestLevel(EriuWildernessLevel):
@@ -122,13 +123,8 @@ class ForestLevel(EriuWildernessLevel):
         print "Finding entry point"
         self.findEntryPoint()
         
-        print "Saving open tiles"
+#         print "Saving open tiles"
 #         db.saveDB.save(self)
-        
-        print "Setting up FOV"
-        self.computeFOVProperties()
-    
-        
 
 
 
