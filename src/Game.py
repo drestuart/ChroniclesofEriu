@@ -9,7 +9,7 @@ import Const as C
 import CreatureClass as Cr
 import EriuAreas as A
 import PlayerClass as P
-import UIClass as ui
+import EriuUI as ui
 import EriuWorldMap as W
 import database as db
 import pygame
@@ -62,12 +62,21 @@ class Game(object):
         print seed
         random.seed(seed)
         
-        self.worldMapTest()
+#         self.worldMapTest()
 #         self.dungeonTest()
+        self.start()
         
+    def start(self):
+        global myUI
+        myUI = ui.EriuUI(font = self.font, fontsize = self.fontsize)
+        
+        myUI.ShowLogo()
+        myUI.MainMenu()
+        
+        self.worldMapTest()
         
     def worldMapTest(self):
-        
+        ''' Set up world map test '''
         worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = C.NUM_REGIONS)
         worldMap.buildMap()
         
@@ -76,10 +85,11 @@ class Game(object):
         db.saveDB.save(worldMap)
         
         global myUI
-        myUI = ui.UI(level = worldMap, player = player, font = self.font, fontsize = self.fontsize)
+        myUI.setPlayer(player)
+        myUI.setCurrentLevel(worldMap)
     
     def dungeonTest(self):
-        
+        ''' Set up dungeon test '''
         from EriuMapTileClass import Forest
         mt = Forest(3, 5)
         d = A.MultiLevelArea(name = "The Dungeons of Dread")
@@ -103,8 +113,8 @@ class Game(object):
         db.saveDB.save(d)
         
         global myUI
-        myUI = ui.UI(level = d1, player = player, font = self.font, fontsize = self.fontsize)
-
+        myUI.setPlayer(player)
+        myUI.setCurrentLevel(d1)
         
     def debugListener(self,topic=pub.AUTO_TOPIC, **args):
         print 'Got an event of type: ' + topic.getName()
