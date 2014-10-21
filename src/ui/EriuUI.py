@@ -15,20 +15,41 @@ class EriuUI (UI):
         super(EriuUI, self).__init__(**kwargs)
         
     def ShowLogo(self):
+        loadTime = 2000. #ms
+        alphaMax = 255
+        alphaSteps = 30
+        fadeInDelay = int(loadTime/alphaSteps)
+        
+        # Load and scale the logo image
         image = pygame.image.load(os.path.join("data", "img", "logo_kells.png")).convert()
-        background=pygame.Surface((C.SCREEN_WIDTH, C.SCREEN_HEIGHT))
-        background.fill((0, 0, 0))
+        imageWidth, imageHeight = image.get_width(), image.get_height()
+        imageRatio = float(imageHeight)/imageWidth
         
-        for i in range (225):
-            print i
-            background.fill((0,0,0))    
-            image.set_alpha(i)
-            self.window.surface.blit(background, background.get_rect())
-            self.window.surface.blit(image,(0,0))
-            pygame.display.flip()
+        windowWidth, windowHeight = self.window.pixelsize
+        
+        newWidth = int(windowWidth*.9)
+        newHeight = int(newWidth*imageRatio)
+        
+        image = pygame.transform.scale(image, (newWidth, newHeight))
+        
+        # Logo postioning -- centered
+        logox, logoy = ((windowWidth - newWidth)/2, (windowHeight - newHeight)/2)
+        
+        # Fade in logo
+        for i in range(alphaSteps):
+            self.window.surface.fill((0,0,0))
+            
+            alpha = i*alphaMax/alphaSteps
+            image.set_alpha(alpha)
+            
+            self.window.surface.blit(image, (logox, logoy))
             self.drawWindow()
-            pygame.time.delay(20)
-        
+            pygame.time.delay(fadeInDelay)
+            
+        # Clear
+        pygame.time.delay(1000)
+        self.window.surface.fill((0,0,0))
+        self.drawWindow()
     
     def MainMenu(self):
         pass
