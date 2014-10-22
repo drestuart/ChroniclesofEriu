@@ -14,14 +14,18 @@ class EriuUI (UI):
         super(EriuUI, self).__init__(**kwargs)
         
     def ShowLogo(self):
+        # Show coldbrew credit
+        lines = ["coldbrew games", "presents"] 
+        self.showCenteredText(lines, 3000)
+        self.clearWindow()
+        
         # Show logo image
         logoPath = os.path.join("data", "img", "logo_kells.png")
         self.fadeInImage(logoPath, 2000, 30)
             
         # Wait a sec, then clear screen
         pygame.time.delay(1000)
-        self.window.surface.fill((0,0,0))
-        self.drawWindow()
+        self.clearWindow()
     
     def MainMenu(self):
         pass
