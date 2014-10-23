@@ -4,9 +4,13 @@ Created on Oct 20, 2014
 @author: dstuart
 '''
 
+from __future__ import print_function
+
 from UIClass import UI
 import pygame
 import os.path
+from PanelClass import GameMenuPanel
+import Const as C
 
 class EriuUI (UI):
     
@@ -28,6 +32,13 @@ class EriuUI (UI):
         self.clearWindow()
     
     def MainMenu(self):
-        pass
+        menuOptions = [{"text" : "New Game", "enabled" : True, "function" : lambda: print("New Game")},
+                       {"text" : "Load", "enabled" : True, "function" : lambda: print("Load")},
+                       {"text" : "Nope", "enabled" : False},
+                       {"text" : "Quit", "enabled" : True, "function" : lambda: print("Quit")}]
+        
+        menu = GameMenuPanel(self.window, options = menuOptions, width = C.MENU_WIDTH, title = C.TITLE)
+
+        return menu.getSingleChoice()
     
     

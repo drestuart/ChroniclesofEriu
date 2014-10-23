@@ -71,7 +71,8 @@ class Game(object):
         myUI = ui.EriuUI(font = self.font, fontsize = self.fontsize)
         
         myUI.ShowLogo()
-        myUI.MainMenu()
+        menuOpt = myUI.MainMenu()
+        menuOpt()
         
         self.worldMapTest()
         

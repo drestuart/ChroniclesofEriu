@@ -11,7 +11,7 @@ from delvelibConst import *
 
 # Global constants
 
-TITLE = "Chronicles of Ériu"
+TITLE = u"Chronicles of Ériu"
 
 ########################
 #
