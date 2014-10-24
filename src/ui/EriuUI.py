@@ -34,11 +34,26 @@ class EriuUI (UI):
     def MainMenu(self):
         menuOptions = [{"text" : "New Game", "enabled" : True, "function" : lambda: print("New Game")},
                        {"text" : "Load", "enabled" : True, "function" : lambda: print("Load")},
-                       {"text" : "Nope", "enabled" : False},
-                       {"text" : "Quit", "enabled" : True, "function" : lambda: print("Quit")}]
+                       {"text" : "Functional Tests", "enabled" : True, "function" : self.tests},
+                       {"text" : "Options", "enabled" : False},
+                       {"text" : "About", "enabled" : False},
+                       {"text" : "Quit", "enabled" : True, "function" : self.quit}]
         
         menu = GameMenuPanel(self.window, options = menuOptions, width = C.MENU_WIDTH, title = C.TITLE)
 
         return menu.getSingleChoice()
+    
+    def tests(self):
+        from Game import game
+        tests = [{"text" : "World Map", "enabled" : True, "function" : game.worldMapTest},
+                 {"text" : "Dungeon", "enabled" : True, "function" : game.dungeonTest},
+                 ]
+        
+        menu = GameMenuPanel(self.window, options = tests, width = C.MENU_WIDTH, title = "Tests")
+
+        func = menu.getSingleChoice()
+        self.clearScreen()
+        func()
+        game.play()
     
     

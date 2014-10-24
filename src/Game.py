@@ -71,10 +71,14 @@ class Game(object):
         myUI = ui.EriuUI(font = self.font, fontsize = self.fontsize)
         
         myUI.ShowLogo()
-        menuOpt = myUI.MainMenu()
-        menuOpt()
         
-        self.worldMapTest()
+        # Main menu loop
+        while True:
+            menuOpt = myUI.MainMenu()
+            myUI.clearWindow()
+            menuOpt()
+        
+#         self.worldMapTest()
         
     def worldMapTest(self):
         ''' Set up world map test '''
