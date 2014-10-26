@@ -16,9 +16,6 @@ import pygame
 import random
 import mname
 
-game = 0
-myUI = 0
-
 defaultNames = 0
 
 def message(msg):
@@ -37,9 +34,7 @@ class Game(object):
     
     fontsize = None
 
-    def __init__(self, **kwargs):
-        global game
-        game = self
+    def initialize(self, **kwargs):
         self.debug = kwargs.get('debug', False)
         
         if self.debug:
@@ -67,15 +62,14 @@ class Game(object):
         self.start()
         
     def start(self):
-        global myUI
-        myUI = ui.EriuUI(font = self.font, fontsize = self.fontsize)
+        self.myUI = ui.EriuUI(font = self.font, fontsize = self.fontsize)
         
-        myUI.ShowLogo()
+        self.myUI.ShowLogo()
         
         # Main menu loop
         while True:
-            menuOpt = myUI.MainMenu()
-            myUI.clearWindow()
+            menuOpt = self.myUI.MainMenu()
+            self.myUI.clearWindow()
             menuOpt()
         
 #         self.worldMapTest()
@@ -89,9 +83,8 @@ class Game(object):
         worldMap.placePlayer(player)
         db.saveDB.save(worldMap)
         
-        global myUI
-        myUI.setPlayer(player)
-        myUI.setCurrentLevel(worldMap)
+        self.myUI.setPlayer(player)
+        self.myUI.setCurrentLevel(worldMap)
     
     def dungeonTest(self):
         ''' Set up dungeon test '''
@@ -117,23 +110,20 @@ class Game(object):
         
         db.saveDB.save(d)
         
-        global myUI
-        myUI.setPlayer(player)
-        myUI.setCurrentLevel(d1)
+        self.myUI.setPlayer(player)
+        self.myUI.setCurrentLevel(d1)
         
     def debugListener(self,topic=pub.AUTO_TOPIC, **args):
         print 'Got an event of type: ' + topic.getName()
         print '  with data: ' + str(args)
         
     def play(self):
-        global myUI
-        myUI.gameLoop()
-        db.saveDB.save(myUI.getCurrentLevel())
+        self.myUI.gameLoop()
+        db.saveDB.save(self.myUI.getCurrentLevel())
         
     def message(self, msg):
-        global myUI
         if self.debug: print msg
-        myUI.message(msg)
+        self.myUI.message(msg)
 
-
+game = Game()
 

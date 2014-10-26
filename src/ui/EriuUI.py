@@ -11,6 +11,7 @@ import pygame
 import os.path
 from PanelClass import GameMenuPanel
 import Const as C
+import Game as G
 
 class EriuUI (UI):
     
@@ -44,9 +45,9 @@ class EriuUI (UI):
         return menu.getSingleChoice()
     
     def tests(self):
-        from Game import game
-        tests = [{"text" : "World Map", "enabled" : True, "function" : game.worldMapTest},
-                 {"text" : "Dungeon", "enabled" : True, "function" : game.dungeonTest},
+        
+        tests = [{"text" : "World Map", "enabled" : True, "function" : G.game.worldMapTest},
+                 {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
                  ]
         
         menu = GameMenuPanel(self.window, options = tests, width = C.MENU_WIDTH, title = "Tests")
@@ -54,6 +55,6 @@ class EriuUI (UI):
         func = menu.getSingleChoice()
         self.clearScreen()
         func()
-        game.play()
+        G.game.play()
     
     

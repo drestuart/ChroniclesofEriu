@@ -11,8 +11,8 @@ import os
 
 site.addsitedir(os.getcwd())
 
-import Game as G
 import Const as C
+from Game import game
 
 fontsize = 14
 font = u'FreeMono.otf'
@@ -26,7 +26,7 @@ def main():
 
     print '-=' + C.TITLE + '=-'
     
-    game = G.Game(fontsize = fontsize, font = font, debug = False)
+    game.initialize(fontsize = fontsize, font = font, debug = False)
     
     game.play()
 
