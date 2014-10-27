@@ -21,15 +21,17 @@ class EriuUI (UI):
     def ShowLogo(self):
         # Show coldbrew credit
         lines = ["coldbrew games", "presents"] 
-        self.showCenteredText(lines, 3000)
+        if not self.showCenteredText(lines, 3000):
+            return
+        
         self.clearWindow()
         
         # Show logo image
         logoPath = os.path.join("data", "img", "logo_kells.png")
-        self.fadeInImage(logoPath, 2000, 30)
+        if self.fadeInImage(logoPath, 2000, 30):
+            # Unless interrupted, wait a sec, then clear screen
+            pygame.time.delay(1000)
             
-        # Wait a sec, then clear screen
-        pygame.time.delay(1000)
         self.clearWindow()
     
     def MainMenu(self):
@@ -55,6 +57,5 @@ class EriuUI (UI):
         func = menu.getSingleChoice()
         self.clearScreen()
         func()
-        G.game.play()
     
     

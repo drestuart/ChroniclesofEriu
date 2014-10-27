@@ -85,6 +85,8 @@ class Game(object):
         
         self.myUI.setPlayer(player)
         self.myUI.setCurrentLevel(worldMap)
+        
+        self.play()
     
     def dungeonTest(self):
         ''' Set up dungeon test '''
@@ -112,6 +114,8 @@ class Game(object):
         
         self.myUI.setPlayer(player)
         self.myUI.setCurrentLevel(d1)
+        
+        self.play()
         
     def debugListener(self,topic=pub.AUTO_TOPIC, **args):
         print 'Got an event of type: ' + topic.getName()
