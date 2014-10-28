@@ -16,7 +16,8 @@ import Util as U
 from WangTileClass import SquareWangTile, HorzWangTile, VertWangTile, \
     SquareWangTileSet, RectWangTileSet
 from WangTileMap import SquareWangTileMap, HerringboneWangTileMap
-
+import database as db
+from TileClass import StoneFloor, StoneWall
 
 os.chdir("/Users/dstuart/workspace/ChroniclesofEriu")
 
@@ -51,6 +52,36 @@ class EriuTownLevel(TownLevel):
 class EriuDungeonLevel(DungeonLevel):
     __mapper_args__ = {'polymorphic_identity': 'eriu dungeon level'}
     MapBuilderType = DungeonMap
+    
+class EmptyArena(EriuDungeonLevel):
+    __mapper_args__ = {'polymorphic_identity': 'empty arena'}
+    
+    def __init__(self, **kwargs):
+        kwargs['tilesWide'] = 0
+        kwargs['tilesHigh'] = 0
+        kwargs['area'] = None
+        
+        super(EmptyArena, self).__init__(**kwargs)
+        
+    
+    def buildLevel(self):
+        # Initialize self.hasTile
+        self.hasTile = U.twoDArray(self.width, self.height, False)
+        
+        for y in range(self.height):
+            for x in range(self.width):
+                
+                if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
+                    newTile = StoneWall(x, y)
+                else:
+                    newTile = StoneFloor(x, y)
+                    
+                self.tiles.append(newTile)
+                self.hasTile[x][y] = True
+        
+        db.saveDB.save(self)
+        self.setupPathing()
+        self.buildTileArray()
 
 class EriuWildernessLevel(WildernessLevel):
     __mapper_args__ = {'polymorphic_identity': 'eriu wilderness level'}

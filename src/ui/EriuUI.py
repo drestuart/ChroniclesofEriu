@@ -50,6 +50,7 @@ class EriuUI (UI):
         
         tests = [{"text" : "World Map", "enabled" : True, "function" : G.game.worldMapTest},
                  {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
+                 {"text" : "Combat Arenas", "enabled" : True, "function" : self.arenas},
                  ]
         
         menu = GameMenuPanel(self.window, options = tests, width = C.MENU_WIDTH, title = "Tests")
@@ -58,4 +59,15 @@ class EriuUI (UI):
         self.clearScreen()
         func()
     
+    def arenas(self):
+        arenas = [{"text" : "Empty", "enabled" : True, "function" : G.game.emptyArenaTest},
+                  {"text" : "Pillars", "enabled" : False, "function" : None},
+                  ]
+        
+        menu = GameMenuPanel(self.window, options = arenas, width = C.MENU_WIDTH, title = "Arenas")
+
+        func = menu.getSingleChoice()
+        self.clearScreen()
+        func()
+        
     

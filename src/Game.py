@@ -15,6 +15,7 @@ import database as db
 import pygame
 import random
 import mname
+from EriuLevel import EmptyArena
 
 defaultNames = 0
 
@@ -114,6 +115,20 @@ class Game(object):
         
         self.myUI.setPlayer(player)
         self.myUI.setCurrentLevel(d1)
+        
+        self.play()
+        
+    def emptyArenaTest(self):
+        d = EmptyArena(depth = 0, width = 50, height = 40)
+        d.buildLevel()
+        
+        player = P.Player()
+        d.placeCreatureAtRandom(player, False)
+        
+        db.saveDB.save(d)
+        
+        self.myUI.setPlayer(player)
+        self.myUI.setCurrentLevel(d)
         
         self.play()
         
