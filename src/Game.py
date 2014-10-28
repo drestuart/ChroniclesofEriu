@@ -6,6 +6,7 @@ Created on Mar 10, 2013
 
 from pubsub import pub
 import Const as C
+import delvelibConst as DC
 import CreatureClass as Cr
 import EriuAreas as A
 import PlayerClass as P
@@ -15,7 +16,7 @@ import database as db
 import pygame
 import random
 import mname
-from EriuLevel import EmptyArena
+from EriuLevel import EmptyArena, PillarsArena
 
 defaultNames = 0
 
@@ -119,7 +120,21 @@ class Game(object):
         self.play()
         
     def emptyArenaTest(self):
-        d = EmptyArena(depth = 0, width = 50, height = 40)
+        d = EmptyArena(depth = 0, width = DC.MAP_WIDTH, height = DC.MAP_HEIGHT)
+        d.buildLevel()
+        
+        player = P.Player()
+        d.placeCreatureAtRandom(player, False)
+        
+        db.saveDB.save(d)
+        
+        self.myUI.setPlayer(player)
+        self.myUI.setCurrentLevel(d)
+        
+        self.play()
+        
+    def pillarsArenaTest(self):
+        d = PillarsArena(depth = 0, width = DC.MAP_WIDTH, height = DC.MAP_HEIGHT)
         d.buildLevel()
         
         player = P.Player()

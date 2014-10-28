@@ -53,35 +53,64 @@ class EriuDungeonLevel(DungeonLevel):
     __mapper_args__ = {'polymorphic_identity': 'eriu dungeon level'}
     MapBuilderType = DungeonMap
     
-class EmptyArena(EriuDungeonLevel):
-    __mapper_args__ = {'polymorphic_identity': 'empty arena'}
-    
+class Arena(EriuDungeonLevel):
+    __mapper_args__ = {'polymorphic_identity': 'arena'}
+
     def __init__(self, **kwargs):
         kwargs['tilesWide'] = 0
         kwargs['tilesHigh'] = 0
         kwargs['area'] = None
         
-        super(EmptyArena, self).__init__(**kwargs)
+        super(Arena, self).__init__(**kwargs)
         
-    
     def buildLevel(self):
         # Initialize self.hasTile
         self.hasTile = U.twoDArray(self.width, self.height, False)
         
-        for y in range(self.height):
-            for x in range(self.width):
-                
-                if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
-                    newTile = StoneWall(x, y)
-                else:
-                    newTile = StoneFloor(x, y)
-                    
-                self.tiles.append(newTile)
-                self.hasTile[x][y] = True
+        self.fillInTiles()
         
         db.saveDB.save(self)
         self.setupPathing()
         self.buildTileArray()
+        
+    def fillInTiles(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                newTile = self.getArenaTile(x, y)
+                self.tiles.append(newTile)
+                self.hasTile[x][y] = True
+    
+class EmptyArena(Arena):
+    __mapper_args__ = {'polymorphic_identity': 'empty arena'}
+    
+    def __init__(self, **kwargs):
+        super(EmptyArena, self).__init__(**kwargs)
+        
+    def buildLevel(self):
+        super(EmptyArena, self).buildLevel()
+    
+    def getArenaTile(self, x, y):
+        if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
+            return StoneWall(x, y)
+        else:
+            return StoneFloor(x, y)
+    
+    
+        
+class PillarsArena(Arena):
+    __mapper_args__ = {'polymorphic_identity': 'pillars arena'}
+
+    def getArenaTile(self, x, y):
+        if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
+            return StoneWall(x, y)
+        elif x > self.width/3 and x < 2*self.width/3 and \
+            y > self.height/3 and \
+            y < 2*self.height/3 and (x+y)%2==0:
+            
+            return StoneWall(x, y)
+        else:
+            return StoneFloor(x, y)
+    
 
 class EriuWildernessLevel(WildernessLevel):
     __mapper_args__ = {'polymorphic_identity': 'eriu wilderness level'}
