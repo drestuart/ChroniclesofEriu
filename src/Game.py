@@ -81,11 +81,11 @@ class Game(object):
         worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = C.NUM_REGIONS)
         worldMap.buildMap()
         
-        player = P.Player()
-        worldMap.placePlayer(player)
+        self.player = P.Player()
+        worldMap.placePlayer(self.player)
         db.saveDB.save(worldMap)
         
-        self.myUI.setPlayer(player)
+        self.myUI.setPlayer(self.player)
         self.myUI.setCurrentLevel(worldMap)
         
         self.play()
@@ -103,8 +103,8 @@ class Game(object):
           
         d1 = d.getLevels()[0]
          
-        player = P.Player()
-        d1.placeCreatureAtEntrance(player)
+        self.player = P.Player()
+        d1.placeCreatureAtEntrance(self.player)
         
 #         orc1 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc1)
@@ -114,38 +114,30 @@ class Game(object):
         
         db.saveDB.save(d)
         
-        self.myUI.setPlayer(player)
+        self.myUI.setPlayer(self.player)
         self.myUI.setCurrentLevel(d1)
+        
+        self.play()
+    
+    def arenaTest(self, arenaClass):
+        d = arenaClass(depth = 0, width = DC.MAP_WIDTH, height = DC.MAP_HEIGHT)
+        d.buildLevel()
+        
+        self.player = P.Player()
+        d.placeCreatureAtRandom(self.player, False)
+        
+        db.saveDB.save(d)
+        
+        self.myUI.setPlayer(self.player)
+        self.myUI.setCurrentLevel(d)
         
         self.play()
         
     def emptyArenaTest(self):
-        d = EmptyArena(depth = 0, width = DC.MAP_WIDTH, height = DC.MAP_HEIGHT)
-        d.buildLevel()
-        
-        player = P.Player()
-        d.placeCreatureAtRandom(player, False)
-        
-        db.saveDB.save(d)
-        
-        self.myUI.setPlayer(player)
-        self.myUI.setCurrentLevel(d)
-        
-        self.play()
+        self.arenaTest(EmptyArena)
         
     def pillarsArenaTest(self):
-        d = PillarsArena(depth = 0, width = DC.MAP_WIDTH, height = DC.MAP_HEIGHT)
-        d.buildLevel()
-        
-        player = P.Player()
-        d.placeCreatureAtRandom(player, False)
-        
-        db.saveDB.save(d)
-        
-        self.myUI.setPlayer(player)
-        self.myUI.setCurrentLevel(d)
-        
-        self.play()
+        self.arenaTest(PillarsArena)
         
     def debugListener(self,topic=pub.AUTO_TOPIC, **args):
         print 'Got an event of type: ' + topic.getName()
@@ -158,6 +150,10 @@ class Game(object):
     def message(self, msg):
         if self.debug: print msg
         self.myUI.message(msg)
+        
+    def getPlayer(self):
+        return self.player
+    
 
 game = Game()
 
