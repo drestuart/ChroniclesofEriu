@@ -126,6 +126,12 @@ class Game(object):
         self.player = P.Player()
         d.placeCreatureAtRandom(self.player, False)
         
+        orc1 = Cr.Orc()
+        d.placeCreatureAtRandom(orc1)
+          
+        orc2 = Cr.Orc()
+        d.placeCreatureAtRandom(orc2)
+        
         db.saveDB.save(d)
         
         self.myUI.setPlayer(self.player)

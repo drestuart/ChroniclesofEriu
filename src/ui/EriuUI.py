@@ -48,9 +48,9 @@ class EriuUI (UI):
     
     def tests(self):
         
-        tests = [{"text" : "World Map", "enabled" : True, "function" : G.game.worldMapTest},
+        tests = [{"text" : "Combat Arenas", "enabled" : True, "function" : self.arenas},
+                 {"text" : "World Map", "enabled" : True, "function" : G.game.worldMapTest},
                  {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
-                 {"text" : "Combat Arenas", "enabled" : True, "function" : self.arenas},
                  ]
         
         menu = GameMenuPanel(self.window, options = tests, width = C.MENU_WIDTH, title = "Tests")
