@@ -64,14 +64,14 @@ class Game(object):
         self.start()
         
     def start(self):
-        self.myUI = ui.EriuUI(font = self.font, fontsize = self.fontsize)
+        self.ui = ui.EriuUI(font = self.font, fontsize = self.fontsize)
         
-        self.myUI.ShowLogo()
+        self.ui.ShowLogo()
         
         # Main menu loop
         while True:
-            menuOpt = self.myUI.MainMenu()
-            self.myUI.clearWindow()
+            menuOpt = self.ui.MainMenu()
+            self.ui.clearWindow()
             menuOpt()
         
 #         self.worldMapTest()
@@ -85,8 +85,8 @@ class Game(object):
         worldMap.placePlayer(self.player)
         db.saveDB.save(worldMap)
         
-        self.myUI.setPlayer(self.player)
-        self.myUI.setCurrentLevel(worldMap)
+        self.ui.setPlayer(self.player)
+        self.ui.setCurrentLevel(worldMap)
         
         self.play()
     
@@ -114,8 +114,8 @@ class Game(object):
         
         db.saveDB.save(d)
         
-        self.myUI.setPlayer(self.player)
-        self.myUI.setCurrentLevel(d1)
+        self.ui.setPlayer(self.player)
+        self.ui.setCurrentLevel(d1)
         
         self.play()
     
@@ -134,8 +134,8 @@ class Game(object):
         
         db.saveDB.save(d)
         
-        self.myUI.setPlayer(self.player)
-        self.myUI.setCurrentLevel(d)
+        self.ui.setPlayer(self.player)
+        self.ui.setCurrentLevel(d)
         
         self.play()
         
@@ -150,12 +150,15 @@ class Game(object):
         print '  with data: ' + str(args)
         
     def play(self):
-        self.myUI.gameLoop()
-        db.saveDB.save(self.myUI.getCurrentLevel())
+        self.ui.gameLoop()
+        db.saveDB.save(self.ui.getCurrentLevel())
         
     def message(self, msg):
         if self.debug: print msg
-        self.myUI.message(msg)
+        self.ui.message(msg)
+        
+    def waitForInput(self):
+        return self.ui.waitForInput()
         
     def getPlayer(self):
         return self.player
