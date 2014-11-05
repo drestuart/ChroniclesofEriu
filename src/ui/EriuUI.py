@@ -42,7 +42,7 @@ class EriuUI (UI):
                        {"text" : "About", "enabled" : False},
                        {"text" : "Quit", "enabled" : True, "function" : self.quit}]
         
-        menu = GameMenuPanel(self.window, self, options = menuOptions, width = C.MENU_WIDTH, title = C.TITLE)
+        menu = GameMenuPanel(self, options = menuOptions, width = C.MENU_WIDTH, title = C.TITLE)
 
         return menu.getSingleChoice()
     
@@ -53,7 +53,7 @@ class EriuUI (UI):
                  {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
                  ]
         
-        menu = GameMenuPanel(self.window, self, options = tests, width = C.MENU_WIDTH, title = "Tests")
+        menu = GameMenuPanel(self, options = tests, width = C.MENU_WIDTH, title = "Tests")
 
         func = menu.getSingleChoice()
         self.clearScreen()
@@ -64,7 +64,7 @@ class EriuUI (UI):
                   {"text" : "Pillars", "enabled" : True, "function" : G.game.pillarsArenaTest},
                   ]
         
-        menu = GameMenuPanel(self.window, self, options = arenas, width = C.MENU_WIDTH, title = "Arenas")
+        menu = GameMenuPanel(self, options = arenas, width = C.MENU_WIDTH, title = "Arenas")
 
         func = menu.getSingleChoice()
         self.clearScreen()
