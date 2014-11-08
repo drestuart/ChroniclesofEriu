@@ -11,7 +11,7 @@ import pygame
 import os.path
 from PanelClass import GameMenuPanel
 import Const as C
-import Game as G
+import EriuGame as G
 
 class EriuUI (UI):
     

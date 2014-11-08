@@ -17,12 +17,11 @@ import pygame
 import random
 import mname
 from EriuLevel import EmptyArena, PillarsArena
+import Game as G
+from Game import message
 
 defaultNames = 0
 
-def message(msg):
-    game.message(msg)
-    
 def getPlaceName():
     return game.placeNames.name()
 
@@ -32,10 +31,8 @@ def getMaleName():
 def getFemaleName():
     return game.femaleNames.name()
 
-class Game(object):
+class EriuGame(G.Game):
     
-    fontsize = None
-
     def initialize(self, **kwargs):
         self.debug = kwargs.get('debug', False)
         
@@ -59,10 +56,8 @@ class Game(object):
         print seed
         random.seed(seed)
         
-#         self.worldMapTest()
-#         self.dungeonTest()
         self.start()
-        
+    
     def start(self):
         self.ui = ui.EriuUI(font = self.font, fontsize = self.fontsize)
         
@@ -73,9 +68,11 @@ class Game(object):
             menuOpt = self.ui.MainMenu()
             self.ui.clearWindow()
             menuOpt()
-        
-#         self.worldMapTest()
-        
+            
+    def play(self):
+        self.ui.gameLoop()
+        db.saveDB.save(self.ui.getCurrentLevel())        
+    
     def worldMapTest(self):
         ''' Set up world map test '''
         worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = C.NUM_REGIONS)
@@ -144,25 +141,7 @@ class Game(object):
         
     def pillarsArenaTest(self):
         self.arenaTest(PillarsArena)
-        
-    def debugListener(self,topic=pub.AUTO_TOPIC, **args):
-        print 'Got an event of type: ' + topic.getName()
-        print '  with data: ' + str(args)
-        
-    def play(self):
-        self.ui.gameLoop()
-        db.saveDB.save(self.ui.getCurrentLevel())
-        
-    def message(self, msg):
-        if self.debug: print msg
-        self.ui.message(msg)
-        
-    def waitForInput(self):
-        return self.ui.waitForInput()
-        
-    def getPlayer(self):
-        return self.player
-    
 
-game = Game()
 
+game = EriuGame()
+G.game = game

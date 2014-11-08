@@ -12,7 +12,7 @@ import os
 site.addsitedir(os.getcwd())
 
 import Const as C
-from Game import game
+from EriuGame import game
 
 fontsize = 14
 font = u'FreeMono.otf'

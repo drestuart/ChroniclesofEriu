@@ -6,7 +6,7 @@ Created on Jun 26, 2014
 
 from AreaClass import Area
 import EriuLevel as EL
-import Game as G
+import EriuGame as G
 import LevelClass as L
 import database as db
 from randomChoice import weightedChoice
