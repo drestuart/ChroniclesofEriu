@@ -18,10 +18,8 @@ fontsize = 14
 font = u'FreeMono.otf'
 
 def main():
-    x = 100
-    y = 50
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
-    os.environ['SDL_VIDEODRIVER'] = 'x11'
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
+#     os.environ['SDL_VIDEODRIVER'] = 'x11'
 # x11, dga, fbcon, directfb, ggi, vgl, svgalib, aalib    
 
     print '-=' + C.TITLE + '=-'

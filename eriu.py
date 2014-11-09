@@ -18,10 +18,11 @@ fontsize = 14
 font = u'FreeMono.otf'
 
 def main():
-    x = 100
-    y = 50
-    os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
-
+#     x = 100
+#     y = 50
+#     os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
+    
     print '-=' + C.TITLE + '=-'
     
     game.initialize(fontsize = fontsize, font = font, debug = False)
