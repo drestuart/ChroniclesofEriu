@@ -16,7 +16,7 @@ import database as db
 import pygame
 import random
 import mname
-from EriuLevel import EmptyArena, PillarsArena
+from EriuLevel import EmptyArena, PillarsArena, DoorArena
 import Game as G
 from Game import message
 
@@ -141,6 +141,9 @@ class EriuGame(G.Game):
         
     def pillarsArenaTest(self):
         self.arenaTest(PillarsArena)
+        
+    def doorTest(self):
+        self.arenaTest(DoorArena)
 
 
 game = EriuGame()

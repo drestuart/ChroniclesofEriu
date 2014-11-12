@@ -62,6 +62,7 @@ class EriuUI (UI):
     def arenas(self):
         arenas = [{"text" : "Empty", "enabled" : True, "function" : G.game.emptyArenaTest},
                   {"text" : "Pillars", "enabled" : True, "function" : G.game.pillarsArenaTest},
+                  {"text" : "Single Door", "enabled" : True, "function" : G.game.doorTest},
                   ]
         
         menu = GameMenuPanel(self, options = arenas, width = C.MENU_WIDTH, title = "Arenas")

@@ -86,9 +86,6 @@ class EmptyArena(Arena):
     def __init__(self, **kwargs):
         super(EmptyArena, self).__init__(**kwargs)
         
-    def buildLevel(self):
-        super(EmptyArena, self).buildLevel()
-    
     def getArenaTile(self, x, y):
         if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
             return StoneWall(x, y)
@@ -110,6 +107,55 @@ class PillarsArena(Arena):
             return StoneWall(x, y)
         else:
             return StoneFloor(x, y)
+        
+class DoorArena(Arena):
+    __mapper_args__ = {'polymorphic_identity': 'door arena'}
+    
+    def __init__(self, **kwargs):
+        # Override height and width params
+        kwargs['width'] = 21
+        kwargs['height'] = 21
+        super(DoorArena, self).__init__(**kwargs)
+
+    def getArenaTile(self, x, y):
+        if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
+            return StoneWall(x, y)
+        elif x == self.width/2 and y == self.height/2:
+            newTile = StoneFloor(x, y)
+            door = F.Door()
+            newTile.setFeature(door)
+            return newTile
+        elif x == self.width/2:
+            return StoneWall(x, y)
+        else:
+            return StoneFloor(x, y)
+        
+    def buildLevel(self):
+        # Initialize self.hasTile
+        self.hasTile = U.twoDArray(self.width, self.height, False)
+        
+        self.fillInTiles()
+        self.buildTileArray()
+        
+        # Set up rooms
+        leftRoom = Room()
+        rightRoom = Room()
+        
+        for y in range(self.height):
+            for x in range(self.width):
+                tile = self.getTile(x, y)
+                if isinstance(tile, StoneFloor):
+                    if x < self.width/2:
+                        leftRoom.addTile(tile)
+                    elif x > self.width/2:
+                        rightRoom.addTile(tile)
+        
+        self.addRoom(leftRoom)
+        self.addRoom(rightRoom)
+        
+        db.saveDB.save(self)
+        self.setupPathing()
+        
     
 
 class EriuWildernessLevel(WildernessLevel):
