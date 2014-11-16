@@ -126,8 +126,8 @@ class EriuGame(G.Game):
         orc1 = Cr.Orc()
         d.placeCreatureAtRandom(orc1)
           
-        orc2 = Cr.Orc()
-        d.placeCreatureAtRandom(orc2)
+#         orc2 = Cr.Orc()
+#         d.placeCreatureAtRandom(orc2)
         
         db.saveDB.save(d)
         
