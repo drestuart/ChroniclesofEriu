@@ -1,3 +1,4 @@
+# coding: utf_8
 '''
 Created on May 14, 2014
 
@@ -11,10 +12,10 @@ from sqlalchemy.schema import Column
 
 from EriuLevel import EriuWildernessLevel, ForestLevel, EriuTownLevel
 import MapTileClass as M
-from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorRiver, colorLake, colorWood
+from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorShallowOcean, colorRiver, colorLake, colorWood
 import symbols
 import KingdomClass as K
-import Game
+import EriuGame as G
 from EriuAreas import SingleLevelArea, TownArea
 
 class EriuMapTile(M.MapTile, K.hasKingdom):
@@ -86,7 +87,14 @@ class Ocean(Water):
     
     def __init__(self, *args, **kwargs):
         super(Ocean, self).__init__(*args, baseSymbol = symbols.doubleWavy, **kwargs)
- 
+
+class ShallowOcean(Ocean):
+    __mapper_args__ = {'polymorphic_identity': 'shallow ocean'}
+    color = colorShallowOcean
+    
+    def __init__(self, *args, **kwargs):
+        super(ShallowOcean, self).__init__(*args, **kwargs)
+
 class River(Water):
     __mapper_args__ = {'polymorphic_identity': 'river'}
     color = colorRiver
@@ -122,7 +130,7 @@ class Town(EriuMapTile):
      
     def __init__(self, *args, **kwargs):
         super(Town, self).__init__(*args, baseSymbol = self.symb, **kwargs)
-        self.name = kwargs.get('name') or Game.getPlaceName()
+        self.name = kwargs.get('name') or G.getPlaceName()
          
     def generateConnectedLevel(self):
         raise NotImplementedError("Deprecated generateConnectedLevel()")

@@ -14,7 +14,7 @@ from sqlalchemy.types import String, Integer, Boolean
 import Const as C
 from EriuAreas import MultiLevelArea
 from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, \
-    Ocean, River, Lake, Bridge, Water
+    Ocean, ShallowOcean, River, Lake, Bridge, Water
 import KingdomClass as K
 import Util as U
 from VoronoiMap import VMap
@@ -103,6 +103,15 @@ class EriuWorldMap(WorldMap):
                 break
         return tileFound
     
+    def isLandInRadius(self, radius, x, y):
+        tileFound = False
+        nearbyTiles = self.getTilesInRadius(radius, x, y)
+        for nt in nearbyTiles:
+            if not nt.isWaterTile():
+                tileFound = True
+                break
+        return tileFound
+    
     def isWaterInRadius(self, radius, x, y):
         return self.isTileTypeInRadius(radius, x, y, Water)
     
@@ -117,7 +126,7 @@ class EriuWorldMap(WorldMap):
         self.regions.append(reg)
     
     def buildMap(self):
-        ''' Oh here we go. '''
+        '''Oh here we go.'''
 
         # Read in template
         map_template = U.readTemplateImage(os.path.join("data", "templates", "eriu_map.bmp"),
@@ -177,7 +186,7 @@ class EriuWorldMap(WorldMap):
                     self.addTile(newTile)
         
         # rebuild the adjacency graph
-        # TODO: actually implement this as a many-to-many on the regions table
+        # TODO: actually implement this as a many-to-many on the regions table?
         regionAdjacency = dict()
         for reg, aregs in adj.items():
             region = vmapToEriuRegions[reg]
@@ -191,12 +200,13 @@ class EriuWorldMap(WorldMap):
 
         self.addKingdoms(regionAdjacency)
         self.addRivers()
+        self.addShallowOceans()
         self.addTowns()
         self.addDungeons()
     
     def addRivers(self):
         
-        # Add rivers and other features
+        # Add rivers and lakes
         for i in range(C.NUM_RIVERS):
             sourceTile = None
             placeLake = True
@@ -400,6 +410,15 @@ class EriuWorldMap(WorldMap):
                     self.replaceTile(newBridgeTile)
                     bridgeCoords.append((bridgex, bridgey))
                     break
+                
+    def addShallowOceans(self):
+        for x in range(C.WORLD_MAP_WIDTH):
+            for y in range(C.WORLD_MAP_HEIGHT):
+                tile = self.getTile(x, y)
+                
+                if isinstance(tile, Ocean) and self.isLandInRadius(3, x, y):
+                    newtile = ShallowOcean(x, y)
+                    self.replaceTile(newtile)
     
     def getRandomLake(self):
         lakes = [
