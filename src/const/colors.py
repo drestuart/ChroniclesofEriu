@@ -16,8 +16,8 @@ colorGrass = darkerGreen
 colorTree = forestGreen
 
 # World map colors
-colorOcean = (0,62,166)
-colorShallowOcean = (0,93,249)
+colorOcean = (0, 50, 133)
+colorShallowOcean = (0, 80, 214)
 colorRiver = deepSkyBlue
 colorLake = deepSkyBlue
 colorMountain = colorStone

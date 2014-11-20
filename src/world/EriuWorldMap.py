@@ -136,17 +136,38 @@ class EriuWorldMap(WorldMap):
          
         ocean_mask = U.twoDArray(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT, True)
 
-        # Overlay template, add tiles
+        # Overlay template
         for x in range(C.WORLD_MAP_WIDTH):
             for y in range(C.WORLD_MAP_HEIGHT):
                 if map_template[y][x] == '=':
                     ocean_mask[x][y] = False
                     
+        # Add oceans
+        for x in range(C.WORLD_MAP_WIDTH):
+            for y in range(C.WORLD_MAP_HEIGHT):
+                if not ocean_mask[x][y]:
                     # Ocean tile
-                    newTile = Ocean(x, y)
+                    # Check if we should put an Ocean or a ShallowOcean tile
+                    leftx = max(0, x - C.SHALLOW_OCEAN_RADIUS)
+                    rightx = min(C.WORLD_MAP_WIDTH - 1, x + C.SHALLOW_OCEAN_RADIUS)
+                    
+                    topy = max(0, y - C.SHALLOW_OCEAN_RADIUS)
+                    bottomy = min(C.WORLD_MAP_HEIGHT - 1, y + C.SHALLOW_OCEAN_RADIUS)
+                    
+                    landFound = False
+                    
+                    for xx in range(leftx, rightx):
+                        for yy in range(topy, bottomy):
+                            if ocean_mask[xx][yy]:
+                                landFound = True
+                                break
+                    
+                    if landFound:
+                        newTile = ShallowOcean(x, y)
+                    else:
+                        newTile = Ocean(x, y)
+                    
                     self.addTile(newTile)
-                else:
-                    pass
                 
         # Generate Voronoi map
         vmap = VMap(self.width, self.height, self.num_regions, mask = ocean_mask)
@@ -200,7 +221,6 @@ class EriuWorldMap(WorldMap):
 
         self.addKingdoms(regionAdjacency)
         self.addRivers()
-        self.addShallowOceans()
         self.addTowns()
         self.addDungeons()
     
@@ -411,15 +431,6 @@ class EriuWorldMap(WorldMap):
                     bridgeCoords.append((bridgex, bridgey))
                     break
                 
-    def addShallowOceans(self):
-        for x in range(C.WORLD_MAP_WIDTH):
-            for y in range(C.WORLD_MAP_HEIGHT):
-                tile = self.getTile(x, y)
-                
-                if isinstance(tile, Ocean) and self.isLandInRadius(3, x, y):
-                    newtile = ShallowOcean(x, y)
-                    self.replaceTile(newtile)
-    
     def getRandomLake(self):
         lakes = [
                  ['x000x',
