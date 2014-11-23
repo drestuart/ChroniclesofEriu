@@ -9,7 +9,7 @@ import random
 
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.schema import Column
-from sqlalchemy.types import String, Integer, Boolean
+from sqlalchemy.types import Unicode, Integer, Boolean
 
 import Const as C
 from EriuAreas import MultiLevelArea
@@ -34,7 +34,7 @@ class EriuRegion(Region, K.hasKingdom):
         self.tileType = kwargs.get('tileType', None)
         self.capitalRegion = kwargs.get('capitalRegion', False)
         
-    kingdomName = Column(String)
+    kingdomName = Column(Unicode)
     centerX = Column(Integer)
     centerY = Column(Integer)
     capitalRegion = Column(Boolean)

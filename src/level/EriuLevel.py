@@ -19,8 +19,6 @@ from WangTileMap import SquareWangTileMap, HerringboneWangTileMap
 import database as db
 from TileClass import StoneFloor, StoneWall
 
-os.chdir("/Users/dstuart/workspace/ChroniclesofEriu")
-
 class TownWangTile(SquareWangTile):
     defaultConstraint = None
 

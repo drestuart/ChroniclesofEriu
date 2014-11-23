@@ -7,7 +7,7 @@ Created on May 14, 2014
 
 import random
 
-from sqlalchemy.types import String
+from sqlalchemy.types import Unicode
 from sqlalchemy.schema import Column
 
 from EriuLevel import EriuWildernessLevel, ForestLevel, EriuTownLevel
@@ -27,7 +27,7 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
     
     terrainType = EriuWildernessLevel
     areaType = SingleLevelArea
-    kingdomName = Column(String)
+    kingdomName = Column(Unicode)
     description = "eriutile"
     
     __mapper_args__ = {'polymorphic_identity': 'eriu_maptile'}
