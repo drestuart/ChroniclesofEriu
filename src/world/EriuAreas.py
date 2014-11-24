@@ -12,7 +12,7 @@ import database as db
 from randomChoice import weightedChoice
 
 class SingleLevelArea(Area):
-    __mapper_args__ = {'polymorphic_identity': 'single_level_area'}
+    __mapper_args__ = {'polymorphic_identity': u'single_level_area'}
     defaultWidth = 100
     defaultHeight = 80
 
@@ -39,7 +39,7 @@ class SingleLevelArea(Area):
 
 
 class TownArea(Area):
-    __mapper_args__ = {'polymorphic_identity': 'town_area'}
+    __mapper_args__ = {'polymorphic_identity': u'town_area'}
 
     def buildStartingLevel(self):
         newName = G.getPlaceName()
@@ -57,7 +57,7 @@ class MultiLevelArea(Area):
     defaultHeight = 80
     hasDungeon = True
     
-    __mapper_args__ = {'polymorphic_identity': 'multi_level_area'}
+    __mapper_args__ = {'polymorphic_identity': u'multi_level_area'}
     
     
     def buildStartingLevel(self):

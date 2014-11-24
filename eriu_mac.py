@@ -14,6 +14,9 @@ site.addsitedir(os.getcwd())
 import Const as C
 from EriuGame import game
 
+import warnings
+warnings.simplefilter('error')
+
 fontsize = 14
 font = u'FreeMono.otf'
 

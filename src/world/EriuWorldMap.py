@@ -66,7 +66,7 @@ class EriuRegion(Region, K.hasKingdom):
     def isCapital(self):
         return self.capitalRegion
         
-    __mapper_args__ = {'polymorphic_identity': 'eriu_region'}
+    __mapper_args__ = {'polymorphic_identity': u'eriu_region'}
     
 class EriuWorldMap(WorldMap):
     
@@ -76,7 +76,7 @@ class EriuWorldMap(WorldMap):
     mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
     regions = relationship("EriuRegion", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuRegion.worldMapId")
         
-    __mapper_args__ = {'polymorphic_identity':'eriu_world_map'}
+    __mapper_args__ = {'polymorphic_identity':u'eriu_world_map'}
     
     def getDepth(self):
         return 0
