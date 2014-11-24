@@ -70,10 +70,10 @@ class hasKingdom(object):
 ######################################
 
 # Define the five kingdoms of Eriu
-ulaid = Kingdom(name="Ulaid", color = colorUlaid, capitalName="Emain Macha", coords=(C.WORLD_MAP_WIDTH, 0))
-connacht = Kingdom(name="Connacht", color = colorConnacht, capitalName="Cruachan", coords=(0, C.WORLD_MAP_HEIGHT/3))
-leinster = Kingdom(name="Leinster", color = colorLeinster, capitalName=u"Dún Ailinne", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT))
-munster = Kingdom(name="Munster", color = colorMunster, capitalName="Luimneach", coords=(0, C.WORLD_MAP_HEIGHT))
-mide = Kingdom(name="Mide", color = colorMide, capitalName=u"Teamhair na Rí", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT/2))
+ulaid = Kingdom(name=u"Ulaid", color = colorUlaid, capitalName=u"Emain Macha", coords=(C.WORLD_MAP_WIDTH, 0))
+connacht = Kingdom(name=u"Connacht", color = colorConnacht, capitalName=u"Cruachan", coords=(0, C.WORLD_MAP_HEIGHT/3))
+leinster = Kingdom(name=u"Leinster", color = colorLeinster, capitalName=u"Dún Ailinne", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT))
+munster = Kingdom(name=u"Munster", color = colorMunster, capitalName=u"Luimneach", coords=(0, C.WORLD_MAP_HEIGHT))
+mide = Kingdom(name=u"Mide", color = colorMide, capitalName=u"Teamhair na Rí", coords=(C.WORLD_MAP_WIDTH, C.WORLD_MAP_HEIGHT/2))
 
 
