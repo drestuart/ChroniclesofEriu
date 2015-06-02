@@ -91,7 +91,7 @@ class EriuGame(G.Game):
         ''' Set up dungeon test '''
         from EriuMapTileClass import Forest
         mt = Forest(3, 5)
-        d = A.MultiLevelArea(name = "The Dungeons of Dread")
+        d = A.MultiLevelArea(name = u"The Dungeons of Dread")
         
         mt.setConnectedArea(d)
         
