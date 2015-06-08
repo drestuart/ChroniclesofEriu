@@ -9,7 +9,7 @@ from __future__ import print_function
 from UIClass import UI
 import pygame
 import os.path
-from PanelClass import GameMenuPanel
+from PanelClass import GameMenuWindow
 import Const as C
 import EriuGame as G
 
@@ -42,7 +42,7 @@ class EriuUI (UI):
                        {"text" : "About", "enabled" : False},
                        {"text" : "Quit", "enabled" : True, "function" : self.quit}]
         
-        menu = GameMenuPanel(self, options = menuOptions, width = C.MENU_WIDTH, title = C.TITLE)
+        menu = GameMenuWindow(self, options = menuOptions, width = C.MENU_WIDTH, title = C.TITLE)
 
         return menu.getSingleChoice()
     
@@ -53,7 +53,7 @@ class EriuUI (UI):
                  {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
                  ]
         
-        menu = GameMenuPanel(self, options = tests, width = C.MENU_WIDTH, title = "Tests")
+        menu = GameMenuWindow(self, options = tests, width = C.MENU_WIDTH, title = "Tests")
 
         func = menu.getSingleChoice()
         self.clearScreen()
@@ -65,7 +65,7 @@ class EriuUI (UI):
                   {"text" : "Single Door", "enabled" : True, "function" : G.game.doorTest},
                   ]
         
-        menu = GameMenuPanel(self, options = arenas, width = C.MENU_WIDTH, title = "Arenas")
+        menu = GameMenuWindow(self, options = arenas, width = C.MENU_WIDTH, title = "Arenas")
 
         func = menu.getSingleChoice()
         self.clearScreen()
