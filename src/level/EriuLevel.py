@@ -18,6 +18,7 @@ from WangTileClass import SquareWangTile, HorzWangTile, VertWangTile, \
 from WangTileMap import SquareWangTileMap, HerringboneWangTileMap
 import database as db
 from TileClass import StoneFloor, StoneWall
+from EriuNPC import EriuNPC
 
 class TownWangTile(SquareWangTile):
     defaultConstraint = None
@@ -46,6 +47,14 @@ class DungeonMap(HerringboneWangTileMap):
 class EriuTownLevel(TownLevel):
     __mapper_args__ = {'polymorphic_identity': u'eriu town level'}
     MapBuilderType = TownMap
+    
+    def placeNPCs(self):
+        for room in self.rooms:
+            # Just place one NPC per room for now
+            tile = self.getRandomOpenTileInRoom(room)
+            if tile:
+                npc = EriuNPC()
+                self.placeCreature(npc, tile)
 
 class EriuDungeonLevel(DungeonLevel):
     __mapper_args__ = {'polymorphic_identity': u'eriu dungeon level'}

@@ -20,7 +20,7 @@ class EriuUI (UI):
         
     def ShowLogo(self):
         # Show coldbrew credit
-        lines = ["coldbrew games", "presents"] 
+        lines = ["coldbrew software", "presents"] 
         if not self.showCenteredText(lines, 3000):
             return
         
