@@ -16,7 +16,7 @@ from colors import colorForest, colorPlain, colorMountain, colorField, colorOcea
 import symbols
 import KingdomClass as K
 import EriuGame as G
-from EriuAreas import SingleLevelArea, TownArea
+from EriuAreas import EriuSingleLevelArea, TownArea
 
 class EriuMapTile(M.MapTile, K.hasKingdom):
     
@@ -26,7 +26,7 @@ class EriuMapTile(M.MapTile, K.hasKingdom):
         self.kingdom = K.getKingdomByName(self.kingdomName)
     
     terrainType = EriuWildernessLevel
-    areaType = SingleLevelArea
+    areaType = EriuSingleLevelArea
     kingdomName = Column(Unicode)
     description = u"eriutile"
     

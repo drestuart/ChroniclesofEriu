@@ -4,41 +4,18 @@ Created on Jun 26, 2014
 @author: dstuart
 '''
 
-from AreaClass import Area
+from AreaClass import SingleLevelArea, MultiLevelArea
 import EriuLevel as EL
 import EriuGame as G
 import LevelClass as L
 import database as db
 from randomChoice import weightedChoice
 
-class SingleLevelArea(Area):
-    __mapper_args__ = {'polymorphic_identity': u'single_level_area'}
-    defaultWidth = 100
-    defaultHeight = 80
+class EriuSingleLevelArea(SingleLevelArea):
+    pass
+    
 
-    def buildStartingLevel(self):
-        terrainType = self.getTerrainType()
-        newLevel = terrainType(area = self, depth = 0, width = self.defaultWidth, height = self.defaultHeight)
-        self.startingLevel = newLevel
-        newLevel.buildLevel()
-        db.saveDB.save(self)
-        
-    def convertToMultilevelArea(self):
-        newArea = MultiLevelArea(name=self.name)
-        mt = self.getMapTile()
-        
-        self.levels[0].placeDungeonEntrance()
-        newArea.levels = self.levels
-        self.levels = []
-        
-        mt.setConnectedArea(newArea)
-        del self
-        db.saveDB.save(newArea)
-        
-        return newArea
-
-
-class TownArea(Area):
+class TownArea(EriuSingleLevelArea):
     __mapper_args__ = {'polymorphic_identity': u'town_area'}
 
     def buildStartingLevel(self):
@@ -49,27 +26,8 @@ class TownArea(Area):
         newLevel.buildLevel()
         db.saveDB.save(self)
 
+class EriuMultiLevelArea(MultiLevelArea):
 
-
-class MultiLevelArea(Area):
-    
-    defaultWidth = 100
-    defaultHeight = 80
-    hasDungeon = True
-    
-    __mapper_args__ = {'polymorphic_identity': u'multi_level_area'}
-    
-    
-    def buildStartingLevel(self):
-        newDepth = 0
-        
-        terrainType = self.getTerrainType()
-        newLevel = terrainType(area = self, depth = newDepth, width = self.defaultWidth, height = self.defaultHeight)
-        self.startingLevel = newLevel
-        
-        newLevel.buildLevel()
-        newLevel.placeDungeonEntrance()
-    
     def buildLowerLevels(self, numLevels, levelChances):
         # Build levels
         for i in range(numLevels):
@@ -100,7 +58,6 @@ class MultiLevelArea(Area):
         db.saveDB.save(self)
 
         # TODO Connect top level to world map (Done?)
-
 
     def buildDungeon(self, numLevels):
         levelChances = {EL.EriuDungeonLevel : 7,
