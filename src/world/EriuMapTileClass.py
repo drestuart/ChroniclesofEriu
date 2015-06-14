@@ -12,7 +12,7 @@ from sqlalchemy.schema import Column
 
 from EriuLevel import EriuWildernessLevel, ForestLevel, EriuTownLevel
 import MapTileClass as M
-from colors import colorForest, colorPlain, colorMountain, colorField, colorOcean, colorShallowOcean, colorRiver, colorLake, colorWood
+from colors import *
 import symbols
 import KingdomClass as K
 import EriuGame as G
@@ -123,7 +123,7 @@ class Town(EriuMapTile):
     symb = symbols.townShape
     terrainType = EriuTownLevel
     areaType = TownArea
-    color = colorWood
+    color = colorTown
     description = u"town"
     
     __mapper_args__ = {'polymorphic_identity': u'town'}
@@ -137,9 +137,14 @@ class Town(EriuMapTile):
 #         self.connectedLevel = self.terrainType(cellsWide = random.randint(2, 4), cellsHigh = random.randint(2, 4))
 #         self.connectedLevel.buildLevel()
 
+    def getDescription(self):
+        return self.name + " (" + self.description + ")"
+
 class Capital(Town):
     
     __mapper_args__ = {'polymorphic_identity': u'capital'}
+    description = u"capital"
+    color = colorCapital
 
     def __init__(self, *args, **kwargs):
         super(Capital, self).__init__(*args, **kwargs)

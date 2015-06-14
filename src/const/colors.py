@@ -26,6 +26,8 @@ colorForest = colorTree
 colorPlain = goldenrod
 colorOpenDungeon = lighterGrey
 colorClosedDungeon = lightGrey
+colorTown = colorWood
+colorCapital = violet
 
 # Material colors
 colorSteel = lightSkyBlue
