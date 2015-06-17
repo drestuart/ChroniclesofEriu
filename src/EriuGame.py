@@ -33,10 +33,15 @@ def getFemaleName():
 class EriuGame(G.Game):
 
     def initialize(self, **kwargs):
+        self.debugOptions = {}
         self.debug = kwargs.get('debug', False)
 
         if self.debug:
             pub.subscribe(self.debugListener, 'event')
+            self.debugOptions = [
+                                {"text" : "Show Paths", "type" : "toggle", "value" : False},
+                                {"text" : "An integer", "type" : "integer", "value" : 10, "min" : 0, "max" : 20}
+                                ]
 
         if pygame.init() != (6,0):
             print "Error starting pygame"

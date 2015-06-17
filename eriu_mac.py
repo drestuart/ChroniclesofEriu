@@ -27,7 +27,7 @@ def main():
 
     print '-=' + C.TITLE + '=-'
     
-    game.initialize(fontsize = fontsize, font = font, debug = False)
+    game.initialize(fontsize = fontsize, font = font, debug = True)
     
     game.play()
 
