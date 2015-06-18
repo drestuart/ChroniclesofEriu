@@ -5,6 +5,7 @@ Created on Mar 10, 2013
 '''
 
 from pubsub import pub
+from OptionClass import OptionType, Option
 import Const as C
 import delvelibConst as DC
 import CreatureClass as Cr
@@ -38,10 +39,11 @@ class EriuGame(G.Game):
 
         if self.debug:
             pub.subscribe(self.debugListener, 'event')
-            self.debugOptions = [
-                                {"text" : "Show Paths", "type" : "toggle", "value" : False},
-                                {"text" : "An integer", "type" : "integer", "value" : 10, "min" : 0, "max" : 20}
-                                ]
+            
+            showPaths = Option("showPaths", "Show Paths", OptionType.TOGGLE, False, trueText = "On", falseText = "Off")
+            anIntegerOption = Option("anInteger", "An integer", OptionType.INTEGER, 10, min = 0, max = 20)
+
+            self.debugOptions = [showPaths, anIntegerOption]
 
         if pygame.init() != (6,0):
             print "Error starting pygame"
