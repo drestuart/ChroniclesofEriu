@@ -38,9 +38,9 @@ class EriuGame(G.Game):
         self.debug = kwargs.get('debug', False)
 
         if self.debug:
-            pub.subscribe(self.debugListener, 'event')
+#             pub.subscribe(self.debugListener, 'event')
             
-            showPaths = Option("showPaths", "Show Paths", OptionType.TOGGLE, False, trueText = "On", falseText = "Off")
+            showPaths = Option("showPaths", "Show Paths", OptionType.TOGGLE, True, trueText = "On", falseText = "Off")
             anIntegerOption = Option("anInteger", "An integer", OptionType.INTEGER, 10, min = 0, max = 20)
 
             self.debugOptions = [showPaths, anIntegerOption]
