@@ -9,7 +9,7 @@ from __future__ import print_function
 from UIClass import UI
 import pygame
 import os.path
-from PanelClass import GameMenuWindow
+from PanelClass import GameMenuWindow, EscapeMenuWindow
 import Const as C
 import EriuGame as G
 
@@ -72,4 +72,12 @@ class EriuUI (UI):
         self.clearScreen()
         func()
         
-    
+    def gameMenu(self):
+        options = [{"text" : "Quit", "enabled" : True, "function" : self.quit}]
+        
+        menu = EscapeMenuWindow(self, options=options, width=C.MENU_WIDTH, title = '')
+        
+        func = menu.getSingleChoice()
+        self.clearScreen()
+        if func:
+            func()
