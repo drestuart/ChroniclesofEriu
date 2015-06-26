@@ -18,7 +18,7 @@ import pygame
 import random
 import mname
 from EriuLevel import EmptyArena, PillarsArena, DoorArena, EriuTownLevel
-import Game as G
+from Game import *
 
 defaultNames = 0
 
@@ -31,7 +31,7 @@ def getMaleName():
 def getFemaleName():
     return game.femaleNames.name()
 
-class EriuGame(G.Game):
+class EriuGame(Game):
 
     def initialize(self, **kwargs):
         self.debugOptions = {}
@@ -81,15 +81,15 @@ class EriuGame(G.Game):
 
     def worldMapTest(self):
         ''' Set up world map test '''
-        worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = C.NUM_REGIONS)
-        worldMap.buildMap()
+        self.worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = C.NUM_REGIONS)
+        self.worldMap.buildMap()
 
         self.player = P.Player()
-        worldMap.placePlayer(self.player)
-        db.saveDB.save(worldMap)
+        self.worldMap.placePlayer(self.player)
+        db.saveDB.save(self.worldMap)
 
         self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(worldMap)
+        self.ui.setCurrentLevel(self.worldMap)
 
         self.play()
 
@@ -168,4 +168,3 @@ class EriuGame(G.Game):
 
 
 game = EriuGame()
-G.game = game
