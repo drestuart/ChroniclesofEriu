@@ -170,7 +170,7 @@ class EriuGame(G.Game):
     def questTest(self):
         # Build town
         name = getPlaceName()
-        d = EriuTownLevel(tilesWide = 3, tilesHigh = 3, area = None, name = name, depth = 0)
+        d = EriuTownLevel(tilesWide = 1, tilesHigh = 1, area = None, name = name, depth = 0)
         d.buildLevel()
 
         self.player = P.Player()
