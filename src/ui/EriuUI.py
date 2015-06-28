@@ -48,7 +48,8 @@ class EriuUI (UI):
     
     def tests(self):
         
-        tests = [{"text" : "Combat Arenas", "enabled" : True, "function" : self.arenas},
+        tests = [{"text" : "Quest Test", "enabled" : True, "function" : G.game.questTest},
+                 {"text" : "Combat Arenas", "enabled" : True, "function" : self.arenas},
                  {"text" : "World Map", "enabled" : True, "function" : G.game.worldMapTest},
                  {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
                  {"text" : "Town", "enabled" : True, "function" : G.game.townTest},

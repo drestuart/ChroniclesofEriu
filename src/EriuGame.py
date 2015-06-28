@@ -18,7 +18,8 @@ import pygame
 import random
 import mname
 from EriuLevel import EmptyArena, PillarsArena, DoorArena, EriuTownLevel
-from Game import *
+import Game as G
+from EriuQuestClass import testQuest
 
 defaultNames = 0
 
@@ -31,7 +32,7 @@ def getMaleName():
 def getFemaleName():
     return game.femaleNames.name()
 
-class EriuGame(Game):
+class EriuGame(G.Game):
 
     def initialize(self, **kwargs):
         self.debugOptions = {}
@@ -165,6 +166,27 @@ class EriuGame(Game):
 
     def doorTest(self):
         self.arenaTest(DoorArena)
+        
+    def questTest(self):
+        # Build town
+        name = getPlaceName()
+        d = EriuTownLevel(tilesWide = 3, tilesHigh = 3, area = None, name = name, depth = 0)
+        d.buildLevel()
+
+        self.player = P.Player()
+        d.placeCreatureAtRandom(self.player, False)
+
+        db.saveDB.save(d)
+
+        self.ui.setPlayer(self.player)
+        self.ui.setCurrentLevel(d)
+
+        # Add quest
+        q = testQuest()
+        q.startQuest()
+
+        self.play()
 
 
 game = EriuGame()
+G.game = game
