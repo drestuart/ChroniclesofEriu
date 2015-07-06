@@ -183,7 +183,12 @@ class EriuGame(G.Game):
 
         # Add quest
         q = testQuest()
-        q.startQuest()
+        
+        # Attach the quest to a random npc
+        questNPC = d.getRandomNPC()
+        q.addQuestGiver(questNPC)
+        
+        print "Quest attached to NPC at", questNPC.getXY()
 
         self.play()
 
