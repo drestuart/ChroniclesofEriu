@@ -53,7 +53,7 @@ class testQuest(EriuQuest):
     def getCompletedConversation(self):
         if not self.completedConversation:
             node = C.ConversationNode("Thank you! That is one Mystical MacGuffin!")
-            node.createOption("No problem")
+            node.createOption("No problem", None, self.setReturned)
             self.completedConversation = C.ConversationTree([node])
         return self.completedConversation
 
