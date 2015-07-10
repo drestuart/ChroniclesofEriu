@@ -6,10 +6,8 @@ from delvelibColors import *
 colorNotInFOV = grey
 colorWallNotInFOV = (105,105,105)
 colorLightWall = (130, 110, 50)
-colorDarkGround = (50, 50, 150)
-colorLightGround = (200, 180, 50)
 
-colorWood = sienna 
+colorWood = sienna
 colorRock = darkBrown
 colorStone = lighterGrey
 colorGrass = darkerGreen
