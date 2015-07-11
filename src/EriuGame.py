@@ -32,6 +32,9 @@ def getMaleName():
 def getFemaleName():
     return game.femaleNames.name()
 
+def getPlayer():
+    return game.getPlayer()
+
 class EriuGame(G.Game):
 
     def initialize(self, **kwargs):

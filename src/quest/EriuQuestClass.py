@@ -21,8 +21,7 @@ class testQuest(EriuQuest):
     
     def buildRequirements(self):
         # Add one requirement for a MacGuffin
-        req = QuestItemRequirement(MacGuffin, 1, self)
-        self.addRequirement(req)
+        QuestItemRequirement(MacGuffin, 1, self)
     
     def placeQuestItems(self):
         mg = MacGuffin(questItem=True)
@@ -57,5 +56,21 @@ class testQuest(EriuQuest):
             self.completedConversation = C.ConversationTree([node])
         return self.completedConversation
 
+    # TODO Move to FetchQuest class
+    def setReturned(self):
+        player = EriuGame.getPlayer()
+        # Move item from player's inventory to quest giver's
+        for req in self.questRequirements:
+            itemType = req.getItemType()
+            if itemType:
+                for dummy in range(req.getEventsRequired()):
+                    item = player.getQuestItemOfType(itemType)
+                    if item:
+                        questGiver = self.questGivers[0]            # TODO!!!!!!
+                        player.giveItemToCreature(item, questGiver) # TODO!!!!!!
+                    else:
+                        print "Couldn't find a", req.itemTypeStr, "for some reason"
 
+        # Call superclass version too
+        super(testQuest, self).setReturned()
         
