@@ -17,7 +17,6 @@ class testQuest(EriuQuest):
     def __init__(self):
         super(testQuest, self).__init__()
         self.buildRequirements()
-        self.placeQuestItems()
     
     def buildRequirements(self):
         # Add one requirement for a MacGuffin
@@ -28,6 +27,10 @@ class testQuest(EriuQuest):
         currentLevel = EriuGame.game.ui.getCurrentLevel()
         currentLevel.placeItemAtRandom(mg)
         
+    def startQuest(self):
+        self.placeQuestItems()
+        super(testQuest, self).startQuest()
+
     def getStartConversation(self):
         if not self.startConversation:
             firstNode = C.ConversationNode("We don't have much time. I need you to get that Mystic MacGuffin for me.")
