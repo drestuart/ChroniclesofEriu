@@ -210,7 +210,7 @@ class ForestLevel(EriuWildernessLevel):
     
     __mapper_args__ = {'polymorphic_identity': u'forest level'}
     
-    treeChance = 0.4
+    treeChance = 0.3
     
     def __init__(self, **kwargs):
         super(ForestLevel, self).__init__(**kwargs)
@@ -219,16 +219,18 @@ class ForestLevel(EriuWildernessLevel):
         # Initialize self.hasTile
         self.hasTile = U.twoDArray(self.width, self.height, False)
         
+        # Build tiles
         for y in range(self.height):
             for x in range(self.width):
                 newTile = self.defaultFloorType(x, y)
-                
-                if random.uniform(0, 1) <= self.treeChance:
-                    tree = F.Tree(tile = newTile)
-                    newTile.setFeature(tree)
-                    
                 self.tiles.append(newTile)
                 self.hasTile[x][y] = True
+
+        # Add trees
+        for tile in self.tiles:
+            if random.uniform(0, 1) <= self.treeChance and not self.adjacentToFeature(tile, F.Tree):
+                tree = F.Tree(tile = tile)
+                tile.setFeature(tree)
         
         print "Building tile array"    
         self.buildTileArray()    

@@ -12,8 +12,7 @@ import database as db
 from randomChoice import weightedChoice
 
 class EriuSingleLevelArea(SingleLevelArea):
-    pass
-    
+    __mapper_args__ = {'polymorphic_identity': u'eriu_single_level_area'}
 
 class TownArea(EriuSingleLevelArea):
     __mapper_args__ = {'polymorphic_identity': u'town_area'}
