@@ -19,7 +19,7 @@ import random
 import mname
 from EriuLevel import EmptyArena, PillarsArena, DoorArena, EriuTownLevel
 import Game as G
-from EriuQuestClass import testQuest
+from EriuQuestClass import TestQuest
 
 defaultNames = 0
 
@@ -31,9 +31,6 @@ def getMaleName():
 
 def getFemaleName():
     return game.femaleNames.name()
-
-def getPlayer():
-    return game.getPlayer()
 
 class EriuGame(G.Game):
 
@@ -185,7 +182,7 @@ class EriuGame(G.Game):
         self.ui.setCurrentLevel(d)
 
         # Add quest
-        q = testQuest()
+        q = TestQuest()
         
         # Attach the quest to a random npc
         questNPC = d.getRandomNPC()
