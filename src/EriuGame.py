@@ -42,9 +42,10 @@ class EriuGame(G.Game):
 #             pub.subscribe(self.debugListener, 'event')
             
             showPaths = Option("showPaths", "Show Paths", OptionType.TOGGLE, True, trueText = "On", falseText = "Off")
+            showCoords = Option("showCoords", "Show Coordinates", OptionType.TOGGLE, True, trueText = "On", falseText = "Off")
             anIntegerOption = Option("anInteger", "An integer", OptionType.INTEGER, 10, min = 0, max = 20)
 
-            self.debugOptions = [showPaths, anIntegerOption]
+            self.debugOptions = [showPaths, showCoords, anIntegerOption]
 
         if pygame.init() != (6,0):
             print "Error starting pygame"
