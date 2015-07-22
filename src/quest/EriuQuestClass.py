@@ -18,18 +18,21 @@ class EriuItemQuest(ItemQuest):
 class TestQuest(EriuItemQuest):
     
     def __init__(self):
-        super(TestQuest, self).__init__([(MacGuffin, 1)])
+        super(TestQuest, self).__init__([(MacGuffin, 3)])
         self.buildRequirements()
     
     def placeQuestItems(self):
-        mg = MacGuffin(questItem=True)
-        currentLevel = EriuGame.game.ui.getCurrentLevel()
-        currentLevel.placeItemAtRandom(mg)
+        for req in self.getRequirements():
+            itemType = req.getItemType()
+            for dummy in range(req.getEventsRequired()):
+                item = itemType(questItem=True)
+                currentLevel = EriuGame.game.ui.getCurrentLevel()
+                currentLevel.placeItemAtRandom(item)
 
     def getStartConversation(self):
         if not self.startConversation:
-            firstNode = C.ConversationNode("We don't have much time. I need you to get that Mystic MacGuffin for me.")
-            secondNode = C.ConversationNode("It's over there. Can you do it?")
+            firstNode = C.ConversationNode("We don't have much time. I need you to get those Mystic MacGuffins for me.")
+            secondNode = C.ConversationNode("They're all over the place. Can you do it?")
             
             nodes = [firstNode, secondNode]
             
@@ -42,14 +45,14 @@ class TestQuest(EriuItemQuest):
 
     def getProgressConversation(self):
         if not self.progressConversation:
-            node = C.ConversationNode("Have you found that MacGuffin yet? They say it's Mystical as all get-out!")
+            node = C.ConversationNode("Have you found those MacGuffins yet? They say they're Mystical as all get-out!")
             node.createOption("OK")
             self.progressConversation = C.ConversationTree([node])
         return self.progressConversation
     
     def getCompletedConversation(self):
         if not self.completedConversation:
-            node = C.ConversationNode("Thank you! That is one Mystical MacGuffin!")
+            node = C.ConversationNode("Thank you! Those are some Mystical MacGuffins!")
             node.createOption("No problem", None, self.setReturned)
             self.completedConversation = C.ConversationTree([node])
         return self.completedConversation

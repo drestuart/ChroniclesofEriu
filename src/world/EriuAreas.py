@@ -44,19 +44,14 @@ class EriuMultiLevelArea(MultiLevelArea):
             # Connect levels
             plevel = self.levels[i-1]
             
-            # The depth values should be different by only 1. TODO better validation
-            
             if plevel.depth < newLevel.depth:
                 L.connectLevels(plevel, newLevel)
             else:
                 L.connectLevels(newLevel, plevel)
             
-#             self.levels.append(newLevel)
-            db.saveDB.save(newLevel)
+#             db.saveDB.save(newLevel)
             
         db.saveDB.save(self)
-
-        # TODO Connect top level to world map (Done?)
 
     def buildDungeon(self, numLevels):
         levelChances = {EL.EriuDungeonLevel : 7,
