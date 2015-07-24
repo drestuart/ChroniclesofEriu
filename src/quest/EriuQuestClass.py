@@ -4,7 +4,9 @@ Created on Jun 23, 2015
 @author: dstuart
 '''
 
-from QuestClass import Quest, ItemQuest, QuestItemRequirement
+from __future__ import unicode_literals
+
+from QuestClass import Quest, ItemQuest
 import EriuGame
 from ItemClass import MacGuffin
 import ConversationClass as C
@@ -20,6 +22,7 @@ class TestQuest(EriuItemQuest):
     def __init__(self):
         super(TestQuest, self).__init__([(MacGuffin, 3)])
         self.buildRequirements()
+        self.questName = "MacGuffin Madness!"
     
     def placeQuestItems(self):
         for req in self.getRequirements():

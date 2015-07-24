@@ -59,6 +59,8 @@ class EriuGame(G.Game):
 
         self.fontsize = kwargs.get('fontsize')
         self.font = kwargs.get("font", None)
+        
+        self.quests = []
 
         seed = 1155272238
         print seed
