@@ -171,27 +171,19 @@ class EriuGame(G.Game):
         self.arenaTest(DoorArena)
         
     def questTest(self):
-        # Build town
-        name = getPlaceName()
-        d = EriuTownLevel(tilesWide = 1, tilesHigh = 1, area = None, name = name, depth = 0)
-        d.buildLevel()
+        self.worldMap = W.EriuWorldMap(width = C.WORLD_MAP_WIDTH, height = C.WORLD_MAP_HEIGHT, num_regions = C.NUM_REGIONS)
+        self.worldMap.buildMap()
 
         self.player = P.Player()
-        d.placeCreatureAtRandom(self.player, False)
-
-        db.saveDB.save(d)
+        self.worldMap.placePlayer(self.player)
+        db.saveDB.save(self.worldMap)
 
         self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(d)
+        self.ui.setCurrentLevel(self.worldMap)
 
         # Add quest
         q = TestQuest()
-        
-        # Attach the quest to a random npc
-        questNPC = d.getRandomNPC()
-        q.addQuestGiver(questNPC)
-        
-        print "Quest attached to NPC at", questNPC.getXY()
+        q.setUpQuest()
 
         self.play()
 

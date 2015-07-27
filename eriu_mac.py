@@ -12,7 +12,7 @@ import os
 site.addsitedir(os.getcwd())
 
 import Const as C
-from EriuGame import game
+import EriuGame
 
 import warnings
 warnings.simplefilter('error')
@@ -27,9 +27,9 @@ def main():
 
     print '-=' + C.TITLE + '=-'
     
-    game.initialize(fontsize = fontsize, font = font, debug = True)
+    EriuGame.game.initialize(fontsize = fontsize, font = font, debug = True)
     
-    game.play()
+    EriuGame.game.play()
 
 if __name__ == '__main__':
     main()

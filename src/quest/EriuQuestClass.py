@@ -10,6 +10,7 @@ from QuestClass import Quest, ItemQuest
 import EriuGame
 from ItemClass import MacGuffin
 import ConversationClass as C
+from EriuMapTileClass import Town, Forest
 
 class EriuQuest(Quest):
     pass
@@ -23,14 +24,34 @@ class TestQuest(EriuItemQuest):
         super(TestQuest, self).__init__([(MacGuffin, 3)])
         self.buildRequirements()
         self.questName = "MacGuffin Madness!"
+        self.setUpQuest()
+        
+    def setUpQuest(self):
+        # Find an NPC in a town level to make the quest giver
+        game = EriuGame.game
+        playerTile = game.getPlayer().getTile()
+        townTile = game.getWorldMap().getNearestTile(playerTile, Town)
+        t = townTile.getStartingLevel()
+        
+        print "Quest added to town level at", townTile.getXY()
+        
+        questNPC = t.getRandomNPC()
+        self.addQuestGiver(questNPC)
+        
+        print "Quest attached to NPC at", questNPC.getXY()
     
     def placeQuestItems(self):
+        # Find a forest level to put the items in
+        game = EriuGame.game
+        currentX, currentY = game.getCurrentMapTile().getXY()
+        goalTile = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
+        level = goalTile.getStartingLevel()
+        
         for req in self.getRequirements():
             itemType = req.getItemType()
             for dummy in range(req.getEventsRequired()):
                 item = itemType(questItem=True)
-                currentLevel = EriuGame.game.ui.getCurrentLevel()
-                currentLevel.placeItemAtRandom(item)
+                level.placeItemAtRandom(item)
 
     def getStartConversation(self):
         if not self.startConversation:
