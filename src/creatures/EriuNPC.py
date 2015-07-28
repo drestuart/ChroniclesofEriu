@@ -14,8 +14,8 @@ class EriuNPC(NPC.NPC):
     color = colors.lighterGrey
     
     def __init__(self, **kwargs):
+        super(EriuNPC, self).__init__(**kwargs)
         self.name = EriuGame.getMaleName()
         self.description = self.name
-        super(EriuNPC, self).__init__(**kwargs)
 
     __mapper_args__ = {'polymorphic_identity': u'EriuNPC'}
