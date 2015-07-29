@@ -182,8 +182,7 @@ class EriuGame(G.Game):
         self.ui.setCurrentLevel(self.worldMap)
 
         # Add quest
-        # WHY IS THIS BREAKING
-#         q = TestQuest()
+        q = TestQuest()
 #         db.saveDB.save(q)
 
         self.play()

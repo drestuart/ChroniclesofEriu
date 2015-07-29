@@ -41,17 +41,23 @@ class TestQuest(EriuItemQuest):
         print "Quest attached to NPC at", questNPC.getXY()
     
     def placeQuestItems(self):
+        import random
+
         # Find a forest level to put the items in
         game = EriuGame.game
         currentX, currentY = game.getCurrentMapTile().getXY()
-        goalTile = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
+        possibleGoals = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
+        goalTile = random.choice(possibleGoals)
         level = goalTile.getStartingLevel()
+        
+        print "Quest items added to level at", goalTile.getXY()
         
         for req in self.getRequirements():
             itemType = req.getItemType()
             for dummy in range(req.getEventsRequired()):
                 item = itemType(questItem=True)
-                level.placeItemAtRandom(item)
+                tile = level.placeItemAtRandom(item)
+                print "Quest item added to tile at", tile.getXY()
 
     def getStartConversation(self):
         if not self.startConversation:
