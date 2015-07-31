@@ -32,11 +32,14 @@ class TestQuest(EriuItemQuest):
         playerTile = game.getPlayer().getTile()
         townTile = game.getWorldMap().getNearestTile(playerTile, Town)
         t = townTile.getStartingLevel()
-
+        
+        print "Quest added to town level at", townTile.getXY()
+        
         questNPC = t.getRandomNPC()
         self.addQuestGiver(questNPC)
-
-
+        
+        print "Quest attached to NPC at", questNPC.getXY()
+    
     def placeQuestItems(self):
         import random
 
@@ -46,12 +49,15 @@ class TestQuest(EriuItemQuest):
         possibleGoals = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
         goalTile = random.choice(possibleGoals)
         level = goalTile.getStartingLevel()
-
+        
+        print "Quest items added to level at", goalTile.getXY()
+        
         for req in self.getRequirements():
             itemType = req.getItemType()
             for dummy in range(req.getEventsRequired()):
                 item = itemType(questItem=True)
                 tile = level.placeItemAtRandom(item)
+                print "Quest item added to tile at", tile.getXY()
 
     def getStartConversation(self):
         if not self.startConversation:
