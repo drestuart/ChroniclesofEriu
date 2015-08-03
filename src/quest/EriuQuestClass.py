@@ -11,6 +11,7 @@ import EriuGame
 from ItemClass import MacGuffin
 import ConversationClass as C
 from EriuMapTileClass import Town, Forest
+from AreaClass import StartingLevelBuildingThread
 
 class EriuQuest(Quest):
     pass
@@ -48,16 +49,31 @@ class TestQuest(EriuItemQuest):
         currentX, currentY = game.getCurrentMapTile().getXY()
         possibleGoals = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
         goalTile = random.choice(possibleGoals)
-        level = goalTile.getStartingLevel()
+        goalArea = goalTile.getConnectedArea()
+#         level = goalTile.getStartingLevel()
+#         
+#         print "Quest items added to level at", goalTile.getXY()
+#         
+#         for req in self.getRequirements():
+#             itemType = req.getItemType()
+#             for dummy in range(req.getEventsRequired()):
+#                 item = itemType(questItem=True)
+#                 tile = level.placeItemAtRandom(item)
+#                 print "Quest item added to tile at", tile.getXY()
         
-        print "Quest items added to level at", goalTile.getXY()
-        
+        items = []
         for req in self.getRequirements():
             itemType = req.getItemType()
             for dummy in range(req.getEventsRequired()):
                 item = itemType(questItem=True)
-                tile = level.placeItemAtRandom(item)
-                print "Quest item added to tile at", tile.getXY()
+                items.append(item)
+                
+        # Start thread to generate level and populate it with items
+        print "Setting up thread"
+        thread = StartingLevelBuildingThread(goalArea, items)
+        thread.start()
+        print "Thread running!"
+        
 
     def getStartConversation(self):
         if not self.startConversation:
