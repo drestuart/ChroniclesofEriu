@@ -23,7 +23,7 @@ class TownArea(EriuSingleLevelArea):
 
         self.startingLevel = newLevel
         newLevel.buildLevel()
-        db.saveDB.save(self)
+#         db.saveDB.save(self)
 
 class EriuMultiLevelArea(MultiLevelArea):
 
@@ -51,7 +51,7 @@ class EriuMultiLevelArea(MultiLevelArea):
             
 #             db.saveDB.save(newLevel)
             
-        db.saveDB.save(self)
+#         db.saveDB.save(self)
 
     def buildDungeon(self, numLevels):
         levelChances = {EL.EriuDungeonLevel : 7,
