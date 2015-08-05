@@ -16,7 +16,6 @@ import Util as U
 from WangTileClass import SquareWangTile, HorzWangTile, VertWangTile, \
     SquareWangTileSet, RectWangTileSet
 from WangTileMap import SquareWangTileMap, HerringboneWangTileMap
-import database as db
 from TileClass import StoneFloor, StoneWall
 from EriuNPC import EriuNPC
 
@@ -76,7 +75,7 @@ class Arena(EriuDungeonLevel):
         
         self.fillInTiles()
         
-        db.saveDB.save(self)
+#         db.saveDB.save(self)
         self.setupPathing()
         self.buildTileArray()
         
@@ -160,7 +159,7 @@ class DoorArena(Arena):
         self.addRoom(leftRoom)
         self.addRoom(rightRoom)
         
-        db.saveDB.save(self)
+#         db.saveDB.save(self)
         self.setupPathing()
         
     

@@ -8,7 +8,6 @@ from AreaClass import SingleLevelArea, MultiLevelArea
 import EriuLevel as EL
 import EriuGame as G
 import LevelClass as L
-import database as db
 from randomChoice import weightedChoice
 
 class EriuSingleLevelArea(SingleLevelArea):

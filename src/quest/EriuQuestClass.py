@@ -12,7 +12,6 @@ from ItemClass import MacGuffin
 import ConversationClass as C
 from EriuMapTileClass import Town, Forest
 from AreaClass import StartingLevelBuildingThread
-import database as db
 
 class EriuQuest(Quest):
     pass
@@ -50,7 +49,7 @@ class TestQuest(EriuItemQuest):
         currentX, currentY = game.getCurrentMapTile().getXY()
         possibleGoals = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
         goalTile = random.choice(possibleGoals)
-        db.saveDB.save(goalTile)
+#         db.saveDB.save(goalTile)
         goalArea = goalTile.getConnectedArea()
 #         level = goalTile.getStartingLevel()
 #         

@@ -19,8 +19,6 @@ import KingdomClass as K
 import Util as U
 from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
-import database as db
-
 
 class EriuRegion(Region, K.hasKingdom):
     __tablename__ = "regions"

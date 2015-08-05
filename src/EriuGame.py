@@ -13,7 +13,6 @@ import EriuAreas as A
 import PlayerClass as P
 import EriuUI as ui
 import EriuWorldMap as W
-import database as db
 import pygame
 import random
 import mname
@@ -55,7 +54,8 @@ class EriuGame(G.Game):
         self.femaleNames = mname.MName("female")
         self.placeNames = mname.MName("places")
 
-        db.saveDB.start(True)
+# TODO:
+#         db.saveDB.start(True)
 
         self.fontsize = kwargs.get('fontsize')
         self.font = kwargs.get("font", None)
@@ -81,7 +81,8 @@ class EriuGame(G.Game):
 
     def play(self):
         self.ui.gameLoop()
-        db.saveDB.save(self.ui.getCurrentLevel())
+        # TODO:
+#         db.saveDB.save(self.ui.getCurrentLevel())
 
     def worldMapTest(self):
         ''' Set up world map test '''
@@ -90,7 +91,8 @@ class EriuGame(G.Game):
 
         self.player = P.Player()
         self.worldMap.placePlayer(self.player)
-        db.saveDB.save(self.worldMap)
+        # TODO:
+#         db.saveDB.save(self.worldMap)
 
         self.ui.setPlayer(self.player)
         self.ui.setCurrentLevel(self.worldMap)
@@ -119,7 +121,8 @@ class EriuGame(G.Game):
 #         orc2 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc2)
 
-        db.saveDB.save(d)
+# TODO:
+#         db.saveDB.save(d)
 
         self.ui.setPlayer(self.player)
         self.ui.setCurrentLevel(d1)
@@ -134,7 +137,8 @@ class EriuGame(G.Game):
         self.player = P.Player()
         d.placeCreatureAtRandom(self.player, False)
 
-        db.saveDB.save(d)
+# TODO:
+#         db.saveDB.save(d)
 
         self.ui.setPlayer(self.player)
         self.ui.setCurrentLevel(d)
@@ -154,7 +158,8 @@ class EriuGame(G.Game):
 #         orc2 = Cr.Orc()
 #         d.placeCreatureAtRandom(orc2)
 
-        db.saveDB.save(d)
+# TODO:
+#         db.saveDB.save(d)
 
         self.ui.setPlayer(self.player)
         self.ui.setCurrentLevel(d)
@@ -176,7 +181,8 @@ class EriuGame(G.Game):
 
         self.player = P.Player()
         self.worldMap.placePlayer(self.player)
-        db.saveDB.save(self.worldMap)
+        # TODO:
+#         db.saveDB.save(self.worldMap)
 
         self.ui.setPlayer(self.player)
         self.ui.setCurrentLevel(self.worldMap)

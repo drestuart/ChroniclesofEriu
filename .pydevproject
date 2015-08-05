@@ -17,7 +17,6 @@
 <path>/${PROJECT_DIR_NAME}/modules/delvelib/src/world</path>
 <path>/${PROJECT_DIR_NAME}/src/const</path>
 <path>/${PROJECT_DIR_NAME}/modules/delvelib/src/const</path>
-<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/test</path>
 <path>/${PROJECT_DIR_NAME}/src/world</path>
 <path>/${PROJECT_DIR_NAME}/modules/delvelib/src/level</path>
 <path>/${PROJECT_DIR_NAME}/src/level</path>
