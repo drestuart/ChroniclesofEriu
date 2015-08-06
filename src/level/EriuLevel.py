@@ -44,7 +44,7 @@ class DungeonMap(HerringboneWangTileMap):
         super(DungeonMap, self).__init__(*args, **kwargs)
         
 class EriuTownLevel(TownLevel):
-    __mapper_args__ = {'polymorphic_identity': u'eriu town level'}
+
     MapBuilderType = TownMap
     
     def placeNPCs(self):
@@ -56,11 +56,9 @@ class EriuTownLevel(TownLevel):
                 self.placeCreature(npc, tile)
 
 class EriuDungeonLevel(DungeonLevel):
-    __mapper_args__ = {'polymorphic_identity': u'eriu dungeon level'}
     MapBuilderType = DungeonMap
     
 class Arena(EriuDungeonLevel):
-    __mapper_args__ = {'polymorphic_identity': u'arena'}
 
     def __init__(self, **kwargs):
         kwargs['tilesWide'] = 0
@@ -87,7 +85,6 @@ class Arena(EriuDungeonLevel):
                 self.hasTile[x][y] = True
     
 class EmptyArena(Arena):
-    __mapper_args__ = {'polymorphic_identity': u'empty arena'}
     
     def __init__(self, **kwargs):
         super(EmptyArena, self).__init__(**kwargs)
@@ -101,7 +98,6 @@ class EmptyArena(Arena):
     
         
 class PillarsArena(Arena):
-    __mapper_args__ = {'polymorphic_identity': u'pillars arena'}
 
     def getArenaTile(self, x, y):
         if x == 0 or x == (self.width - 1) or y == 0 or y == (self.height - 1):
@@ -115,7 +111,6 @@ class PillarsArena(Arena):
             return StoneFloor(x, y)
         
 class DoorArena(Arena):
-    __mapper_args__ = {'polymorphic_identity': u'door arena'}
     
     def __init__(self, **kwargs):
         # Override height and width params
@@ -165,7 +160,6 @@ class DoorArena(Arena):
     
 
 class EriuWildernessLevel(WildernessLevel):
-    __mapper_args__ = {'polymorphic_identity': u'eriu wilderness level'}
     
     templates = U.readTemplateFile(os.path.join("data", "templates", "dungeon_entrances.txt"));
     
@@ -207,8 +201,6 @@ class EriuWildernessLevel(WildernessLevel):
 
 class ForestLevel(EriuWildernessLevel):
     
-    __mapper_args__ = {'polymorphic_identity': u'forest level'}
-    
     treeChance = 0.3
     
     def __init__(self, **kwargs):
@@ -236,20 +228,3 @@ class ForestLevel(EriuWildernessLevel):
         
         print "Finding entry point"
         self.findEntryPoint()
-        
-#         print "Saving open tiles"
-#         db.saveDB.save(self)
-
-
-
-def main():
-    townMap = TownMap(3, 3)
-    townMap.printMap()
-
-    print
-    
-    dungeonMap = DungeonMap(3, 3, margin = 1)
-    dungeonMap.printMap()
-    
-if __name__ == "__main__":
-    main()

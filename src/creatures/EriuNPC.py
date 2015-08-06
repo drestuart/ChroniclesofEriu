@@ -17,5 +17,3 @@ class EriuNPC(NPC.NPC):
         super(EriuNPC, self).__init__(**kwargs)
         self.name = EriuGame.getMaleName()
         self.description = self.name
-
-    __mapper_args__ = {'polymorphic_identity': u'EriuNPC'}

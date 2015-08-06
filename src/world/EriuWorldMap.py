@@ -7,10 +7,6 @@ Created on Mar 21, 2014
 import os.path
 import random
 
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy.schema import Column
-from sqlalchemy.types import Unicode, Integer, Boolean
-
 import Const as C
 from EriuAreas import MultiLevelArea
 from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, \
@@ -21,8 +17,6 @@ from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
 
 class EriuRegion(Region, K.hasKingdom):
-    __tablename__ = "regions"
-    __table_args__ = {'extend_existing': True}
     
     def __init__(self, **kwargs):
         super(EriuRegion, self).__init__(**kwargs)
@@ -32,11 +26,6 @@ class EriuRegion(Region, K.hasKingdom):
         self.tileType = kwargs.get('tileType', None)
         self.capitalRegion = kwargs.get('capitalRegion', False)
         
-    kingdomName = Column(Unicode)
-    centerX = Column(Integer)
-    centerY = Column(Integer)
-    capitalRegion = Column(Boolean)
-    
     def setKingdom(self, k):
         self.kingdom = k
         if k:
@@ -64,18 +53,17 @@ class EriuRegion(Region, K.hasKingdom):
     def isCapital(self):
         return self.capitalRegion
         
-    __mapper_args__ = {'polymorphic_identity': u'eriu_region'}
-    
 class EriuWorldMap(WorldMap):
     
     def __init__(self, **kwargs):
         super(EriuWorldMap, self).__init__(**kwargs)
+        self.mapTiles = []
+        self.regions = []
+
+# TODO:        
+#     mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
+#     regions = relationship("EriuRegion", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuRegion.worldMapId")
         
-    mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
-    regions = relationship("EriuRegion", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuRegion.worldMapId")
-        
-    __mapper_args__ = {'polymorphic_identity':u'eriu_world_map'}
-    
     def getDepth(self):
         return 0
     

@@ -11,10 +11,9 @@ import LevelClass as L
 from randomChoice import weightedChoice
 
 class EriuSingleLevelArea(SingleLevelArea):
-    __mapper_args__ = {'polymorphic_identity': u'eriu_single_level_area'}
+    pass
 
 class TownArea(EriuSingleLevelArea):
-    __mapper_args__ = {'polymorphic_identity': u'town_area'}
 
     def buildStartingLevel(self):
         newName = G.getPlaceName()
@@ -61,5 +60,3 @@ class EriuMultiLevelArea(MultiLevelArea):
     def buildCave(self, numLevels):
         levelChances = {L.CaveLevel : 10}
         return self.buildLowerLevels(numLevels, levelChances)
-
-
