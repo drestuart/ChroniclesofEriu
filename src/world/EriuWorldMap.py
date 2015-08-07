@@ -57,8 +57,8 @@ class EriuWorldMap(WorldMap):
     
     def __init__(self, **kwargs):
         super(EriuWorldMap, self).__init__(**kwargs)
-        self.mapTiles = []
-        self.regions = []
+        self.mapTiles = {}
+        self.regions = {}
 
 # TODO:        
 #     mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
