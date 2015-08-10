@@ -55,15 +55,6 @@ class EriuRegion(Region, K.hasKingdom):
         
 class EriuWorldMap(WorldMap):
     
-    def __init__(self, **kwargs):
-        super(EriuWorldMap, self).__init__(**kwargs)
-        self.mapTiles = {}
-        self.regions = {}
-
-# TODO:        
-#     mapTiles = relationship("MapTile", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==MapTile.worldMapId")
-#     regions = relationship("EriuRegion", backref=backref("worldMap", uselist=False), primaryjoin="EriuWorldMap.id==EriuRegion.worldMapId")
-        
     def getDepth(self):
         return 0
     
