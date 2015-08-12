@@ -34,7 +34,7 @@ def getFemaleName():
 class EriuGame(G.Game):
 
     def initialize(self, **kwargs):
-        self.debugOptions = {}
+        self.debugOptions = set()
         self.debug = kwargs.get('debug', False)
 
         if self.debug:

@@ -81,7 +81,7 @@ class Arena(EriuDungeonLevel):
         for y in range(self.height):
             for x in range(self.width):
                 newTile = self.getArenaTile(x, y)
-                self.tiles.append(newTile)
+                self.addTile(newTile)
                 self.hasTile[x][y] = True
     
 class EmptyArena(Arena):
@@ -94,8 +94,6 @@ class EmptyArena(Arena):
             return StoneWall(x, y)
         else:
             return StoneFloor(x, y)
-    
-    
         
 class PillarsArena(Arena):
 
@@ -214,7 +212,7 @@ class ForestLevel(EriuWildernessLevel):
         for y in range(self.height):
             for x in range(self.width):
                 newTile = self.defaultFloorType(x, y)
-                self.tiles.append(newTile)
+                self.addTile(newTile)
                 self.hasTile[x][y] = True
 
         # Add trees
