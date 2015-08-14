@@ -24,6 +24,7 @@
 <path>/${PROJECT_DIR_NAME}/modules/delvelib/src/quest</path>
 <path>/${PROJECT_DIR_NAME}/src/creatures</path>
 <path>/${PROJECT_DIR_NAME}/src/quest</path>
+<path>/${PROJECT_DIR_NAME}/modules/delvelib/src/random</path>
 </pydev_pathproperty>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
