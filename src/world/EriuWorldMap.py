@@ -59,8 +59,9 @@ class EriuWorldMap(WorldMap):
         return 0
     
     def getRandomTile(self, isWater = False):
+        from dlrandom import setChoice
         while True:
-            retTile = random.choice(self.mapTiles)
+            retTile = setChoice(self.mapTiles)
             
             if retTile.isWaterTile() == isWater:
                 return retTile
@@ -100,7 +101,7 @@ class EriuWorldMap(WorldMap):
         return self.regions
     
     def addRegion(self, reg):
-        self.regions.append(reg)
+        self.regions.add(reg)
     
     def buildMap(self):
         '''Oh here we go.'''
@@ -494,6 +495,7 @@ class EriuWorldMap(WorldMap):
     
         
     def addTowns(self):
+        from dlrandom import setShuffle
         
         # Add some towns to each region
         for region in self.regions:
@@ -528,8 +530,8 @@ class EriuWorldMap(WorldMap):
                 
                 placedTown = False
                 # Start by shuffling self.mapTiles and picking tiles off the top
-                random.shuffle(region.mapTiles)
-                for tile in region.mapTiles:
+                shuffledTiles = setShuffle(region.mapTiles)
+                for tile in shuffledTiles:
                     # Skip water tiles and tiles that already have towns
                     if tile.isWaterTile() or isinstance(tile, Town) or isinstance(tile, Bridge):
                         continue
