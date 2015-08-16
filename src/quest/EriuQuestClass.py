@@ -49,18 +49,8 @@ class TestQuest(EriuItemQuest):
         currentX, currentY = game.getCurrentMapTile().getXY()
         possibleGoals = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
         goalTile = random.choice(possibleGoals)
-#         db.saveDB.save(goalTile)
         goalArea = goalTile.getConnectedArea()
-#         level = goalTile.getStartingLevel()
-#         
-#         print "Quest items added to level at", goalTile.getXY()
-#         
-#         for req in self.getRequirements():
-#             itemType = req.getItemType()
-#             for dummy in range(req.getEventsRequired()):
-#                 item = itemType(questItem=True)
-#                 tile = level.placeItemAtRandom(item)
-#                 print "Quest item added to tile at", tile.getXY()
+        print "Quest items added to level at", goalTile.getXY()
         
         items = []
         for req in self.getRequirements():
