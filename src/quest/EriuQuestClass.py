@@ -28,7 +28,7 @@ class TestQuest(EriuItemQuest):
         self.setUpQuest()
         
     def setUpQuest(self):
-        # Find an NPC in a town level to make the quest giver
+        # Find an NPC in a town level to make the quest NPC
         game = EriuGame.game
         playerTile = game.getPlayer().getTile()
         townTile = game.getWorldMap().getNearestTile(playerTile, Town)
@@ -37,7 +37,8 @@ class TestQuest(EriuItemQuest):
         print "Quest added to town level at", townTile.getXY()
         
         questNPC = t.getRandomNPC()
-        self.addQuestGiver(questNPC)
+        self.setQuestGivingNPC(questNPC)
+        self.setQuestReturnNPC(questNPC)
         
         print "Quest attached to NPC at", questNPC.getXY()
     
