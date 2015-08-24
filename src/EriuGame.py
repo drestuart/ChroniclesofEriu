@@ -54,9 +54,6 @@ class EriuGame(G.Game):
         self.femaleNames = mname.MName("female")
         self.placeNames = mname.MName("places")
 
-# TODO:
-#         db.saveDB.start(True)
-
         self.fontsize = kwargs.get('fontsize')
         self.font = kwargs.get("font", None)
         
@@ -66,23 +63,22 @@ class EriuGame(G.Game):
         print seed
         random.seed(seed)
 
-        self.start()
+    def start(self, **kwargs):
+        self.initialize(**kwargs)
+        G.ui = ui.EriuUI(font = self.font, fontsize = self.fontsize)
 
-    def start(self):
-        self.ui = ui.EriuUI(font = self.font, fontsize = self.fontsize)
-
-        self.ui.ShowLogo()
+        G.ui.ShowLogo()
 
         # Main menu loop
         while True:
-            menuOpt = self.ui.MainMenu()
-            self.ui.clearWindow()
+            menuOpt = G.ui.MainMenu()
+            G.ui.clearWindow()
             menuOpt()
 
     def play(self):
-        self.ui.gameLoop()
+        G.ui.gameLoop()
         # TODO:
-#         db.saveDB.save(self.ui.getCurrentLevel())
+#         db.saveDB.save(G.ui.getCurrentLevel())
 
     def worldMapTest(self):
         ''' Set up world map test '''
@@ -91,11 +87,11 @@ class EriuGame(G.Game):
 
         self.player = P.Player()
         self.worldMap.placePlayer(self.player)
-        # TODO:
-#         db.saveDB.save(self.worldMap)
 
-        self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(self.worldMap)
+        self.openShelf()
+
+        G.ui.setPlayer(self.player)
+        G.ui.setCurrentLevel(self.worldMap)
 
         self.play()
 
@@ -121,11 +117,10 @@ class EriuGame(G.Game):
 #         orc2 = Cr.Orc()
 #         d1.placeCreatureAtRandom(orc2)
 
-# TODO:
-#         db.saveDB.save(d)
+        self.openShelf()
 
-        self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(d1)
+        G.ui.setPlayer(self.player)
+        G.ui.setCurrentLevel(d1)
 
         self.play()
 
@@ -137,11 +132,10 @@ class EriuGame(G.Game):
         self.player = P.Player()
         d.placeCreatureAtRandom(self.player, False)
 
-# TODO:
-#         db.saveDB.save(d)
+        self.openShelf()
 
-        self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(d)
+        G.ui.setPlayer(self.player)
+        G.ui.setCurrentLevel(d)
 
         self.play()
 
@@ -158,11 +152,10 @@ class EriuGame(G.Game):
 #         orc2 = Cr.Orc()
 #         d.placeCreatureAtRandom(orc2)
 
-# TODO:
-#         db.saveDB.save(d)
+        self.openShelf()
 
-        self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(d)
+        G.ui.setPlayer(self.player)
+        G.ui.setCurrentLevel(d)
 
         self.play()
 
@@ -181,15 +174,14 @@ class EriuGame(G.Game):
 
         self.player = P.Player()
         self.worldMap.placePlayer(self.player)
-        # TODO:
-#         db.saveDB.save(self.worldMap)
 
-        self.ui.setPlayer(self.player)
-        self.ui.setCurrentLevel(self.worldMap)
+        self.openShelf()
+
+        G.ui.setPlayer(self.player)
+        G.ui.setCurrentLevel(self.worldMap)
 
         # Add quest
         q = TestQuest()
-#         db.saveDB.save(q)
 
         self.play()
 

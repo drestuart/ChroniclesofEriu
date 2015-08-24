@@ -27,7 +27,7 @@ def main():
 
     print '-=' + C.TITLE + '=-'
     
-    EriuGame.game.initialize(fontsize = fontsize, font = font, debug = True)
+    EriuGame.game.start(fontsize = fontsize, font = font, debug = True)
     
     EriuGame.game.play()
 

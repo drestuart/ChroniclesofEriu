@@ -38,9 +38,11 @@ nosetests.xml
 *.db
 *.sav
 *.db-journal
+*.eru
 save/*.db
 save/*.sav
 save/*.db-journal
+save/*.eru
 
 # Mac
 .DS_Store
