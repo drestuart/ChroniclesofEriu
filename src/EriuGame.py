@@ -58,6 +58,7 @@ class EriuGame(G.Game):
         self.font = kwargs.get("font", None)
         
         self.quests = []
+        self.currentLevel = None
 
         seed = 1155272238
         print seed
@@ -91,7 +92,7 @@ class EriuGame(G.Game):
         self.openShelf()
 
         G.ui.setPlayer(self.player)
-        G.ui.setCurrentLevel(self.worldMap)
+        G.setCurrentLevel(self.worldMap)
 
         self.play()
 
@@ -120,7 +121,7 @@ class EriuGame(G.Game):
         self.openShelf()
 
         G.ui.setPlayer(self.player)
-        G.ui.setCurrentLevel(d1)
+        G.setCurrentLevel(d1)
 
         self.play()
 
@@ -135,7 +136,7 @@ class EriuGame(G.Game):
         self.openShelf()
 
         G.ui.setPlayer(self.player)
-        G.ui.setCurrentLevel(d)
+        G.setCurrentLevel(d)
 
         self.play()
 
@@ -155,7 +156,7 @@ class EriuGame(G.Game):
         self.openShelf()
 
         G.ui.setPlayer(self.player)
-        G.ui.setCurrentLevel(d)
+        G.setCurrentLevel(d)
 
         self.play()
 
@@ -178,7 +179,7 @@ class EriuGame(G.Game):
         self.openShelf()
 
         G.ui.setPlayer(self.player)
-        G.ui.setCurrentLevel(self.worldMap)
+        G.setCurrentLevel(self.worldMap)
 
         # Add quest
         q = TestQuest()
