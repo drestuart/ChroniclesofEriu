@@ -43,7 +43,9 @@ class TestQuest(EriuItemQuest):
         print "Quest attached to NPC at", questNPC.getXY()
     
     def placeQuestItems(self):
-        import random
+        import Game as G
+
+        random = G.getRandom()
 
         # Find a forest level to put the items in
         game = EriuGame.game

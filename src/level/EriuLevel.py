@@ -7,8 +7,6 @@ Eriu-specific subclasses of the wang-tile map generators and associated classes
 '''
 
 import os
-import random
-
 import DungeonFeatureClass as F
 from LevelClass import DungeonLevel, TownLevel, WildernessLevel
 from RoomClass import Room
@@ -18,6 +16,9 @@ from WangTileClass import SquareWangTile, HorzWangTile, VertWangTile, \
 from WangTileMap import SquareWangTileMap, HerringboneWangTileMap
 from TileClass import StoneFloor, StoneWall
 from EriuNPC import EriuNPC
+import Game as G
+
+random = G.getRandom()
 
 class TownWangTile(SquareWangTile):
     defaultConstraint = None

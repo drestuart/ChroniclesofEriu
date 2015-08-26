@@ -14,7 +14,6 @@ import PlayerClass as P
 import EriuUI as ui
 import EriuWorldMap as W
 import pygame
-import random
 import mname
 from EriuLevel import EmptyArena, PillarsArena, DoorArena, EriuTownLevel
 import Game as G
@@ -61,8 +60,7 @@ class EriuGame(G.Game):
         self.currentLevel = None
 
         seed = 1155272238
-        print seed
-        random.seed(seed)
+        self.setRandomSeed(seed)
 
     def start(self, **kwargs):
         self.initialize(**kwargs)

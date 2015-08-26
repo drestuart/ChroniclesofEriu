@@ -5,8 +5,6 @@ Created on Mar 21, 2014
 '''
 
 import os.path
-import random
-
 import Const as C
 from EriuAreas import MultiLevelArea
 from EriuMapTileClass import Forest, Field, Plain, Mountain, Town, Capital, \
@@ -15,6 +13,9 @@ import KingdomClass as K
 import Util as U
 from VoronoiMap import VMap
 from WorldMapClass import Region, WorldMap
+import Game as G
+
+random = G.getRandom()
 
 class EriuRegion(Region, K.hasKingdom):
     

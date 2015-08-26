@@ -6,7 +6,9 @@ Created on Feb 14, 2014
 
 import os
 import os.path
-import random
+import Game as G
+
+random = G.getRandom()
 
 prefixes = []
 suffixes = []
