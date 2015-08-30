@@ -17,7 +17,7 @@ import pygame
 import mname
 from EriuLevel import EmptyArena, PillarsArena, DoorArena, EriuTownLevel
 import Game as G
-from EriuQuestClass import TestQuest
+from EriuQuestClass import TestItemQuest
 
 defaultNames = 0
 
@@ -180,7 +180,7 @@ class EriuGame(G.Game):
         G.setCurrentLevel(self.worldMap)
 
         # Add quest
-        q = TestQuest()
+        q = TestItemQuest()
 
         self.play()
 
