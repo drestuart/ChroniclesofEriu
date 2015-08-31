@@ -46,13 +46,12 @@ class TestItemQuest(EriuItemQuest):
         
     def placeQuestItems(self):
         import Game as G
-
         random = G.getRandom()
 
         # Find a forest level to put the items in
         game = EriuGame.game
         currentX, currentY = game.getCurrentMapTile().getXY()
-        possibleGoals = game.getWorldMap().getTilesInRange(20, 30, currentX, currentY, Forest)
+        possibleGoals = game.getWorldMap().getTilesInRange(5, 10, currentX, currentY, Forest)
         goalTile = random.choice(possibleGoals)
         goalArea = goalTile.getConnectedArea()
         print "Quest items added to level at", goalTile.getXY()
@@ -106,9 +105,30 @@ class TestKillQuest(EriuKillQuest):
         self.questName = "Orc oddity"
         self.setUpQuest()
     
-    #TODO:
     def placeQuestCreatures(self):
-        pass
+        import Game as G
+        random = G.getRandom()
+
+        # Find a forest level to put the creatures in
+        game = EriuGame.game
+        currentX, currentY = game.getCurrentMapTile().getXY()
+        possibleGoals = game.getWorldMap().getTilesInRange(5, 10, currentX, currentY, Forest)
+        goalTile = random.choice(possibleGoals)
+        goalArea = goalTile.getConnectedArea()
+        print "Quest items added to level at", goalTile.getXY()
+        
+        creatures = []
+        for req in self.getRequirements():
+            creatureType = req.getCreatureType()
+            for dummy in range(req.getEventsRequired()):
+                creature = creatureType(questTarget=True)
+                creatures.append(creature)
+                
+        # Start thread to generate level and populate it with items
+        print "Setting up thread"
+        thread = StartingLevelBuildingThread(goalArea, items = [], creatures)
+        thread.start()
+        print "Thread running!"
     
     def getStartConversation(self):
         pass
