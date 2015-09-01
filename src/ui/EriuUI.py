@@ -12,6 +12,7 @@ import os.path
 from PanelClass import GameMenuWindow, EscapeMenuWindow
 import Const as C
 import EriuGame as G
+from EriuQuestClass import TestItemQuest, TestKillQuest
 
 class EriuUI (UI):
     
@@ -48,7 +49,7 @@ class EriuUI (UI):
     
     def tests(self):
         
-        tests = [{"text" : "Quest Test", "enabled" : True, "function" : G.game.questTest},
+        tests = [{"text" : "Test Quests", "enabled" : True, "function" : self.quests},
                  {"text" : "Combat Arenas", "enabled" : True, "function" : self.arenas},
                  {"text" : "World Map", "enabled" : True, "function" : G.game.worldMapTest},
                  {"text" : "Dungeon", "enabled" : True, "function" : G.game.dungeonTest},
@@ -58,7 +59,7 @@ class EriuUI (UI):
         menu = GameMenuWindow(self, options = tests, width = C.MENU_WIDTH, title = "Tests")
 
         func = menu.getSingleChoice()
-        self.clearScreen()
+        self.clearWindow()
         func()
     
     def arenas(self):
@@ -70,15 +71,26 @@ class EriuUI (UI):
         menu = GameMenuWindow(self, options = arenas, width = C.MENU_WIDTH, title = "Arenas")
 
         func = menu.getSingleChoice()
-        self.clearScreen()
+        self.clearWindow()
         func()
-        
+    
+    def quests(self):
+        quests = [{"text" : "Kill Quest", "enabled" : True, "function" : lambda: G.game.questTest(TestKillQuest)},
+                  {"text" : "Item Quest", "enabled" : True, "function" : lambda: G.game.questTest(TestItemQuest)},
+                  ]
+
+        menu = GameMenuWindow(self, options = quests, width = C.MENU_WIDTH, title = "Test Quests")
+
+        func = menu.getSingleChoice()
+        self.clearWindow()
+        func()
+
     def gameMenu(self):
         options = [{"text" : "Quit", "enabled" : True, "function" : self.quit}]
         
         menu = EscapeMenuWindow(self, options=options, width=C.MENU_WIDTH, title = '')
         
         func = menu.getSingleChoice()
-        self.clearScreen()
+        self.clearWindow()
         if func:
             func()

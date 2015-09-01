@@ -102,7 +102,7 @@ class TestKillQuest(EriuKillQuest):
     def __init__(self):
         super(TestKillQuest, self).__init__([(Orc, 2)])
         self.buildRequirements()
-        self.questName = "Orc oddity"
+        self.questName = "Orkerfuffle"
         self.setUpQuest()
     
     def placeQuestCreatures(self):
@@ -126,38 +126,35 @@ class TestKillQuest(EriuKillQuest):
                 
         # Start thread to generate level and populate it with items
         print "Setting up thread"
-        thread = StartingLevelBuildingThread(goalArea, items = [], creatures)
+        thread = StartingLevelBuildingThread(goalArea, [], creatures)
         thread.start()
         print "Thread running!"
     
     def getStartConversation(self):
-        pass
-#         if not self.startConversation:
-#             firstNode = C.ConversationNode("We don't have much time. I need you to get those Mystic MacGuffins for me.")
-#             secondNode = C.ConversationNode("They're all over the place. Can you do it?")
-#             
-#             nodes = [firstNode, secondNode]
-#             
-#             firstNode.createOption("Go on...", secondNode)
-#             secondNode.createOption("Sure, no problem", None, self.startQuest)
-#             secondNode.createOption("Not happening, buddy")
-#             
-#             self.startConversation = C.ConversationTree(nodes)
-#         return self.startConversation
+        if not self.startConversation:
+            firstNode = C.ConversationNode("Listen, you've got to get those orcs. They're janking up the place.")
+            secondNode = C.ConversationNode("I'll make it worth your while. OK?")
+             
+            nodes = [firstNode, secondNode]
+             
+            firstNode.createOption("Janking?", secondNode)
+            secondNode.createOption("I'll see what I can do.", None, self.startQuest)
+            secondNode.createOption("But quest rewards don't exist yet!")
+             
+            self.startConversation = C.ConversationTree(nodes)
+        return self.startConversation
 
     def getProgressConversation(self):
-        pass
-#         if not self.progressConversation:
-#             node = C.ConversationNode("Have you found those MacGuffins yet? They say they're Mystical as all get-out!")
-#             node.createOption("OK")
-#             self.progressConversation = C.ConversationTree([node])
-#         return self.progressConversation
+        if not self.progressConversation:
+            node = C.ConversationNode("How it coming on the orc situation?")
+            node.createOption("It's coming all right.")
+            self.progressConversation = C.ConversationTree([node])
+        return self.progressConversation
     
     def getCompletedConversation(self):
-        pass
-#         if not self.completedConversation:
-#             node = C.ConversationNode("Thank you! Those are some Mystical MacGuffins!")
-#             node.createOption("No problem", None, self.setReturned)
-#             self.completedConversation = C.ConversationTree([node])
-#         return self.completedConversation
+        if not self.completedConversation:
+            node = C.ConversationNode("Thanks for dealing with those orcs. Now to unjank the place.")
+            node.createOption("No problem", None, self.setReturned)
+            self.completedConversation = C.ConversationTree([node])
+        return self.completedConversation
         
