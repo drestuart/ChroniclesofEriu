@@ -113,9 +113,10 @@ class TestKillQuest(EriuKillQuest):
         game = EriuGame.game
         currentX, currentY = game.getCurrentMapTile().getXY()
         possibleGoals = game.getWorldMap().getTilesInRange(5, 10, currentX, currentY, Forest)
+        print possibleGoals
         goalTile = random.choice(possibleGoals)
         goalArea = goalTile.getConnectedArea()
-        print "Quest items added to level at", goalTile.getXY()
+        print "Quest creatures added to level at", goalTile.getXY()
         
         creatures = []
         for req in self.getRequirements():
